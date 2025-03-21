@@ -1,0 +1,597 @@
+/**
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+
+#if defined(_WIN32) || defined(__MINGW32__)
+#include <windows.h>
+#ifndef GL_TABLE_TOO_LARGE
+#ifdef GL_TABLE_TOO_LARGE_EXT
+#define GL_TABLE_TOO_LARGE GL_TABLE_TOO_LARGE_EXT
+#else
+#define GL_TABLE_TOO_LARGE 0x8031
+#endif
+#endif
+#endif
+
+#include <GL/glew.h>
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+#include <FTVectoriser.h>
+#include <FTLibrary.h>
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+#include <tulip/Rectangle.h>
+#include <tulip/GlTools.h>
+
+#ifndef NDEBUG
+#include <tulip/TulipException.h>
+#endif
+
+#include <tulip/tuliphash.h>
+
+using namespace std;
+namespace tlp {
+
+static char hullVertexTable[][7] = {
+    {0, 0, 0, 0, 0, 0, 0}, // 0
+    {4, 0, 4, 7, 3, 0, 0}, // 1
+    {4, 1, 2, 6, 5, 0, 0}, // 2
+    {0, 0, 0, 0, 0, 0, 0}, // 3
+    {4, 0, 1, 5, 4, 0, 0}, // 4
+    {6, 0, 1, 5, 4, 7, 3}, // 5
+    {6, 0, 1, 2, 6, 5, 4}, // 6
+    {0, 0, 0, 0, 0, 0, 0}, // 7
+    {4, 2, 3, 7, 6, 0, 0}, // 8
+    {6, 4, 7, 6, 2, 3, 0}, // 9
+    {6, 2, 3, 7, 6, 5, 1}, // 10
+    {0, 0, 0, 0, 0, 0, 0}, // 11
+    {0, 0, 0, 0, 0, 0, 0}, // 12
+    {0, 0, 0, 0, 0, 0, 0}, // 13
+    {0, 0, 0, 0, 0, 0, 0}, // 14
+    {0, 0, 0, 0, 0, 0, 0}, // 15
+    {4, 0, 3, 2, 1, 0, 0}, // 16
+    {6, 0, 4, 7, 3, 2, 1}, // 17
+    {6, 0, 3, 2, 6, 5, 1}, // 18
+    {0, 0, 0, 0, 0, 0, 0}, // 19
+    {6, 0, 3, 2, 1, 5, 4}, // 20
+    {6, 2, 1, 5, 4, 7, 3}, // 21
+    {6, 0, 3, 2, 6, 5, 4}, // 22
+    {0, 0, 0, 0, 0, 0, 0}, // 23
+    {6, 0, 3, 7, 6, 2, 1}, // 24
+    {6, 0, 4, 7, 6, 2, 1}, // 25
+    {6, 0, 3, 7, 6, 5, 1}, // 26
+    {0, 0, 0, 0, 0, 0, 0}, // 27
+    {0, 0, 0, 0, 0, 0, 0}, // 28
+    {0, 0, 0, 0, 0, 0, 0}, // 29
+    {0, 0, 0, 0, 0, 0, 0}, // 30
+    {0, 0, 0, 0, 0, 0, 0}, // 31
+    {4, 4, 5, 6, 7, 0, 0}, // 32
+    {6, 4, 5, 6, 7, 3, 0}, // 33
+    {6, 1, 2, 6, 7, 4, 5}, // 34
+    {0, 0, 0, 0, 0, 0, 0}, // 35
+    {6, 0, 1, 5, 6, 7, 4}, // 36
+    {6, 0, 1, 5, 6, 7, 3}, // 37
+    {6, 0, 1, 2, 6, 7, 4}, // 38
+    {0, 0, 0, 0, 0, 0, 0}, // 39
+    {6, 2, 3, 7, 4, 5, 6}, // 40
+    {6, 0, 4, 5, 6, 2, 3}, // 41
+    {6, 1, 2, 3, 7, 4, 5}  // 42
+};
+
+// simple structure to embed an error code and its description
+struct glErrorStruct {
+  GLuint code;
+  const std::string description;
+};
+
+// the known gl errors
+static const struct glErrorStruct glErrorStructs[] = {
+    {GL_NO_ERROR, "no error"},
+    {GL_INVALID_ENUM, "invalid enumerant"},
+    {GL_INVALID_VALUE, "invalid value"},
+    {GL_INVALID_OPERATION, "invalid operation"},
+    {GL_STACK_OVERFLOW, "stack overflow"},
+    {GL_STACK_UNDERFLOW, "stack underflow"},
+    {GL_OUT_OF_MEMORY, "out of memory"},
+#ifdef GL_EXT_framebuffer_object
+    {GL_INVALID_FRAMEBUFFER_OPERATION_EXT, "invalid framebuffer operation"},
+#endif
+    {GL_TABLE_TOO_LARGE, "table too large"},
+    {UINT_MAX, "unknown error"} /* end of list indicator */
+};
+
+// the function to retrieve
+const std::string &glGetErrorDescription(GLuint errorCode) {
+  unsigned int i = 0;
+
+  while (glErrorStructs[i].code != errorCode && glErrorStructs[i].code != UINT_MAX)
+    ++i;
+
+  return glErrorStructs[i].description;
+}
+
+//====================================================
+void glTest(const string &message, int line, bool throwException) {
+#ifndef NDEBUG
+  unsigned int i = 1;
+  GLenum error = glGetError();
+
+  string errorMsg;
+  bool haveError = false, throwNeeded = false;
+
+  while (error != GL_NO_ERROR) {
+    haveError = true;
+    // invalid operations do not corrupt GL rendering
+    if (throwException && (error != GL_INVALID_OPERATION))
+      throwNeeded = true;
+
+    if (i == 1) {
+      errorMsg += "[OpenGL ERROR] " + message;
+      if (line > -1)
+        errorMsg += ':' + std::to_string(line) + "\n";
+    }
+    errorMsg += "========> " + glGetErrorDescription(error) + "\n";
+    error = glGetError();
+    ++i;
+  }
+
+  if (haveError) {
+    if (throwNeeded)
+      throw tlp::TulipException(errorMsg);
+    tlp::warning() << errorMsg;
+  }
+
+#else
+  // fixes unused parameter warnings in release mode
+  (void)message;
+  (void)line;
+  (void)throwException;
+#endif
+}
+//====================================================
+void setColor(const Color &c) {
+  glColor4ubv(reinterpret_cast<const unsigned char *>(&c));
+}
+//====================================================
+void setColor(GLfloat *c) {
+  glColor4fv(c);
+}
+//====================================================
+void setMaterial(const Color &c) {
+  float colorMat[4];
+  colorMat[0] = c[0] / 255.f;
+  colorMat[1] = c[1] / 255.f;
+  colorMat[2] = c[2] / 255.f;
+  colorMat[3] = c[3] / 255.f;
+  setColor(c);
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, colorMat);
+}
+//====================================================
+bool cameraIs3D() {
+  return glIsEnabled(GL_LIGHT0);
+}
+//====================================================
+Coord projectPoint(const Coord &obj, const MatrixGL &transform, const Vector<int, 4> &viewport) {
+  Vector<float, 4> point;
+  point[0] = obj[0];
+  point[1] = obj[1];
+  point[2] = obj[2];
+  point[3] = 1.0f;
+  point = point * transform;
+#ifndef NDEBUG
+
+  if (fabs(point[3]) < 1E-6) {
+    std::cerr << "Error in projectPoint with coord : " << obj
+              << " and transform matrix : " << transform;
+  }
+
+#endif
+  assert(fabs(point[3]) > 1E-6);
+  Coord result(point[0], point[1], point[2]);
+  result /= point[3];
+
+  result[0] = viewport[0] + (1.0f + result[0]) * viewport[2] * 0.5f;
+  result[1] = viewport[1] + (1.0f + result[1]) * viewport[3] * 0.5f;
+  result[2] = (1.0f + result[2]) * 0.5f;
+  return result;
+}
+//====================================================
+Coord unprojectPoint(const Coord &obj, const MatrixGL &invtransform,
+                     const Vector<int, 4> &viewport) {
+  Vector<float, 4> point;
+
+  point[0] = (obj[0] - viewport[0]) / viewport[2] * 2.0f - 1.0f;
+  point[1] = (obj[1] - viewport[1]) / viewport[3] * 2.0f - 1.0f;
+  point[2] = 2.0f * obj[2] - 1.0f;
+  point[3] = 1.0f;
+
+  point = point * invtransform;
+#ifndef NDEBUG
+
+  if (fabs(point[3]) < 1E-6) {
+    std::cerr << "Error in unprojectPoint with coord : " << obj
+              << " and transform matrix : " << invtransform;
+  }
+
+#endif
+  assert(fabs(point[3]) > 1E-6);
+
+  Coord result(point[0], point[1], point[2]);
+  result /= point[3];
+
+  return result;
+}
+//====================================================
+GLfloat projectSize(const Coord &position, const Size &size, const MatrixGL &projectionMatrix,
+                    const MatrixGL &modelviewMatrix, const Vector<int, 4> &viewport) {
+  BoundingBox box(Coord(position - size / 2.f), Coord(position + size / 2.f), true);
+  return projectSize(box, projectionMatrix, modelviewMatrix, viewport);
+}
+//====================================================
+GLfloat projectSize(const BoundingBox &bb, const MatrixGL &projectionMatrix,
+                    const MatrixGL &modelviewMatrix, const Vector<int, 4> &viewport) {
+  Coord &&bbSize = bb[1] - bb[0];
+  float nSize = bbSize.norm(); // Enclosing bounding box
+
+  MatrixGL translate;
+  translate.fill(0);
+
+  for (unsigned int i = 0; i < 4; ++i)
+    translate[i][i] = 1;
+
+  for (unsigned int i = 0; i < 3; ++i)
+    translate[3][i] = bb[0][i] + bbSize[i] / 2;
+
+  MatrixGL tmp(translate * modelviewMatrix);
+
+  tmp[0][0] = nSize;
+  tmp[0][1] = 0;
+  tmp[0][2] = 0;
+  tmp[1][0] = 0;
+  tmp[1][1] = 0;
+  tmp[1][2] = 0;
+  tmp[2][0] = 0;
+  tmp[2][1] = 0;
+  tmp[2][2] = 0;
+
+  tmp *= projectionMatrix;
+
+  Vector<float, 4> vect1;
+  vect1[0] = 0.5;
+  vect1[1] = 0;
+  vect1[2] = 0;
+  vect1[3] = 1.0;
+  Vector<float, 4> proj1 = vect1 * tmp;
+
+  Vector<float, 4> vect2;
+  vect2.fill(0);
+  vect2[3] = 1.0;
+  Vector<float, 4> proj2 = vect2 * tmp;
+
+  float x1 = (proj1[0] / proj1[3] * 0.5 + 0.5) * viewport[2];
+  float x2 = (proj2[0] / proj2[3] * 0.5 + 0.5) * viewport[2];
+
+  float width = fabs(x1 - x2);
+  float size = pow(2. * width, 2);
+
+  // Test of visibility
+  x2 += viewport[0];
+  float y2 = (proj2[1] / proj2[3] * 0.5 + 0.5) * viewport[3] + viewport[1];
+  Vector<float, 2> upleft;
+  upleft[0] = x2 - width;
+  upleft[1] = y2 - width;
+  Vector<float, 2> downright;
+  downright[0] = x2 + width;
+  downright[1] = y2 + width;
+  Rectangle<float> r1;
+  r1[0] = upleft;
+  r1[1] = downright;
+
+  Vector<float, 2> upleftV;
+  upleftV[0] = viewport[0];
+  upleftV[1] = viewport[1];
+
+  Vector<float, 2> downrightV;
+  downrightV[0] = viewport[0] + viewport[2];
+  downrightV[1] = viewport[1] + viewport[3];
+
+  Rectangle<float> r2;
+  r2[0] = upleftV;
+  r2[1] = downrightV;
+
+  if (!r1.intersect(r2)) {
+    size *= -1.0;
+  }
+
+  return size;
+}
+//====================================================
+float calculateAABBSize(const BoundingBox &bb, const Coord &eye,
+                        const Matrix<float, 4> &transformMatrix,
+                        const Vector<int, 4> &globalViewport,
+                        const Vector<int, 4> &currentViewport) {
+  BoundingBox bbTmp;
+  Coord src[8];
+  Coord dst[8];
+  int pos;
+  int num;
+
+  for (int i = 0; i < 3; i++) {
+    if (bb[0][i] > bb[1][i]) {
+      bbTmp[0][i] = bb[1][i];
+      bbTmp[1][i] = bb[0][i];
+    } else {
+      bbTmp[0][i] = bb[0][i];
+      bbTmp[1][i] = bb[1][i];
+    }
+  }
+
+  bbTmp.getCompleteBB(src);
+  pos = ((eye[0] < src[0][0])) + ((eye[0] > src[6][0]) << 1) + ((eye[1] < src[0][1]) << 2) +
+        ((eye[1] > src[6][1]) << 3) + ((eye[2] < src[0][2]) << 4) + ((eye[2] > src[6][2]) << 5);
+  assert(pos <= 42);
+
+  // If pos==0 : camera are inside the entity so we return a arbitrary lod
+  if (pos == 0)
+    return 10.;
+
+  num = hullVertexTable[pos][0];
+
+  if (num == 0)
+    return -1;
+
+  for (int i = 0; i < num; i++) {
+    dst[i] = projectPoint(src[int(hullVertexTable[pos][i + 1])], transformMatrix, globalViewport);
+    dst[i][1] = globalViewport[1] + globalViewport[3] - (dst[i][1] - globalViewport[1]);
+  }
+
+  bool inScreen = false;
+  float bbBox[4] = {0.f, 0.f, 0.f, 0.f};
+
+  for (int i = 0; i < num; i++) {
+    if ((dst[i][0] >= currentViewport[0]) &&
+        (dst[i][0] <= currentViewport[0] + currentViewport[2]) &&
+        (dst[i][1] >= currentViewport[1]) &&
+        (dst[i][1] <= currentViewport[1] + currentViewport[3])) {
+      inScreen = true;
+    }
+
+    if (i == 0) {
+      bbBox[0] = dst[i][0];
+      bbBox[2] = dst[i][0];
+      bbBox[1] = dst[i][1];
+      bbBox[3] = dst[i][1];
+    } else {
+      if (dst[i][0] < bbBox[0])
+        bbBox[0] = dst[i][0];
+
+      if (dst[i][0] > bbBox[2])
+        bbBox[2] = dst[i][0];
+
+      if (dst[i][1] < bbBox[1])
+        bbBox[1] = dst[i][1];
+
+      if (dst[i][1] > bbBox[3])
+        bbBox[3] = dst[i][1];
+    }
+
+    if (bbBox[0] < currentViewport[0] + currentViewport[2] && bbBox[2] > currentViewport[0] &&
+        bbBox[1] < currentViewport[1] + currentViewport[3] && bbBox[3] > currentViewport[1]) {
+      inScreen = true;
+    }
+  }
+
+  if (!inScreen) {
+    return -1;
+  } else {
+    return sqrt((bbBox[2] - bbBox[0]) * (bbBox[2] - bbBox[0]) +
+                (bbBox[3] - bbBox[1]) * (bbBox[3] - bbBox[1])) *
+           2;
+  }
+}
+//====================================================
+float calculate2DLod(const BoundingBox &bb, const Vector<int, 4> &, const Vector<int, 4> &) {
+  return (bb[1][0] - bb[0][0]) * (bb[1][1] - bb[0][1]);
+}
+//====================================================
+
+std::vector<Coord> computeNormals(const std::vector<Coord> &vertices,
+                                  const std::vector<unsigned short> &facesIndices) {
+  return computeNormals(vertices,
+                        std::vector<unsigned int>(facesIndices.begin(), facesIndices.end()));
+}
+
+std::vector<Coord> computeNormals(const std::vector<Coord> &vertices,
+                                  const std::vector<unsigned int> &facesIndices) {
+  assert(vertices.size() >= 3);
+  assert(facesIndices.size() >= 3 && facesIndices.size() % 3 == 0);
+  std::vector<Coord> normals;
+  normals.resize(vertices.size(), Coord(0, 0, 0));
+
+  for (size_t i = 0; i < facesIndices.size(); i += 3) {
+    const Coord &v1 = vertices[facesIndices[i]], &v2 = vertices[facesIndices[i + 1]],
+                &v3 = vertices[facesIndices[i + 2]];
+    Coord &&normal = (v2 - v1) ^ (v3 - v1);
+
+    if (normal.norm() != 0) {
+      normal /= normal.norm();
+    }
+
+    normals[facesIndices[i]] += normal;
+    normals[facesIndices[i + 1]] += normal;
+    normals[facesIndices[i + 2]] += normal;
+  }
+
+  for (auto &coord : normals) {
+    if (coord.norm() != 0) {
+      coord /= coord.norm();
+    }
+  }
+
+  return normals;
+}
+
+#define ushort_cast(x) static_cast<unsigned short>((x))
+
+#define HRES 64
+#define HRESf 64.f
+#define DPI 72
+
+void tesselateFontIcon(const std::string &fontFile, unsigned int iconCodePoint,
+                       GLuint &renderingDataBuffer, GLuint &indicesBuffer, unsigned int &nbVertices,
+                       unsigned int &nbIndices, unsigned int &nbOutlineIndices,
+                       BoundingBox &boundingBox) {
+
+  const FT_Library *library = FTLibrary::Instance().GetLibrary();
+
+  FT_Face face;
+
+  FT_Error err = FT_New_Face(*library, fontFile.c_str(), 0, &face);
+
+  if (err) {
+    return;
+  }
+
+  err = FT_Select_Charmap(face, FT_ENCODING_UNICODE);
+
+  if (err) {
+    return;
+  }
+
+  float size = 20;
+
+  err = FT_Set_Char_Size(face, int(size * HRES), 0, DPI *HRES, DPI *HRES);
+
+  if (err) {
+    return;
+  }
+
+  FT_UInt glyph_index = FT_Get_Char_Index(face, iconCodePoint);
+
+  err = FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_HINTING);
+
+  if (err) {
+    return;
+  }
+
+  // force glyph outline flags to fix misdrawing of several
+  // font awesome v6 icons (fas-circle-info, fas-circle-user...)
+  face->glyph->outline.flags |= ft_outline_even_odd_fill;
+  FTVectoriser vectoriser(face->glyph);
+
+  vectoriser.MakeMesh(1.0, 1, 0.0);
+
+  const FTMesh *mesh = vectoriser.GetMesh();
+
+  tlp::BoundingBox meshBB;
+
+  vector<Coord> vertices;
+  vector<Vec2f> texCoords;
+  vector<unsigned short> indices;
+  vector<unsigned short> outlineIndices;
+
+  tlp_hash_map<Coord, unsigned int> vertexIdx;
+
+  unsigned int idx = 0;
+
+  for (unsigned int t = 0; t < mesh->TesselationCount(); ++t) {
+    const FTTesselation *subMesh = mesh->Tesselation(t);
+
+    for (unsigned int i = 0; i < subMesh->PointCount(); ++i) {
+      FTPoint point = subMesh->Point(i);
+      tlp::Coord p(point.Xf() / HRESf, point.Yf() / HRESf, 0.0f);
+
+      if (vertexIdx.find(p) == vertexIdx.end()) {
+        meshBB.expand(p);
+        vertices.push_back(p);
+        indices.push_back(idx++);
+        vertexIdx[vertices.back()] = indices.back();
+      } else {
+        indices.push_back(vertexIdx[p]);
+      }
+    }
+  }
+
+  for (unsigned int t = 0; t < vectoriser.ContourCount(); ++t) {
+    const FTContour *contour = vectoriser.Contour(t);
+
+    for (unsigned int i = 0; i < contour->PointCount() - 1; ++i) {
+      FTPoint point = contour->Point(i);
+      tlp::Coord p(point.Xf() / HRESf, point.Yf() / HRESf, 0.0f);
+      outlineIndices.push_back(ushort_cast(vertexIdx[p]));
+      point = contour->Point(i + 1);
+      p = Coord(point.Xf() / HRESf, point.Yf() / HRESf, 0.0f);
+      outlineIndices.push_back(ushort_cast(vertexIdx[p]));
+    }
+
+    FTPoint point = contour->Point(contour->PointCount() - 1);
+    tlp::Coord p(point.Xf() / HRESf, point.Yf() / HRESf, 0.0f);
+    outlineIndices.push_back(ushort_cast(vertexIdx[p]));
+    point = contour->Point(0);
+    p = Coord(point.Xf() / HRESf, point.Yf() / HRESf, 0.0f);
+    outlineIndices.push_back(ushort_cast(vertexIdx[p]));
+  }
+
+  tlp::Coord minC = meshBB[0];
+  tlp::Coord maxC = meshBB[1];
+
+  nbVertices = vertices.size();
+  nbIndices = indices.size();
+  nbOutlineIndices = outlineIndices.size();
+
+  for (size_t i = 0; i < vertices.size(); ++i) {
+    if (meshBB.height() > meshBB.width()) {
+      vertices[i][0] = ((vertices[i][0] - minC[0]) / (maxC[0] - minC[0]) - 0.5) *
+                       (meshBB.width() / float(meshBB.height()));
+      vertices[i][1] = ((vertices[i][1] - minC[1]) / (maxC[1] - minC[1])) - 0.5;
+    } else {
+      vertices[i][0] = ((vertices[i][0] - minC[0]) / (maxC[0] - minC[0])) - 0.5;
+      vertices[i][1] = (((vertices[i][1] - minC[1]) / (maxC[1] - minC[1])) - 0.5) *
+                       (meshBB.height() / float(meshBB.width()));
+    }
+
+    const tlp::Coord &v = vertices[i];
+    boundingBox.expand(v);
+    texCoords.push_back(Vec2f(v[0] + 0.5, v[1] + 0.5));
+  }
+
+  glGenBuffers(1, &renderingDataBuffer);
+  glGenBuffers(1, &indicesBuffer);
+
+  glBindBuffer(GL_ARRAY_BUFFER, renderingDataBuffer);
+  glBufferData(GL_ARRAY_BUFFER, (vertices.size() * 3 + texCoords.size() * 2) * sizeof(float),
+               nullptr, GL_STATIC_DRAW);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * 3 * sizeof(float), &vertices[0]);
+  glBufferSubData(GL_ARRAY_BUFFER, vertices.size() * 3 * sizeof(float),
+                  texCoords.size() * 2 * sizeof(float), &texCoords[0]);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+               (indices.size() + outlineIndices.size()) * sizeof(unsigned short), nullptr,
+               GL_STATIC_DRAW);
+  glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(unsigned short), &indices[0]);
+  glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short),
+                  outlineIndices.size() * sizeof(unsigned short), &outlineIndices[0]);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+} // namespace tlp

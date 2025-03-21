@@ -1,0 +1,814 @@
+/**
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+#include "tulip/Workspace.h"
+
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QRegularExpression>
+#include <QTimer>
+#include <QXmlStreamWriter>
+
+#include <tulip/PluginLister.h>
+#include <tulip/TulipMetaTypes.h>
+#include <tulip/View.h>
+#include <tulip/WorkspacePanel.h>
+#include <tulip/TulipProject.h>
+#include <tulip/TulipMimes.h>
+#include <tulip/GraphHierarchiesModel.h>
+#include <tulip/TlpQtTools.h>
+
+#include "ui_Workspace.h"
+
+using namespace tlp;
+
+/*
+  Helper storage class to ensure synchronization between panels list and model passed down to opened
+  panels
+  */
+Workspace::Workspace(QWidget *parent)
+    : QWidget(parent), _ui(new Ui::Workspace), _currentPanelIndex(0), _oldWorkspaceMode(nullptr),
+      _focusedPanel(nullptr), _focusedPanelHighlighting(false), _model(nullptr),
+      _exposeButton(nullptr), _autoCenterViews(false) {
+  _ui->setupUi(this);
+  _ui->hiddenFrame->setVisible(false);
+  _ui->startupMainFrame->hide();
+  _ui->workspaceContents->setCurrentWidget(_ui->startupPage);
+  connect(_ui->startupButton, SIGNAL(clicked()), this, SIGNAL(addPanelRequest()));
+  connect(_ui->importButton, SIGNAL(clicked()), this, SIGNAL(importGraphRequest()));
+  connect(_ui->exposeMode, SIGNAL(exposeFinished()), this, SLOT(hideExposeMode()));
+
+  // This map allows us to know how much slots we have for each mode and which widget corresponds to
+  // those slots
+  _modeToSlots[_ui->startupPage] = std::vector<PlaceHolderWidget *>();
+  _modeToSlots[_ui->singlePage] = std::vector<PlaceHolderWidget *>{_ui->singlePage};
+  _modeToSlots[_ui->splitPage] =
+      std::vector<PlaceHolderWidget *>{_ui->splitPagePanel1, _ui->splitPagePanel2};
+  _modeToSlots[_ui->splitPageHorizontal] = std::vector<PlaceHolderWidget *>{
+      _ui->splitPageHorizontalPanel1, _ui->splitPageHorizontalPanel2};
+  _modeToSlots[_ui->split3Page] = std::vector<PlaceHolderWidget *>{
+      _ui->split3PagePanel1, _ui->split3PagePanel2, _ui->split3PagePanel3};
+  _modeToSlots[_ui->split32Page] =
+      std::vector<PlaceHolderWidget *>{_ui->split32Panel1, _ui->split32Panel2, _ui->split32Panel3};
+  _modeToSlots[_ui->split33Page] =
+      std::vector<PlaceHolderWidget *>{_ui->split33Panel1, _ui->split33Panel2, _ui->split33Panel3};
+  _modeToSlots[_ui->gridPage] = std::vector<PlaceHolderWidget *>{
+      _ui->gridPagePanel1, _ui->gridPagePanel2, _ui->gridPagePanel3, _ui->gridPagePanel4};
+  _modeToSlots[_ui->sixPage] = std::vector<PlaceHolderWidget *>{
+      _ui->sixMode1, _ui->sixMode2, _ui->sixMode3, _ui->sixMode4, _ui->sixMode5, _ui->sixMode6};
+
+  // This map allows us to know which widget can toggle a mode
+  _modeSwitches[_ui->singlePage] = _ui->singleModeButton;
+  _modeSwitches[_ui->splitPage] = _ui->splitModeButton;
+  _modeSwitches[_ui->splitPageHorizontal] = _ui->splitHorizontalModeButton;
+  _modeSwitches[_ui->split3Page] = _ui->split3ModeButton;
+  _modeSwitches[_ui->split32Page] = _ui->split32ModeButton;
+  _modeSwitches[_ui->split33Page] = _ui->split33ModeButton;
+  _modeSwitches[_ui->gridPage] = _ui->gridModeButton;
+  _modeSwitches[_ui->sixPage] = _ui->sixModeButton;
+  updateAvailableModes();
+}
+
+Workspace::~Workspace() {
+  for (auto p : _panels) {
+    disconnect(p, SIGNAL(destroyed(QObject *)), this, SLOT(panelDestroyed(QObject *)));
+    delete p;
+  }
+
+  delete _ui;
+}
+
+void Workspace::setModel(tlp::GraphHierarchiesModel *model) {
+  if (_model != nullptr) {
+    disconnect(_model, SIGNAL(currentGraphChanged(tlp::Graph *)), this, SLOT(updateStartupMode()));
+  }
+
+  _model = model;
+
+  if (_model != nullptr) {
+    for (auto panel : _panels)
+      panel->setGraphsModel(_model);
+
+    connect(_model, SIGNAL(currentGraphChanged(tlp::Graph *)), this, SLOT(updateStartupMode()));
+  }
+}
+
+tlp::GraphHierarchiesModel *Workspace::graphModel() const {
+  return _model;
+}
+
+void Workspace::closeAll() {
+  // if expose mode activated, close it before closing views to prevent a crash
+  hideExposeMode();
+
+  std::vector<WorkspacePanel *> panels(_panels);
+  // iterate on a _panels clone to allow successive calls to panelDestroyed
+  // which will do the cleanup job
+  for (auto p : panels) {
+    delete p;
+  }
+  emit panelsEmpty();
+}
+
+std::vector<tlp::View *> Workspace::panels() const {
+  std::vector<tlp::View *> result;
+  result.reserve(_panels.size());
+
+  for (auto panel : _panels) {
+    result.push_back(panel->view());
+  }
+
+  return result;
+}
+
+QString Workspace::panelTitle(tlp::WorkspacePanel *panel) const {
+  int digit = 0;
+
+  QRegularExpression regExp("^.*(?:<([^>])*>){1}$");
+
+  for (auto other : _panels) {
+    if (other == panel)
+      continue;
+
+    if (other->viewName() == panel->viewName()) {
+      QRegularExpressionMatch match;
+      if (other->windowTitle().indexOf(regExp, 0, &match) != -1)
+        digit = std::max<int>(digit, match.captured(1).toInt());
+      else
+        digit = std::max<int>(digit, 1);
+    }
+  }
+
+  if (digit == 0) {
+    return panel->viewName();
+  }
+
+  return panel->viewName() + " <" + QString::number(digit + 1) + ">";
+}
+
+int Workspace::addPanel(tlp::View *view) {
+  WorkspacePanel *panel = new WorkspacePanel(view);
+
+  if (_model != nullptr)
+    panel->setGraphsModel(_model);
+
+  panel->setWindowTitle(panelTitle(panel));
+  connect(panel, SIGNAL(drawNeeded()), this, SLOT(viewNeedsDraw()));
+  connect(panel, SIGNAL(swapWithPanels(WorkspacePanel *)), this,
+          SLOT(swapPanelsRequested(WorkspacePanel *)));
+  connect(panel, SIGNAL(destroyed(QObject *)), this, SLOT(panelDestroyed(QObject *)));
+  view->graphicsView()->installEventFilter(this);
+
+  // Add it to the list
+  _panels.push_back(panel);
+
+  // activate available modes
+  updateAvailableModes();
+
+  // If on startup mode, switch to single
+  if (currentModeWidget() == _ui->startupPage) {
+    switchToSingleMode();
+  } else {
+    updatePanels();
+  }
+
+  // Force the first panel's graph combo box update when underlying model has been updated.
+  panel->viewGraphSet(view->graph());
+  setFocusedPanel(panel);
+  // Slightly delay view content centering as the panel widget
+  // can take some time to get correctly resized in the workspace
+  if (view->centeredWhenAddedToWorkspace())
+    QTimer::singleShot(100, view, SLOT(centerView()));
+  return _panels.size() - 1;
+}
+
+void Workspace::delView(tlp::View *view) {
+  for (auto it : _panels) {
+    if (it->view() == view) {
+      delete it;
+      break;
+    }
+  }
+  if (!_panels.size())
+    emit panelsEmpty();
+}
+
+void Workspace::panelDestroyed(QObject *obj) {
+  WorkspacePanel *panel = static_cast<WorkspacePanel *>(obj);
+
+  if (panel == _focusedPanel)
+    _focusedPanel = nullptr;
+
+  unsigned int i = 0;
+  for (auto it : _panels) {
+    if (it == panel) {
+      _panels.erase(_panels.begin() + i);
+      break;
+    }
+    ++i;
+  }
+
+  if (_panels.empty()) {
+    emit panelsEmpty();
+  }
+
+  if (i > _panels.size())
+    return;
+
+  // To prevent segfaults due to Qt's event queue handling when deleting views, we reset the
+  // placeholder widget that contained this panel
+  for (auto mode : _modeToSlots.keys()) {
+    for (auto p : _modeToSlots[mode]) {
+      if (p->widget() == panel)
+        p->resetWidget();
+    }
+  }
+
+  if (currentModeWidget() == _ui->exposePage)
+    return;
+
+  updateAvailableModes();
+
+  updatePanels();
+}
+
+void Workspace::viewNeedsDraw() {
+  WorkspacePanel *panel = static_cast<WorkspacePanel *>(sender());
+
+  if (_autoCenterViews) {
+    // we assume graph has changed
+    panel->view()->centerView(true);
+  } else
+    panel->view()->draw();
+}
+
+void Workspace::switchToStartupMode() {
+  switchWorkspaceMode(_ui->startupPage);
+}
+void Workspace::switchToSingleMode() {
+  switchWorkspaceMode(_ui->singlePage);
+}
+
+void Workspace::setSingleModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->singlePage] = w;
+}
+
+void Workspace::switchToSplitMode() {
+  switchWorkspaceMode(_ui->splitPage);
+}
+
+void Workspace::setSplitModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->splitPage] = w;
+}
+
+void Workspace::switchToSplitHorizontalMode() {
+  switchWorkspaceMode(_ui->splitPageHorizontal);
+}
+
+void Workspace::setSplitHorizontalModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->splitPageHorizontal] = w;
+}
+
+void Workspace::switchToSplit3Mode() {
+  switchWorkspaceMode(_ui->split3Page);
+}
+
+void Workspace::setSplit3ModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->split3Page] = w;
+}
+void Workspace::switchToSplit32Mode() {
+  switchWorkspaceMode(_ui->split32Page);
+}
+
+void Workspace::setSplit32ModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->split32Page] = w;
+}
+void Workspace::switchToSplit33Mode() {
+  switchWorkspaceMode(_ui->split33Page);
+}
+
+void Workspace::setSplit33ModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->split33Page] = w;
+}
+void Workspace::switchToGridMode() {
+  switchWorkspaceMode(_ui->gridPage);
+}
+
+void Workspace::setGridModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->gridPage] = w;
+}
+
+void Workspace::switchToSixMode() {
+  switchWorkspaceMode(_ui->sixPage);
+}
+
+void Workspace::setSixModeSwitch(QWidget *w) {
+  _modeSwitches[_ui->sixPage] = w;
+}
+
+void Workspace::switchWorkspaceMode(QWidget *page) {
+  if (currentModeWidget() == page)
+    return;
+
+  _ui->workspaceContents->setCurrentWidget(page);
+  _ui->hiddenFrame->setEnabled(page != _ui->startupPage);
+  updateStartupMode();
+  updatePanels();
+}
+
+void Workspace::updatePageCountLabel() {
+  int current = _currentPanelIndex + 1;
+  int total = _panels.size() - currentSlotsCount() + 1;
+
+  _ui->pagesLabel->setText(QString::number(current) + " / " + QString::number(total));
+}
+
+QWidget *Workspace::currentModeWidget() const {
+  return _ui->workspaceContents->currentWidget();
+}
+
+std::vector<PlaceHolderWidget *> Workspace::currentModeSlots() const {
+  return _modeToSlots[currentModeWidget()];
+}
+
+unsigned int Workspace::currentSlotsCount() const {
+  return currentModeSlots().size();
+}
+
+void Workspace::updateAvailableModes() {
+  for (auto page : _modeSwitches.keys()) {
+    _modeSwitches[page]->setVisible(_panels.size() >= _modeToSlots[page].size());
+    _modeSwitches[page]->setEnabled(_panels.size() >= _modeToSlots[page].size());
+  }
+
+  bool enableNavigation = !_panels.empty();
+  _ui->nextPageButton->setEnabled(enableNavigation);
+  _ui->previousPageButton->setEnabled(enableNavigation);
+  if (_exposeButton)
+    _exposeButton->setEnabled(enableNavigation);
+}
+
+void Workspace::updatePanels() {
+  for (auto mode : _modeToSlots.keys()) {
+    if (mode == currentModeWidget())
+      continue;
+
+    std::vector<PlaceHolderWidget *> panelSlots = _modeToSlots[mode];
+
+    for (auto panel : panelSlots) {
+      panel->setWidget(nullptr);
+    }
+  }
+
+  if (_currentPanelIndex > _panels.size() - currentSlotsCount())
+    _currentPanelIndex = _panels.size() - currentSlotsCount();
+
+  //   Fill up slots according to the current index until there is no panel to show
+  unsigned int i = _currentPanelIndex;
+
+  for (auto slt : currentModeSlots()) {
+    if (i >= _panels.size()) {
+      slt->setWidget(nullptr);
+    } else if (slt->widget() != _panels[i]) {
+      slt->setWidget(nullptr);
+    }
+
+    i++;
+  }
+
+  i = _currentPanelIndex;
+
+  for (auto slt : currentModeSlots()) {
+    if (i >= _panels.size())
+      break;
+    else if (slt->widget() != _panels[i]) {
+      slt->setWidget(_panels[i]);
+    }
+
+    i++;
+  }
+
+  if (currentModeWidget() == _ui->startupPage) {
+    updatePageCountLabel();
+    return;
+  }
+
+  if (!_modeSwitches[currentModeWidget()]->isEnabled()) {
+    unsigned int maxSize = 0;
+    QWidget *fallbackMode = _ui->startupPage;
+
+    // Current mode is not available, fallback to the largest available mode
+    for (auto it : _modeToSlots.keys()) {
+      if (_panels.size() >= _modeToSlots[it].size() && _modeToSlots[it].size() > maxSize) {
+        maxSize = _modeToSlots[it].size();
+        fallbackMode = it;
+      }
+    }
+
+    switchWorkspaceMode(fallbackMode);
+  }
+
+  updatePageCountLabel();
+}
+
+void Workspace::nextPage() {
+  if (_ui->nextPageButton->isEnabled()) {
+    _currentPanelIndex++;
+    updatePanels();
+  }
+}
+
+void Workspace::previousPage() {
+  if (_ui->previousPageButton->isEnabled()) {
+    _currentPanelIndex--;
+    updatePanels();
+  }
+}
+
+void Workspace::setExposeModeSwitch(QAbstractButton *b) {
+  _exposeButton = b;
+}
+
+void Workspace::setActivePanel(tlp::View *view) {
+  for (unsigned int i = 0; i < _panels.size(); ++i) {
+    if (_panels[i]->view() == view) {
+      _currentPanelIndex = i;
+      break;
+    }
+  }
+  updatePanels();
+}
+
+void Workspace::setGraphForFocusedPanel(tlp::Graph *g) {
+  if (_focusedPanel && _focusedPanel->isGraphSynchronized() && _focusedPanel->view()->graph() != g)
+    _focusedPanel->view()->setGraph(g);
+}
+
+WorkspacePanel *Workspace::panelForScene(QObject *obj) {
+  WorkspacePanel *p = nullptr;
+
+  for (auto panel : _panels) {
+    if (panel->view()->graphicsView()->scene() == obj) {
+      p = panel;
+      break;
+    }
+  }
+
+  return p;
+}
+
+bool Workspace::eventFilter(QObject *obj, QEvent *ev) {
+  if (ev->type() == QEvent::ChildRemoved) {
+    QObject *childObj = static_cast<QChildEvent *>(ev)->child();
+    childObj->removeEventFilter(this);
+    QGraphicsView *graphicsView = dynamic_cast<QGraphicsView *>(childObj);
+
+    if (graphicsView != nullptr && graphicsView->scene()) {
+      graphicsView->scene()->removeEventFilter(this);
+    }
+  } else if (ev->type() == QEvent::FocusIn) {
+    if (dynamic_cast<QGraphicsView *>(obj) != nullptr) {
+      tlp::WorkspacePanel *panel = static_cast<tlp::WorkspacePanel *>(obj->parent());
+      setFocusedPanel(panel);
+    }
+  }
+
+  return false;
+}
+
+void Workspace::dragEnterEvent(QDragEnterEvent *event) {
+  handleDragEnterEvent(event, event->mimeData());
+}
+
+void Workspace::dropEvent(QDropEvent *event) {
+  handleDropEvent(event->mimeData());
+}
+
+bool Workspace::handleDragEnterEvent(QEvent *e, const QMimeData *mimedata) {
+  if (dynamic_cast<const GraphMimeType *>(mimedata) != nullptr) {
+    e->accept();
+    return true;
+  }
+
+  return false;
+}
+
+bool Workspace::handleDropEvent(const QMimeData *mimedata) {
+  const GraphMimeType *graphMime = dynamic_cast<const GraphMimeType *>(mimedata);
+
+  if (graphMime == nullptr)
+    return false;
+
+  if (graphMime != nullptr && graphMime->graph()) {
+    emit(addPanelRequest(graphMime->graph()));
+    return true;
+  }
+
+  return false;
+}
+
+void Workspace::expose(bool f) {
+  if (f)
+    showExposeMode();
+  else
+    hideExposeMode();
+}
+
+void Workspace::showExposeMode() {
+  if (_ui->workspaceContents->currentWidget() == _ui->exposePage)
+    return;
+
+  _oldWorkspaceMode = currentModeWidget();
+
+  for (auto s : _modeSwitches.values()) {
+    s->hide();
+  }
+
+  _ui->nextPageButton->setEnabled(false);
+  _ui->previousPageButton->setEnabled(false);
+
+  _ui->exposeMode->setData(_panels, _currentPanelIndex);
+  _ui->workspaceContents->setCurrentWidget(_ui->exposePage);
+  _exposeButton->setChecked(true);
+}
+
+void Workspace::uncheckExposeButton() {
+  _exposeButton->setChecked(false);
+}
+
+void Workspace::hideExposeMode() {
+  if (currentModeWidget() != _ui->exposePage)
+    return;
+
+  _exposeButton->setChecked(false);
+  std::vector<WorkspacePanel *> newPanels = _ui->exposeMode->panels();
+  _panels.clear();
+
+  for (auto p : newPanels)
+    _panels.push_back(p);
+
+  _currentPanelIndex = _ui->exposeMode->currentPanelIndex();
+
+  if (!_ui->exposeMode->isSwitchToSingleMode()) {
+    switchWorkspaceMode(suitableMode(_oldWorkspaceMode));
+  } else {
+    updateAvailableModes();
+    switchToSingleMode();
+  }
+
+  updatePageCountLabel();
+}
+
+QWidget *Workspace::suitableMode(QWidget *oldMode) {
+  updateAvailableModes();
+
+  if (_modeSwitches.contains(oldMode) && _modeSwitches[oldMode]->isEnabled())
+    return oldMode;
+
+  unsigned int maxSlots = 0;
+  QWidget *result = _ui->startupPage;
+
+  for (auto mode : _modeToSlots.keys()) {
+    unsigned int slotCount = _modeToSlots[mode].size();
+
+    if (slotCount <= _panels.size() && slotCount > maxSlots) {
+      maxSlots = slotCount;
+      result = mode;
+    }
+  }
+
+  return result;
+}
+
+/*
+  Project serialization
+  */
+void Workspace::writeProject(TulipProject *project, QMap<Graph *, QString> rootIds,
+                             tlp::PluginProgress *progress) {
+  project->removeAllDir("views");
+  int i = 0;
+
+  for (auto v : panels()) {
+    progress->progress(i, panels().size());
+    QString path = "views/" + QString::number(i);
+    project->mkpath(path);
+    // get view state. Do this before the rest in case state() changes some parameters inside the
+    // view
+    std::stringstream dataStr;
+    DataSet::write(dataStr, v->state());
+
+    Graph *g = v->graph();
+    QIODevice *viewDescFile = project->fileStream(path + "/view.xml");
+    QXmlStreamWriter doc(viewDescFile);
+    doc.setAutoFormatting(true);
+    doc.writeStartElement("view");
+    doc.writeAttribute("name", tlpStringToQString(v->name()));
+    doc.writeAttribute("root", rootIds[g->getRoot()]);
+    doc.writeAttribute("id", QString::number(g->getId()));
+    doc.writeTextElement("data", tlpStringToQString(dataStr.str()));
+    doc.writeEndDocument();
+    viewDescFile->close();
+    delete viewDescFile;
+    ++i;
+  }
+
+  QIODevice *workspaceXml =
+      project->fileStream("/workspace.xml", QIODevice::Truncate | QIODevice::WriteOnly);
+  QXmlStreamWriter doc(workspaceXml);
+  doc.writeStartElement("workspace");
+  doc.writeAttribute("current", QString::number(_currentPanelIndex));
+  doc.writeAttribute("mode", QString::number(currentSlotsCount()));
+
+  if (currentModeWidget() == _ui->splitPage) {
+    doc.writeAttribute("modeWidget", "splitPage");
+  } else if (currentModeWidget() == _ui->splitPageHorizontal) {
+    doc.writeAttribute("modeWidget", "splitPageHorizontal");
+  } else if (currentModeWidget() == _ui->split3Page) {
+    doc.writeAttribute("modeWidget", "split3Page");
+  } else if (currentModeWidget() == _ui->split32Page) {
+    doc.writeAttribute("modeWidget", "split32Page");
+  } else if (currentModeWidget() == _ui->split33Page) {
+    doc.writeAttribute("modeWidget", "split33Page");
+  }
+
+  doc.writeEndDocument();
+  workspaceXml->close();
+  delete workspaceXml;
+}
+
+void Workspace::readProject(TulipProject *project, QMap<QString, Graph *> rootIds,
+                            PluginProgress *progress) {
+  QStringList entries = project->entryList("views", QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+  int step = 0, max_step = entries.size();
+
+  for (const QString &entry : entries) {
+    progress->progress(step++, max_step);
+    QIODevice *xmlFile = project->fileStream("views/" + entry + "/view.xml");
+    QXmlStreamReader doc(xmlFile);
+
+    if (doc.readNextStartElement()) {
+      if (!doc.hasError()) {
+        QString viewName = doc.attributes().value("name").toString();
+        QString rootId = doc.attributes().value("root").toString();
+        QString id = doc.attributes().value("id").toString();
+        doc.readNextStartElement();
+        QString data(doc.readElementText());
+        xmlFile->close();
+        delete xmlFile;
+
+        View *view = PluginLister::getPluginObject<View>(QStringToTlpString(viewName));
+
+        if (view == nullptr)
+          continue;
+
+        view->setupUi();
+        Graph *rootGraph = rootIds[rootId];
+        assert(rootGraph);
+        Graph *g = rootGraph->getDescendantGraph(id.toInt());
+
+        if (g == nullptr)
+          g = rootGraph;
+
+        view->setGraph(g);
+        DataSet dataSet;
+        std::istringstream iss(QStringToTlpString(data));
+        DataSet::read(iss, dataSet);
+        view->setState(dataSet);
+        addPanel(view);
+      }
+    }
+  }
+
+  QIODevice *workspaceXml = project->fileStream("/workspace.xml");
+
+  if (workspaceXml == nullptr)
+    return;
+
+  QXmlStreamReader doc(workspaceXml);
+
+  if (doc.readNextStartElement()) {
+    if (!doc.hasError()) {
+      unsigned int current = doc.attributes().value("current").toString().toUInt();
+      unsigned int mode = doc.attributes().value("mode").toString().toUInt();
+
+      for (auto modeWidget : _modeToSlots.keys()) {
+        if (_modeToSlots[modeWidget].size() == mode) {
+          if (current > 0 && current < _panels.size())
+            setActivePanel(_panels[current]->view());
+
+          QString modeWidgetName = doc.attributes().value("modeWidget").toString();
+
+          if (!modeWidgetName.isEmpty() && (mode == 2 || mode == 3)) {
+            if (modeWidgetName == "splitPage") {
+              switchToSplitMode();
+            } else if (modeWidgetName == "splitPageHorizontal") {
+              switchToSplitHorizontalMode();
+            } else if (modeWidgetName == "split3Page") {
+              switchToSplit3Mode();
+            } else if (modeWidgetName == "split32Page") {
+              switchToSplit32Mode();
+            } else {
+              switchToSplit33Mode();
+            }
+          } else {
+            switchWorkspaceMode(modeWidget);
+          }
+        }
+      }
+    }
+  }
+
+  workspaceXml->close();
+  delete workspaceXml;
+}
+
+void Workspace::setPageCountLabel(QLabel *l) {
+  _ui->pagesLabel = l;
+}
+
+void Workspace::redrawPanels(bool center) {
+  for (auto panel : _panels) {
+    if (center)
+      panel->view()->centerView();
+    else
+      panel->view()->draw();
+  }
+}
+
+void Workspace::setAutoCenterPanelsOnDraw(bool f) {
+  _autoCenterViews = f;
+}
+
+void Workspace::swapPanelsRequested(WorkspacePanel *panel) {
+  WorkspacePanel *sourcePanel = static_cast<WorkspacePanel *>(sender());
+
+  if (sourcePanel) {
+    int i = 0;
+    for (auto it : _panels) {
+      if (it == panel)
+        _panels[i] = sourcePanel;
+      else if (it == sourcePanel)
+        _panels[i] = panel;
+      ++i;
+    }
+    updatePanels();
+  }
+}
+
+void Workspace::updateStartupMode() {
+  if (currentModeWidget() == _ui->startupPage && _model != nullptr) {
+    _ui->startupImportFrame->setVisible(_model->empty());
+    _ui->startupMainFrame->setVisible(!_model->empty());
+  }
+}
+
+// enable/disable highlight of focused panel
+void Workspace::setFocusedPanelHighlighting(bool h) {
+  _focusedPanelHighlighting = h;
+
+  if (_focusedPanel)
+    _focusedPanel->setHighlightMode(h);
+}
+
+// update focused panel
+void Workspace::setFocusedPanel(WorkspacePanel *panel) {
+  if (_focusedPanel) {
+    if (_focusedPanelHighlighting)
+      _focusedPanel->setHighlightMode(false);
+
+    disconnect(_focusedPanel, SIGNAL(changeGraphSynchronization(bool)), this,
+               SLOT(changeFocusedPanelSynchronization(bool)));
+  }
+
+  _focusedPanel = panel;
+  connect(_focusedPanel, SIGNAL(changeGraphSynchronization(bool)), this,
+          SLOT(changeFocusedPanelSynchronization(bool)));
+
+  if (_focusedPanelHighlighting)
+    _focusedPanel->setHighlightMode(true);
+
+  emit panelFocused(panel->view());
+
+  if (_focusedPanel->isGraphSynchronized())
+    emit focusedPanelSynchronized();
+}
+
+void Workspace::changeFocusedPanelSynchronization(bool s) {
+  if (s)
+    emit focusedPanelSynchronized();
+}

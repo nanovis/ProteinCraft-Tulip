@@ -1,0 +1,7 @@
+ADD_CORE_FILES(.)
+
+ADD_SUBDIRECTORY(CurveEdges)
+ADD_SUBDIRECTORY(ReverseEdges)
+ADD_SUBDIRECTORY(EdgeBundling)
+ADD_SUBDIRECTORY(BidirectionalEdges)
+

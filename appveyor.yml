@@ -1,0 +1,56 @@
+# Tulip continuous integration on windows platform through AppVeyor.
+# Tulip will be compiled 64 bits windows using :
+#   - GCC compiler provided by the MSYS2 project
+#   - Microsoft Visual Studio 2019 compiler
+# C++11 standard, Qt 5.5 and Python 3.9 will be used to build Tulip with both compilers.
+
+# use Visual Studio 2019 appveyor image for the builds
+os: Visual Studio 2019
+
+# Use build caches that will be saved and restored between build jobs.
+# Those caches will hold ccache content for gcc builds and clcache content for msvc builds
+# in order to speedup incremental builds.
+# Appveyor cache storage is limited to 1GB, so cache should be cleared once it is exceeding this quota
+# (see https://www.appveyor.com/docs/build-cache/)
+cache:
+  - C:\Users\appveyor\clcache
+
+init:
+  - ps: $env:APPVEYOR_SAVE_CACHE_ON_ERROR = "true"
+
+# define build jobs
+environment:
+  matrix:
+
+    # 64 bits MSVC core build
+    - CMAKE_VS_GENERATOR: "Visual Studio 16 2019"
+      MSVC_PLATFORM: "x64"
+      MSVC_PLATFORM_TOOLSET: "v142"
+      QT5_DIR: "C:/Qt/5.15/msvc2019_64"
+      PYTHON_EXECUTABLE: "C:/Python39-x64/python.exe"
+
+    # 64 bits MSVC complete build
+    - CMAKE_VS_GENERATOR: "Visual Studio 16 2019"
+      MSVC_PLATFORM: "x64"
+      MSVC_PLATFORM_TOOLSET: "v142"
+      QT5_DIR: "C:/Qt/5.15/msvc2019_64"
+      PYTHON_EXECUTABLE: "C:/Python39-x64/python.exe"
+
+# nothing to build if a non-windows platform
+# is specified at the end of the commit message
+skip_commits:
+  message: /\[(appimage|linux|macos|macports|homebrew|unix)-only\]$/
+
+# build script that simply call the right batch script depending on the compiler used
+build_script:
+  - if defined MSVC_PLATFORM ("%APPVEYOR_BUILD_FOLDER%\appveyor_msvc.bat")
+
+# no deployment
+deploy: off
+
+# send build status notifications to tulipdev mailing list
+notifications:
+  - provider: Email
+    to:
+      - tulipdev@labri.fr
+    on_build_success: false

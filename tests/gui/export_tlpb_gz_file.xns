@@ -1,0 +1,739 @@
+####################################
+#         System information       #
+####################################
+# Date:                   2018:06:26 
+# Time:                   10:51:40 
+# Xnee program:           cnee 
+# Xnee version:           3.19 
+# Xnee home:              http://www.gnu.org/software/xnee/ 
+# Xnee info mailing list: info-xnee@gnu.org 
+# Xnee bug mailing list:  bug-xnee@gnu.org 
+# X version:              11 
+# X revision:             0 
+# X vendor:               The X.Org Foundation 
+# X vendor release:       11804000 
+# Record version major:   1
+# Record version minor:   13
+# OS name:                Linux 
+# OS Release:             4.4.0-128-generic 
+# OS Version:             #154-Ubuntu SMP Fri May 25 14:15:18 UTC 2018 
+# Machine:                x86_64 
+# Nodename:               pm-Precision-5520 
+# Display name:           :0
+# Dimension:              2048x1152
+
+
+
+##############################################
+#      Xnee application arguments            #
+##############################################
+#  /home/pm/xnee-3.19/cnee/src/cnee -rec -etr -1 --keyboard --mouse -sk End -o export_tlpb_gz_file.xns 
+
+
+##############################################
+#      Displays                              #
+##############################################
+# display :0
+# distribute
+
+
+##############################################
+#      Files                                 #
+##############################################
+# out-file export_tlpb_gz_file.xns
+# err-file stderr
+
+
+##############################################
+#      Key Grabs                             #
+##############################################
+# stop-key         End
+# pause-key        0
+# resume-key       0
+# insert-key       0
+# exec-key         0
+# exec-program-key         xnee-exec-no-program
+
+
+##############################################
+#      Recording limits etc                  #
+##############################################
+
+events-to-record        -1
+data-to-record          -1
+seconds-to-record       -1
+# first-last
+
+# Record  all (including current) clients or only future ones
+all-clients
+# future-clients
+
+# Store the starting mouse position 
+# store-mouse-position
+
+
+##############################################
+#      Resolution                            #
+##############################################
+
+# Resolution
+#recorded-resolution  2048x1152
+#replay-resolution  1x1
+#resolution-adjustment  0
+
+
+##############################################
+#      Speed                                 #
+##############################################
+
+# Speed
+#speed-percent  100
+
+
+##############################################
+#      Replaying limits etc                  #
+##############################################
+
+max-threshold 20 
+min-threshold 20 
+tot-threshold 40 
+
+
+##############################################
+#      Feedback                              #
+##############################################
+#feedback-none
+#feedback-stderr
+feedback-xosd
+ 
+
+
+##############################################
+#      Various                               #
+##############################################
+
+# Plugin file 
+
+# Modes (currently not used)
+# synchronised-replay
+
+# Replay offset
+#replay-offset 0x0
+
+# Human printout of X11 data (instead of Xnee format)
+# human-printout  
+
+# Delay before starting record/replay
+# time 0
+
+# No recording of ReparentNotify
+# no-reparent-recording 
+
+# Various
+#########################################
+#          Record settings              #
+#########################################
+#   data_flags          7
+#   rState              0x1db0020
+#   xids[0]             3
+#   xids[1]             0
+# Number of Ranges      2
+# RecordRange[0]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         21-21 
+device-event-range            2-6 
+error-range                   0-0 
+# RecordRange[1]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         0-0 
+device-event-range            66-71 
+error-range                   0-0 
+7,6,274,709,0,0,0,8390877,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,275,710,0,0,0,8390884,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,275,711,0,0,0,8390892,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,270,713,0,0,0,8390901,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,264,713,0,0,0,8390909,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,255,713,0,0,0,8390917,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,247,713,0,0,0,8390925,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,243,713,0,0,0,8390932,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,239,713,0,0,0,8390941,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,237,712,0,0,0,8390949,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,234,712,0,0,0,8390956,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,232,712,0,0,0,8390964,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,229,712,0,0,0,8390972,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,227,712,0,0,0,8390980,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,224,713,0,0,0,8390988,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,222,714,0,0,0,8391004,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,220,714,0,0,0,8391012,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,218,715,0,0,0,8391020,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,215,716,0,0,0,8391028,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,211,718,0,0,0,8391037,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,208,719,0,0,0,8391045,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,207,719,0,0,0,8391053,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,203,720,0,0,0,8391061,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,199,720,0,0,0,8391068,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,194,721,0,0,0,8391077,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,189,723,0,0,0,8391084,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,186,725,0,0,0,8391093,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,183,726,0,0,0,8391100,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,182,727,0,0,0,8391117,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,182,728,0,0,0,8391124,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,181,729,0,0,0,8391141,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,181,730,0,0,0,8391149,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,179,734,0,0,0,8391165,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,178,736,0,0,0,8391173,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,178,737,0,0,0,8391188,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,177,738,0,0,0,8391213,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,177,739,0,0,0,8391221,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,176,740,0,0,0,8391293,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,175,741,0,0,0,8391301,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,173,742,0,0,0,8391308,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,172,744,0,0,0,8391316,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,171,745,0,0,0,8391325,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,169,747,0,0,0,8391333,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,168,749,0,0,0,8391340,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,168,752,0,0,0,8391349,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,167,753,0,0,0,8391357,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,166,754,0,0,0,8391365,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,164,756,0,0,0,8391389,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,163,756,0,0,0,8391397,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,162,758,0,0,0,8391420,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,161,760,0,0,0,8391436,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,160,761,0,0,0,8391453,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,159,761,0,0,0,8391469,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,157,762,0,0,0,8391485,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,156,763,0,0,0,8391501,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,155,764,0,0,0,8391516,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,154,764,0,0,0,8391541,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,153,764,0,0,0,8391573,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,152,764,0,0,0,8391588,15,'PixArt Dell MS116 USB Optical Mouse'
+7,4,0,0,1,0,0,8391741,15,PixArt Dell MS116 USB Optical Mouse
+6,4,0,0,1,0,0,8391741,2,Virtual core pointer
+7,5,0,0,1,0,0,8391917,15,PixArt Dell MS116 USB Optical Mouse
+6,5,0,0,1,0,0,8391917,2,Virtual core pointer
+0,21,0,0,0,0,0,8391953
+NEW-WINDOW:461,197:60817642,60817642,18995805,0,0,0:0x0+879+458:0,0:Exporting graph "Grid Approximation - 'nodes'=200 'degree'=10 'long edge'=false"
+0,21,0,0,0,0,0,8391953
+0,21,0,0,0,0,0,8391953
+0,21,0,0,0,0,0,8391953
+7,2,0,0,0,28,0,8393532,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8393532,3,Virtual core keyboard
+7,3,0,0,0,28,0,8393612,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8393612,3,Virtual core keyboard
+7,2,0,0,0,26,0,8393772,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,26,0,8393772,3,Virtual core keyboard
+7,3,0,0,0,26,0,8393852,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,26,0,8393852,3,Virtual core keyboard
+7,2,0,0,0,39,0,8394012,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,39,0,8394012,3,Virtual core keyboard
+7,3,0,0,0,39,0,8394092,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,39,0,8394092,3,Virtual core keyboard
+7,2,0,0,0,28,0,8394300,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8394300,3,Virtual core keyboard
+7,3,0,0,0,28,0,8394396,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8394396,3,Virtual core keyboard
+7,2,0,0,0,17,0,8394476,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,17,0,8394476,3,Virtual core keyboard
+7,3,0,0,0,17,0,8394540,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,17,0,8394540,3,Virtual core keyboard
+7,2,0,0,0,42,0,8395132,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,8395132,3,Virtual core keyboard
+7,3,0,0,0,42,0,8395228,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,8395228,3,Virtual core keyboard
+7,2,0,0,0,30,0,8395244,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,30,0,8395244,3,Virtual core keyboard
+7,2,0,0,0,31,0,8395356,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,31,0,8395356,3,Virtual core keyboard
+7,3,0,0,0,30,0,8395420,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,30,0,8395420,3,Virtual core keyboard
+7,3,0,0,0,31,0,8395468,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,31,0,8395468,3,Virtual core keyboard
+7,2,0,0,0,62,0,8396188,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8396188,3,Virtual core keyboard
+7,2,0,0,0,59,0,8396748,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,59,0,8396749,3,Virtual core keyboard
+7,3,0,0,0,59,0,8396812,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,59,0,8396812,3,Virtual core keyboard
+7,3,0,0,0,62,0,8396892,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8396892,3,Virtual core keyboard
+7,2,0,0,0,28,0,8397276,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8397277,3,Virtual core keyboard
+7,3,0,0,0,28,0,8397356,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8397356,3,Virtual core keyboard
+7,2,0,0,0,46,0,8397484,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,46,0,8397485,3,Virtual core keyboard
+7,3,0,0,0,46,0,8397645,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,46,0,8397645,3,Virtual core keyboard
+7,2,0,0,0,33,0,8397645,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,33,0,8397645,3,Virtual core keyboard
+7,3,0,0,0,33,0,8397757,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,33,0,8397757,3,Virtual core keyboard
+7,2,0,0,0,56,0,8398125,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,56,0,8398125,3,Virtual core keyboard
+7,3,0,0,0,56,0,8398156,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,56,0,8398156,3,Virtual core keyboard
+7,2,0,0,0,62,0,8398365,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8398365,3,Virtual core keyboard
+7,2,0,0,0,59,0,8398525,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,59,0,8398525,3,Virtual core keyboard
+7,3,0,0,0,62,0,8398589,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8398589,3,Virtual core keyboard
+7,3,0,0,0,59,0,8398589,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,59,0,8398589,3,Virtual core keyboard
+7,2,0,0,0,42,0,8398925,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,8398925,3,Virtual core keyboard
+7,3,0,0,0,42,0,8398973,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,8398973,3,Virtual core keyboard
+7,2,0,0,0,25,0,8399517,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,25,0,8399517,3,Virtual core keyboard
+7,3,0,0,0,25,0,8399581,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,25,0,8399581,3,Virtual core keyboard
+7,2,0,0,0,36,0,8400925,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8400925,3,Virtual core keyboard
+0,21,0,0,0,0,0,8400948
+NEW-WINDOW:650,338:60817651,60817651,18996161,0,0,0:0x0+500+36:0,0:TLPB Export
+0,21,0,0,0,0,0,8400948
+0,21,0,0,0,0,0,8400948
+0,21,0,0,0,0,0,8400948
+0,21,0,0,0,0,0,8400976
+NEW-WINDOW:5,49:60817642,60817642,639,0,0,0:459x141+879+458:0,0:
+0,21,0,0,0,0,0,8400976
+0,21,0,0,0,0,0,8400976
+0,21,0,0,0,0,0,8400976
+0,21,0,0,0,0,0,8400976
+0,21,0,0,0,0,0,8400976
+7,3,0,0,0,36,0,8400989,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8400989,3,Virtual core keyboard
+7,6,150,765,0,0,0,8402926,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,149,767,0,0,0,8402934,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,156,769,0,0,0,8402942,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,182,782,0,0,0,8402950,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,205,793,0,0,0,8402958,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,225,795,0,0,0,8402966,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,237,798,0,0,0,8402974,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,242,800,0,0,0,8402982,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,244,801,0,0,0,8402990,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,245,802,0,0,0,8403230,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,246,802,0,0,0,8403238,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,247,802,0,0,0,8403246,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,252,801,0,0,0,8403254,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,254,800,0,0,0,8403262,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,258,797,0,0,0,8403270,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,261,796,0,0,0,8403278,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,265,794,0,0,0,8403286,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,270,790,0,0,0,8403294,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,279,784,0,0,0,8403302,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,293,776,0,0,0,8403310,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,303,772,0,0,0,8403325,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,312,767,0,0,0,8403326,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,320,763,0,0,0,8403334,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,322,759,0,0,0,8403342,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,328,754,0,0,0,8403350,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,334,750,0,0,0,8403366,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,335,749,0,0,0,8403374,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,335,746,0,0,0,8403382,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,336,745,0,0,0,8403390,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,337,742,0,0,0,8403398,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,337,740,0,0,0,8403406,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,736,0,0,0,8403414,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,734,0,0,0,8403422,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,730,0,0,0,8403430,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,729,0,0,0,8403438,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,726,0,0,0,8403446,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,725,0,0,0,8403454,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,724,0,0,0,8403462,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,722,0,0,0,8403470,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,721,0,0,0,8403494,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,339,720,0,0,0,8403526,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,338,719,0,0,0,8403534,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,337,718,0,0,0,8403550,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,336,717,0,0,0,8403558,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,335,716,0,0,0,8403566,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,333,715,0,0,0,8403582,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,332,714,0,0,0,8403590,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,329,713,0,0,0,8403614,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,328,713,0,0,0,8403630,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,326,712,0,0,0,8403638,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,325,711,0,0,0,8403646,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,324,710,0,0,0,8403662,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,323,710,0,0,0,8403670,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,322,710,0,0,0,8403678,15,'PixArt Dell MS116 USB Optical Mouse'
+7,6,321,709,0,0,0,8403694,15,'PixArt Dell MS116 USB Optical Mouse'
+7,4,0,0,3,0,0,8403998,15,PixArt Dell MS116 USB Optical Mouse
+6,4,0,0,3,0,0,8403998,2,Virtual core pointer
+7,5,0,0,3,0,0,8404174,15,PixArt Dell MS116 USB Optical Mouse
+6,5,0,0,3,0,0,8404174,2,Virtual core pointer
+7,2,0,0,0,50,0,8406254,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,50,0,8406254,3,Virtual core keyboard
+7,2,0,0,0,119,0,8406846,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,119,0,8406846,3,Virtual core keyboard
+0,21,0,0,0,0,0,8406863
+NEW-WINDOW:650,318:60817667,60817667,18996409,0,0,0:0x0+500+94:0,0:Delete a whole hierarchy
+0,21,0,0,0,0,0,8406863
+0,21,0,0,0,0,0,8406863
+0,21,0,0,0,0,0,8406863
+7,3,0,0,0,119,0,8406910,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,119,0,8406910,3,Virtual core keyboard
+7,3,0,0,0,50,0,8407006,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,50,0,8407006,3,Virtual core keyboard
+7,2,0,0,0,36,0,8407566,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8407566,3,Virtual core keyboard
+7,3,0,0,0,36,0,8407614,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8407614,3,Virtual core keyboard
+0,21,0,0,0,0,0,8407618
+NEW-WINDOW:2,48:60817625,60817625,639,0,0,0:91x110+0+0:0,0:
+0,21,0,0,0,0,0,8407618
+0,21,0,0,0,0,0,8407618
+0,21,0,0,0,0,0,8407618
+0,21,0,0,0,0,0,8407619
+NEW-WINDOW:529,102:60817523,60817523,60817675,0,0,0:0x0+741+27:0,0:
+0,21,0,0,0,0,0,8407619
+NEW-WINDOW:529,129:60817525,60817525,60817675,0,27,0:0x27+741+822:0,0:
+0,21,0,0,0,0,0,8407623
+NEW-WINDOW:529,129:60817675,60817675,639,0,0,0:0x27+741+822:0,0:
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+0,21,0,0,0,0,0,8407623
+NEW-WINDOW:529,102:60817523,60817523,60817678,0,0,0:0x0+741+27:0,0:
+0,21,0,0,0,0,0,8407623
+NEW-WINDOW:529,129:60817525,60817525,60817678,0,27,0:0x27+741+822:0,0:
+0,21,0,0,0,0,0,8407633
+NEW-WINDOW:8384,0:60817678,60817678,639,0,0,0:-910392064x32764+-910392072+32764:1952,1952:
+0,21,0,0,0,0,0,8407633
+0,21,0,0,0,0,0,8407633
+0,21,0,0,0,0,0,8407633
+0,21,0,0,0,0,0,8407633
+NEW-WINDOW:529,355:60817523,60817523,60817680,0,0,0:0x0+428+27:0,0:
+0,21,0,0,0,0,0,8407633
+NEW-WINDOW:529,382:60817525,60817525,60817680,0,27,0:0x27+428+569:0,0:
+0,21,0,0,0,0,0,8407636
+NEW-WINDOW:529,382:60817680,60817680,639,0,0,0:0x27+428+569:0,0:
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+0,21,0,0,0,0,0,8407636
+NEW-WINDOW:529,355:60817523,60817523,60817683,0,0,0:0x0+428+27:0,0:
+0,21,0,0,0,0,0,8407636
+NEW-WINDOW:529,382:60817525,60817525,60817683,0,27,0:0x27+428+569:0,0:
+7,2,0,0,0,37,0,8409294,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,37,0,8409294,3,Virtual core keyboard
+7,2,0,0,0,32,0,8409646,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,32,0,8409646,3,Virtual core keyboard
+7,3,0,0,0,32,0,8409694,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,32,0,8409694,3,Virtual core keyboard
+0,21,0,0,0,0,0,8409725
+NEW-WINDOW:583,206:60817689,60817689,18996569,0,0,0:0x0+635+430:0,0:Open graph
+0,21,0,0,0,0,0,8409725
+0,21,0,0,0,0,0,8409725
+0,21,0,0,0,0,0,8409725
+7,3,0,0,0,37,0,8409726,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,37,0,8409726,3,Virtual core keyboard
+7,2,0,0,0,28,0,8410991,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8410991,3,Virtual core keyboard
+7,3,0,0,0,28,0,8411086,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8411086,3,Virtual core keyboard
+7,2,0,0,0,26,0,8411231,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,26,0,8411231,3,Virtual core keyboard
+7,3,0,0,0,26,0,8411311,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,26,0,8411311,3,Virtual core keyboard
+7,2,0,0,0,39,0,8411470,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,39,0,8411471,3,Virtual core keyboard
+7,3,0,0,0,39,0,8411534,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,39,0,8411534,3,Virtual core keyboard
+7,2,0,0,0,28,0,8411711,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8411711,3,Virtual core keyboard
+7,3,0,0,0,28,0,8411775,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8411775,3,Virtual core keyboard
+7,2,0,0,0,17,0,8411966,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,17,0,8411967,3,Virtual core keyboard
+7,3,0,0,0,17,0,8412031,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,17,0,8412031,3,Virtual core keyboard
+7,2,0,0,0,42,0,8412543,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,8412543,3,Virtual core keyboard
+7,3,0,0,0,42,0,8412623,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,8412623,3,Virtual core keyboard
+7,2,0,0,0,30,0,8412655,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,30,0,8412655,3,Virtual core keyboard
+7,2,0,0,0,31,0,8412751,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,31,0,8412751,3,Virtual core keyboard
+7,3,0,0,0,30,0,8412783,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,30,0,8412783,3,Virtual core keyboard
+7,3,0,0,0,31,0,8412847,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,31,0,8412847,3,Virtual core keyboard
+7,2,0,0,0,62,0,8413519,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8413519,3,Virtual core keyboard
+7,2,0,0,0,59,0,8413967,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,59,0,8413967,3,Virtual core keyboard
+7,3,0,0,0,59,0,8414031,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,59,0,8414031,3,Virtual core keyboard
+7,3,0,0,0,62,0,8414095,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8414095,3,Virtual core keyboard
+7,2,0,0,0,28,0,8414383,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8414383,3,Virtual core keyboard
+7,3,0,0,0,28,0,8414447,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8414447,3,Virtual core keyboard
+7,2,0,0,0,46,0,8414527,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,46,0,8414527,3,Virtual core keyboard
+7,3,0,0,0,46,0,8414671,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,46,0,8414671,3,Virtual core keyboard
+7,2,0,0,0,33,0,8414719,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,33,0,8414719,3,Virtual core keyboard
+7,3,0,0,0,33,0,8414799,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,33,0,8414799,3,Virtual core keyboard
+7,2,0,0,0,56,0,8415135,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,56,0,8415135,3,Virtual core keyboard
+7,3,0,0,0,56,0,8415167,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,56,0,8415167,3,Virtual core keyboard
+7,2,0,0,0,62,0,8415407,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8415407,3,Virtual core keyboard
+7,2,0,0,0,59,0,8415599,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,59,0,8415599,3,Virtual core keyboard
+7,3,0,0,0,62,0,8415647,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8415647,3,Virtual core keyboard
+7,3,0,0,0,59,0,8415647,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,59,0,8415647,3,Virtual core keyboard
+7,2,0,0,0,42,0,8416207,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,8416207,3,Virtual core keyboard
+7,3,0,0,0,42,0,8416271,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,8416271,3,Virtual core keyboard
+7,2,0,0,0,25,0,8416639,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,25,0,8416639,3,Virtual core keyboard
+7,3,0,0,0,25,0,8416687,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,25,0,8416687,3,Virtual core keyboard
+7,2,0,0,0,36,0,8417247,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8417248,3,Virtual core keyboard
+0,21,0,0,0,0,0,8417249
+NEW-WINDOW:10,50:60817697,60817697,639,0,0,1:91x110+0+0:0,0:
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417249
+0,21,0,0,0,0,0,8417279
+NEW-WINDOW:650,334:60817705,60817705,18996916,0,0,0:0x0+500+46:0,0:TLPB Import
+0,21,0,0,0,0,0,8417279
+0,21,0,0,0,0,0,8417279
+0,21,0,0,0,0,0,8417279
+7,3,0,0,0,36,0,8417311,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8417311,3,Virtual core keyboard
+0,21,0,0,0,0,0,8417359
+NEW-WINDOW:8384,0:60817732,60817732,639,0,0,0:-910392064x32764+-910392072+32764:3001,3001:
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417359
+0,21,0,0,0,0,0,8417386
+NEW-WINDOW:8384,0:60817738,60817738,639,0,0,0:0x0+31303856+0:31349472,31349472:
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+0,21,0,0,0,0,0,8417386
+NEW-WINDOW:0,0:60817741,60817741,60817766,0,0,0:0x0+100+30:0,0:
+0,21,0,0,0,0,0,8417386
+NEW-WINDOW:0,0:60817743,60817743,60817766,0,0,0:0x0+100+30:0,0:
+0,21,0,0,0,0,0,8417386
+NEW-WINDOW:0,0:60817747,60817747,60817766,0,0,0:0x0+1024+460:0,0:
+0,21,0,0,0,0,0,8417411
+NEW-WINDOW:8384,0:60817722,60817722,639,0,0,0:-910392064x32764+-910392072+32764:3072,3072:
+0,21,0,0,0,0,0,8417411
+0,21,0,0,0,0,0,8417411
+0,21,0,0,0,0,0,8417411
+0,21,0,0,0,0,0,8417412
+NEW-WINDOW:0,0:60817771,60817771,639,0,0,0:0x0+1172+849:0,0:Spreadsheet view
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417412
+0,21,0,0,0,0,0,8417423
+NEW-WINDOW:0,0:60817761,60817761,639,0,0,0:0x0+943+595:0,0:Node Link Diagram view
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+0,21,0,0,0,0,0,8417423
+NEW-WINDOW:960,102:60817764,60817764,60817776,0,0,0:0x0+100+30:0,0:
+0,21,0,0,0,0,0,8417423
+NEW-WINDOW:960,102:60817766,60817766,60817776,0,0,0:0x0+1024+460:0,0:
+7,4,0,0,3,0,0,8420737,15,PixArt Dell MS116 USB Optical Mouse
+6,4,0,0,3,0,0,8420737,2,Virtual core pointer
+7,5,0,0,3,0,0,8420921,15,PixArt Dell MS116 USB Optical Mouse
+6,5,0,0,3,0,0,8420921,2,Virtual core pointer
+7,2,0,0,0,116,0,8422240,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,8422240,3,Virtual core keyboard
+7,3,0,0,0,116,0,8422320,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,8422320,3,Virtual core keyboard
+7,2,0,0,0,116,0,8422480,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,8422480,3,Virtual core keyboard
+7,3,0,0,0,116,0,8422560,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,8422560,3,Virtual core keyboard
+7,2,0,0,0,116,0,8422688,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,8422688,3,Virtual core keyboard
+7,3,0,0,0,116,0,8422784,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,8422784,3,Virtual core keyboard
+7,2,0,0,0,116,0,8422992,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,8422992,3,Virtual core keyboard
+7,3,0,0,0,116,0,8423104,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,8423104,3,Virtual core keyboard
+7,2,0,0,0,36,0,8423808,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8423809,3,Virtual core keyboard
+7,3,0,0,0,36,0,8423888,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8423888,3,Virtual core keyboard
+7,2,0,0,0,62,0,8424641,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8424641,3,Virtual core keyboard
+7,2,0,0,0,28,0,8425937,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8425937,3,Virtual core keyboard
+7,3,0,0,0,28,0,8426017,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8426017,3,Virtual core keyboard
+7,2,0,0,0,46,0,8426017,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,46,0,8426017,3,Virtual core keyboard
+7,2,0,0,0,33,0,8426145,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,33,0,8426145,3,Virtual core keyboard
+7,3,0,0,0,46,0,8426161,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,46,0,8426161,3,Virtual core keyboard
+7,3,0,0,0,33,0,8426241,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,33,0,8426241,3,Virtual core keyboard
+7,2,0,0,0,56,0,8427201,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,56,0,8427201,3,Virtual core keyboard
+7,3,0,0,0,56,0,8427265,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,56,0,8427265,3,Virtual core keyboard
+7,3,0,0,0,62,0,8427489,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8427489,3,Virtual core keyboard
+7,2,0,0,0,62,0,8428625,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8428625,3,Virtual core keyboard
+7,2,0,0,0,42,0,8428801,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,8428801,3,Virtual core keyboard
+7,3,0,0,0,42,0,8428849,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,8428849,3,Virtual core keyboard
+7,2,0,0,0,25,0,8429361,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,25,0,8429361,3,Virtual core keyboard
+7,3,0,0,0,25,0,8429425,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,25,0,8429425,3,Virtual core keyboard
+7,3,0,0,0,62,0,8429521,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8429521,3,Virtual core keyboard
+7,2,0,0,0,36,0,8431826,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8431826,3,Virtual core keyboard
+7,3,0,0,0,36,0,8431891,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8431891,3,Virtual core keyboard
+7,4,0,0,3,0,0,8433819,15,PixArt Dell MS116 USB Optical Mouse
+6,4,0,0,3,0,0,8433819,2,Virtual core pointer
+7,5,0,0,3,0,0,8433979,15,PixArt Dell MS116 USB Optical Mouse
+6,5,0,0,3,0,0,8433979,2,Virtual core pointer
+7,2,0,0,0,116,0,8434946,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,8434946,3,Virtual core keyboard
+7,3,0,0,0,116,0,8435026,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,8435026,3,Virtual core keyboard
+7,2,0,0,0,116,0,8435298,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,8435298,3,Virtual core keyboard
+7,3,0,0,0,116,0,8435410,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,8435410,3,Virtual core keyboard
+7,2,0,0,0,36,0,8436050,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8436050,3,Virtual core keyboard
+0,21,0,0,0,0,0,8436076
+NEW-WINDOW:461,197:60817799,60817799,18997643,0,0,0:0x0+879+458:0,0:Exporting graph "TLPBGZ"
+0,21,0,0,0,0,0,8436076
+0,21,0,0,0,0,0,8436076
+0,21,0,0,0,0,0,8436076
+7,3,0,0,0,36,0,8436130,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8436130,3,Virtual core keyboard
+7,2,0,0,0,28,0,8437331,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8437331,3,Virtual core keyboard
+7,3,0,0,0,28,0,8437410,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8437410,3,Virtual core keyboard
+7,2,0,0,0,26,0,8437587,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,26,0,8437587,3,Virtual core keyboard
+7,3,0,0,0,26,0,8437650,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,26,0,8437650,3,Virtual core keyboard
+7,2,0,0,0,39,0,8437811,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,39,0,8437811,3,Virtual core keyboard
+7,3,0,0,0,39,0,8437874,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,39,0,8437874,3,Virtual core keyboard
+7,2,0,0,0,28,0,8438067,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8438067,3,Virtual core keyboard
+7,3,0,0,0,28,0,8438115,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8438115,3,Virtual core keyboard
+7,2,0,0,0,17,0,8438290,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,17,0,8438291,3,Virtual core keyboard
+7,3,0,0,0,17,0,8438355,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,17,0,8438355,3,Virtual core keyboard
+7,2,0,0,0,42,0,8438786,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,8438787,3,Virtual core keyboard
+7,3,0,0,0,42,0,8438867,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,8438867,3,Virtual core keyboard
+7,2,0,0,0,30,0,8438867,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,30,0,8438867,3,Virtual core keyboard
+7,2,0,0,0,31,0,8438979,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,31,0,8438979,3,Virtual core keyboard
+7,3,0,0,0,30,0,8439011,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,30,0,8439011,3,Virtual core keyboard
+7,3,0,0,0,31,0,8439059,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,31,0,8439059,3,Virtual core keyboard
+7,2,0,0,0,62,0,8439395,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,8439395,3,Virtual core keyboard
+7,2,0,0,0,59,0,8439603,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,59,0,8439603,3,Virtual core keyboard
+7,3,0,0,0,59,0,8439683,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,59,0,8439683,3,Virtual core keyboard
+7,3,0,0,0,62,0,8439715,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,8439715,3,Virtual core keyboard
+7,2,0,0,0,28,0,8439971,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,8439971,3,Virtual core keyboard
+7,3,0,0,0,28,0,8440035,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,8440035,3,Virtual core keyboard
+7,2,0,0,0,46,0,8440131,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,46,0,8440131,3,Virtual core keyboard
+7,3,0,0,0,46,0,8440259,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,46,0,8440259,3,Virtual core keyboard
+7,2,0,0,0,33,0,8440675,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,33,0,8440675,3,Virtual core keyboard
+7,3,0,0,0,33,0,8440739,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,33,0,8440739,3,Virtual core keyboard
+7,2,0,0,0,36,0,8441331,13,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,8441331,3,Virtual core keyboard
+0,21,0,0,0,0,0,8441352
+NEW-WINDOW:650,338:60817807,60817807,18997872,0,0,0:0x0+500+36:0,0:TLP Export
+0,21,0,0,0,0,0,8441352
+0,21,0,0,0,0,0,8441352
+0,21,0,0,0,0,0,8441352
+7,3,0,0,0,36,0,8441395,13,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,8441395,3,Virtual core keyboard
+0,21,0,0,0,0,0,8441442
+NEW-WINDOW:459,141:60817799,60817799,639,0,0,0:459x141+879+458:0,0:Exporting graph "TLPBGZ"
+0,21,0,0,0,0,0,8441442
+0,21,0,0,0,0,0,8441442
+0,21,0,0,0,0,0,8441442
+0,21,0,0,0,0,0,8441442
+0,21,0,0,0,0,0,8441442

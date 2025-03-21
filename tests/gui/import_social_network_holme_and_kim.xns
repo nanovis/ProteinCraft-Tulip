@@ -1,0 +1,617 @@
+####################################
+#         System information       #
+####################################
+# Date:                   2020:05:04 
+# Time:                   08:46:07 
+# Xnee program:           cnee 
+# Xnee version:           3.19 
+# Xnee home:              http://www.gnu.org/software/xnee/ 
+# Xnee info mailing list: info-xnee@gnu.org 
+# Xnee bug mailing list:  bug-xnee@gnu.org 
+# X version:              11 
+# X revision:             0 
+# X vendor:               The X.Org Foundation 
+# X vendor release:       11906000 
+# Record version major:   1
+# Record version minor:   13
+# OS name:                Linux 
+# OS Release:             4.15.0-96-generic 
+# OS Version:             #97-Ubuntu SMP Wed Apr 1 03:25:46 UTC 2020 
+# Machine:                x86_64 
+# Nodename:               pm-Precision-5520 
+# Display name:           :0
+# Dimension:              1920x1080
+
+
+
+##############################################
+#      Xnee application arguments            #
+##############################################
+#  /home/pm/xnee-3.19/cnee/src/cnee -rec -etr -1 --keyboard --mouse -sk End -o import_social_network_holme_and_kim.xns 
+
+
+##############################################
+#      Displays                              #
+##############################################
+# display :0
+# distribute
+
+
+##############################################
+#      Files                                 #
+##############################################
+# out-file import_social_network_holme_and_kim.xns
+# err-file stderr
+
+
+##############################################
+#      Key Grabs                             #
+##############################################
+# stop-key         End
+# pause-key        0
+# resume-key       0
+# insert-key       0
+# exec-key         0
+# exec-program-key         xnee-exec-no-program
+
+
+##############################################
+#      Recording limits etc                  #
+##############################################
+
+events-to-record        -1
+data-to-record          -1
+seconds-to-record       -1
+# first-last
+
+# Record  all (including current) clients or only future ones
+all-clients
+# future-clients
+
+# Store the starting mouse position 
+# store-mouse-position
+
+
+##############################################
+#      Resolution                            #
+##############################################
+
+# Resolution
+#recorded-resolution  1920x1080
+#replay-resolution  1x1
+#resolution-adjustment  0
+
+
+##############################################
+#      Speed                                 #
+##############################################
+
+# Speed
+#speed-percent  100
+
+
+##############################################
+#      Replaying limits etc                  #
+##############################################
+
+max-threshold 20 
+min-threshold 20 
+tot-threshold 40 
+
+
+##############################################
+#      Feedback                              #
+##############################################
+#feedback-none
+#feedback-stderr
+feedback-xosd
+ 
+
+
+##############################################
+#      Various                               #
+##############################################
+
+# Plugin file 
+
+# Modes (currently not used)
+# synchronised-replay
+
+# Replay offset
+#replay-offset 0x0
+
+# Human printout of X11 data (instead of Xnee format)
+# human-printout  
+
+# Delay before starting record/replay
+# time 0
+
+# No recording of ReparentNotify
+# no-reparent-recording 
+
+# Various
+#########################################
+#          Record settings              #
+#########################################
+#   data_flags          7
+#   rState              0x80c270
+#   xids[0]             3
+#   xids[1]             0
+# Number of Ranges      2
+# RecordRange[0]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         21-21 
+device-event-range            2-6 
+error-range                   0-0 
+# RecordRange[1]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         0-0 
+device-event-range            66-71 
+error-range                   0-0 
+7,2,0,0,0,37,0,320523807,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,37,0,320523808,3,Virtual core keyboard
+7,2,0,0,0,50,0,320524072,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,50,0,320524072,3,Virtual core keyboard
+7,2,0,0,0,32,0,320524496,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,32,0,320524496,3,Virtual core keyboard
+0,21,0,0,0,0,0,320524516
+NEW-WINDOW:451,254:106954786,106954786,35158439,0,0,0:0x0+879+458:0,0:Import
+0,21,0,0,0,0,0,320524516
+0,21,0,0,0,0,0,320524516
+0,21,0,0,0,0,0,320524516
+7,3,0,0,0,32,0,320524583,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,32,0,320524583,3,Virtual core keyboard
+7,3,0,0,0,50,0,320524679,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,50,0,320524679,3,Virtual core keyboard
+7,3,0,0,0,37,0,320524703,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,37,0,320524703,3,Virtual core keyboard
+7,2,0,0,0,116,0,320526104,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320526104,3,Virtual core keyboard
+7,3,0,0,0,116,0,320526176,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320526176,3,Virtual core keyboard
+7,2,0,0,0,116,0,320526376,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320526376,3,Virtual core keyboard
+7,3,0,0,0,116,0,320526448,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320526448,3,Virtual core keyboard
+7,2,0,0,0,116,0,320526756,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320526756,3,Virtual core keyboard
+7,3,0,0,0,116,0,320526815,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320526815,3,Virtual core keyboard
+7,2,0,0,0,116,0,320526951,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320526952,3,Virtual core keyboard
+7,3,0,0,0,116,0,320527031,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320527031,3,Virtual core keyboard
+7,2,0,0,0,116,0,320527135,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320527135,3,Virtual core keyboard
+7,3,0,0,0,116,0,320527207,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320527207,3,Virtual core keyboard
+7,2,0,0,0,116,0,320527335,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320527335,3,Virtual core keyboard
+7,3,0,0,0,116,0,320527399,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320527399,3,Virtual core keyboard
+7,2,0,0,0,116,0,320527527,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320527527,3,Virtual core keyboard
+7,3,0,0,0,116,0,320527607,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320527607,3,Virtual core keyboard
+7,2,0,0,0,116,0,320527743,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320527743,3,Virtual core keyboard
+7,3,0,0,0,116,0,320527831,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320527831,3,Virtual core keyboard
+7,2,0,0,0,116,0,320527983,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320527983,3,Virtual core keyboard
+7,3,0,0,0,116,0,320528095,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320528095,3,Virtual core keyboard
+7,2,0,0,0,116,0,320528279,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320528279,3,Virtual core keyboard
+7,3,0,0,0,116,0,320528359,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320528359,3,Virtual core keyboard
+7,2,0,0,0,116,0,320528599,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320528599,3,Virtual core keyboard
+7,3,0,0,0,116,0,320528687,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320528687,3,Virtual core keyboard
+7,2,0,0,0,116,0,320528879,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320528879,3,Virtual core keyboard
+7,3,0,0,0,116,0,320528967,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320528967,3,Virtual core keyboard
+7,2,0,0,0,116,0,320529183,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320529183,3,Virtual core keyboard
+7,3,0,0,0,116,0,320529263,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320529263,3,Virtual core keyboard
+7,2,0,0,0,116,0,320529423,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320529423,3,Virtual core keyboard
+7,3,0,0,0,116,0,320529495,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320529495,3,Virtual core keyboard
+7,2,0,0,0,116,0,320529639,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320529639,3,Virtual core keyboard
+7,3,0,0,0,116,0,320529711,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320529711,3,Virtual core keyboard
+7,2,0,0,0,116,0,320529887,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320529887,3,Virtual core keyboard
+7,3,0,0,0,116,0,320529983,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320529983,3,Virtual core keyboard
+7,2,0,0,0,116,0,320530143,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320530143,3,Virtual core keyboard
+7,3,0,0,0,116,0,320530215,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320530215,3,Virtual core keyboard
+7,2,0,0,0,116,0,320530367,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320530367,3,Virtual core keyboard
+7,3,0,0,0,116,0,320530431,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320530431,3,Virtual core keyboard
+7,2,0,0,0,116,0,320530607,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320530607,3,Virtual core keyboard
+7,3,0,0,0,116,0,320530687,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320530687,3,Virtual core keyboard
+7,2,0,0,0,116,0,320530863,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320530863,3,Virtual core keyboard
+7,3,0,0,0,116,0,320530943,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320530943,3,Virtual core keyboard
+7,2,0,0,0,116,0,320531111,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320531111,3,Virtual core keyboard
+7,3,0,0,0,116,0,320531207,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320531207,3,Virtual core keyboard
+7,2,0,0,0,116,0,320531367,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320531367,3,Virtual core keyboard
+7,3,0,0,0,116,0,320531447,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320531447,3,Virtual core keyboard
+7,2,0,0,0,116,0,320531631,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320531631,3,Virtual core keyboard
+7,3,0,0,0,116,0,320531703,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320531703,3,Virtual core keyboard
+7,2,0,0,0,116,0,320531847,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320531847,3,Virtual core keyboard
+7,3,0,0,0,116,0,320531959,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320531959,3,Virtual core keyboard
+7,2,0,0,0,116,0,320532191,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320532191,3,Virtual core keyboard
+7,3,0,0,0,116,0,320532279,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320532279,3,Virtual core keyboard
+7,2,0,0,0,116,0,320532455,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320532455,3,Virtual core keyboard
+7,3,0,0,0,116,0,320532527,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320532527,3,Virtual core keyboard
+7,2,0,0,0,116,0,320532703,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320532703,3,Virtual core keyboard
+7,3,0,0,0,116,0,320532791,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320532791,3,Virtual core keyboard
+7,2,0,0,0,116,0,320532951,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320532951,3,Virtual core keyboard
+7,3,0,0,0,116,0,320533031,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320533031,3,Virtual core keyboard
+7,2,0,0,0,116,0,320533231,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320533231,3,Virtual core keyboard
+7,3,0,0,0,116,0,320533303,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320533303,3,Virtual core keyboard
+7,2,0,0,0,116,0,320533495,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320533495,3,Virtual core keyboard
+7,3,0,0,0,116,0,320533583,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320533583,3,Virtual core keyboard
+7,2,0,0,0,116,0,320533903,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320533903,3,Virtual core keyboard
+7,3,0,0,0,116,0,320533999,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320533999,3,Virtual core keyboard
+7,2,0,0,0,116,0,320534279,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320534279,3,Virtual core keyboard
+7,3,0,0,0,116,0,320534375,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320534375,3,Virtual core keyboard
+7,2,0,0,0,116,0,320534719,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320534719,3,Virtual core keyboard
+7,3,0,0,0,116,0,320534791,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320534791,3,Virtual core keyboard
+7,2,0,0,0,116,0,320535439,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320535439,3,Virtual core keyboard
+7,3,0,0,0,116,0,320535543,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320535543,3,Virtual core keyboard
+7,2,0,0,0,116,0,320535739,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320535739,3,Virtual core keyboard
+7,3,0,0,0,116,0,320535843,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320535843,3,Virtual core keyboard
+7,2,0,0,0,36,0,320536655,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,36,0,320536655,3,Virtual core keyboard
+0,21,0,0,0,0,0,320536678
+NEW-WINDOW:640,459:106954796,106954796,35158598,0,0,0:0x0+500+49:0,0:Holme and Kim Model
+0,21,0,0,0,0,0,320536678
+0,21,0,0,0,0,0,320536678
+0,21,0,0,0,0,0,320536678
+0,21,0,0,0,0,0,320536685
+NEW-WINDOW:640,417:106954796,106954796,398,0,0,0:640x417+500+49:0,0:Holme and Kim Model
+0,21,0,0,0,0,0,320536685
+0,21,0,0,0,0,0,320536685
+0,21,0,0,0,0,0,320536685
+0,21,0,0,0,0,0,320536685
+7,3,0,0,0,36,0,320536726,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,36,0,320536726,3,Virtual core keyboard
+0,21,0,0,0,0,0,320536733
+NEW-WINDOW:451,212:106954786,106954786,398,0,0,0:451x212+879+458:0,0:Import
+0,21,0,0,0,0,0,320536733
+0,21,0,0,0,0,0,320536733
+0,21,0,0,0,0,0,320536733
+0,21,0,0,0,0,0,320536733
+7,6,1695,799,0,0,0,320539167,13,'PIXART USB OPTICAL MOUSE'
+7,6,1695,798,0,0,0,320539174,13,'PIXART USB OPTICAL MOUSE'
+7,6,1693,797,0,0,0,320539183,13,'PIXART USB OPTICAL MOUSE'
+7,6,1691,795,0,0,0,320539190,13,'PIXART USB OPTICAL MOUSE'
+7,6,1690,794,0,0,0,320539198,13,'PIXART USB OPTICAL MOUSE'
+7,6,1688,792,0,0,0,320539206,13,'PIXART USB OPTICAL MOUSE'
+7,6,1686,790,0,0,0,320539222,13,'PIXART USB OPTICAL MOUSE'
+7,6,1684,789,0,0,0,320539230,13,'PIXART USB OPTICAL MOUSE'
+7,6,1683,788,0,0,0,320539247,13,'PIXART USB OPTICAL MOUSE'
+7,6,1682,787,0,0,0,320539262,13,'PIXART USB OPTICAL MOUSE'
+7,6,1681,787,0,0,0,320539270,13,'PIXART USB OPTICAL MOUSE'
+7,6,1679,787,0,0,0,320539287,13,'PIXART USB OPTICAL MOUSE'
+7,6,1678,786,0,0,0,320539319,13,'PIXART USB OPTICAL MOUSE'
+7,6,1677,785,0,0,0,320539343,13,'PIXART USB OPTICAL MOUSE'
+7,6,1676,784,0,0,0,320539423,13,'PIXART USB OPTICAL MOUSE'
+7,6,1674,784,0,0,0,320539430,13,'PIXART USB OPTICAL MOUSE'
+7,6,1672,783,0,0,0,320539438,13,'PIXART USB OPTICAL MOUSE'
+7,6,1667,781,0,0,0,320539446,13,'PIXART USB OPTICAL MOUSE'
+7,6,1663,779,0,0,0,320539454,13,'PIXART USB OPTICAL MOUSE'
+7,6,1661,776,0,0,0,320539462,13,'PIXART USB OPTICAL MOUSE'
+7,6,1658,773,0,0,0,320539470,13,'PIXART USB OPTICAL MOUSE'
+7,6,1656,772,0,0,0,320539478,13,'PIXART USB OPTICAL MOUSE'
+7,6,1652,769,0,0,0,320539486,13,'PIXART USB OPTICAL MOUSE'
+7,6,1650,768,0,0,0,320539495,13,'PIXART USB OPTICAL MOUSE'
+7,6,1648,766,0,0,0,320539502,13,'PIXART USB OPTICAL MOUSE'
+7,6,1646,765,0,0,0,320539510,13,'PIXART USB OPTICAL MOUSE'
+7,6,1644,763,0,0,0,320539518,13,'PIXART USB OPTICAL MOUSE'
+7,6,1642,762,0,0,0,320539527,13,'PIXART USB OPTICAL MOUSE'
+7,6,1641,761,0,0,0,320539534,13,'PIXART USB OPTICAL MOUSE'
+7,6,1638,758,0,0,0,320539542,13,'PIXART USB OPTICAL MOUSE'
+7,6,1633,756,0,0,0,320539551,13,'PIXART USB OPTICAL MOUSE'
+7,6,1631,754,0,0,0,320539559,13,'PIXART USB OPTICAL MOUSE'
+7,6,1627,752,0,0,0,320539567,13,'PIXART USB OPTICAL MOUSE'
+7,6,1623,751,0,0,0,320539574,13,'PIXART USB OPTICAL MOUSE'
+7,6,1620,749,0,0,0,320539583,13,'PIXART USB OPTICAL MOUSE'
+7,6,1615,748,0,0,0,320539590,13,'PIXART USB OPTICAL MOUSE'
+7,6,1609,748,0,0,0,320539599,13,'PIXART USB OPTICAL MOUSE'
+7,6,1602,748,0,0,0,320539606,13,'PIXART USB OPTICAL MOUSE'
+7,6,1594,748,0,0,0,320539614,13,'PIXART USB OPTICAL MOUSE'
+7,6,1586,748,0,0,0,320539623,13,'PIXART USB OPTICAL MOUSE'
+7,6,1576,748,0,0,0,320539631,13,'PIXART USB OPTICAL MOUSE'
+7,6,1565,748,0,0,0,320539638,13,'PIXART USB OPTICAL MOUSE'
+7,6,1554,748,0,0,0,320539646,13,'PIXART USB OPTICAL MOUSE'
+7,6,1541,748,0,0,0,320539654,13,'PIXART USB OPTICAL MOUSE'
+7,6,1530,748,0,0,0,320539663,13,'PIXART USB OPTICAL MOUSE'
+7,6,1517,751,0,0,0,320539671,13,'PIXART USB OPTICAL MOUSE'
+7,6,1508,751,0,0,0,320539678,13,'PIXART USB OPTICAL MOUSE'
+7,6,1495,751,0,0,0,320539687,13,'PIXART USB OPTICAL MOUSE'
+7,6,1484,751,0,0,0,320539694,13,'PIXART USB OPTICAL MOUSE'
+7,6,1474,751,0,0,0,320539703,13,'PIXART USB OPTICAL MOUSE'
+7,6,1464,751,0,0,0,320539710,13,'PIXART USB OPTICAL MOUSE'
+7,6,1456,751,0,0,0,320539718,13,'PIXART USB OPTICAL MOUSE'
+7,6,1447,751,0,0,0,320539727,13,'PIXART USB OPTICAL MOUSE'
+7,6,1441,751,0,0,0,320539735,13,'PIXART USB OPTICAL MOUSE'
+7,6,1432,750,0,0,0,320539742,13,'PIXART USB OPTICAL MOUSE'
+7,6,1424,748,0,0,0,320539754,13,'PIXART USB OPTICAL MOUSE'
+7,6,1414,747,0,0,0,320539758,13,'PIXART USB OPTICAL MOUSE'
+7,6,1405,747,0,0,0,320539766,13,'PIXART USB OPTICAL MOUSE'
+7,6,1394,745,0,0,0,320539774,13,'PIXART USB OPTICAL MOUSE'
+7,6,1383,745,0,0,0,320539782,13,'PIXART USB OPTICAL MOUSE'
+7,6,1370,742,0,0,0,320539790,13,'PIXART USB OPTICAL MOUSE'
+7,6,1355,742,0,0,0,320539798,13,'PIXART USB OPTICAL MOUSE'
+7,6,1340,741,0,0,0,320539807,13,'PIXART USB OPTICAL MOUSE'
+7,6,1326,741,0,0,0,320539814,13,'PIXART USB OPTICAL MOUSE'
+7,6,1308,741,0,0,0,320539822,13,'PIXART USB OPTICAL MOUSE'
+7,6,1292,741,0,0,0,320539831,13,'PIXART USB OPTICAL MOUSE'
+7,6,1274,741,0,0,0,320539839,13,'PIXART USB OPTICAL MOUSE'
+7,6,1257,741,0,0,0,320539846,13,'PIXART USB OPTICAL MOUSE'
+7,6,1238,741,0,0,0,320539854,13,'PIXART USB OPTICAL MOUSE'
+7,6,1220,741,0,0,0,320539863,13,'PIXART USB OPTICAL MOUSE'
+7,6,1196,741,0,0,0,320539871,13,'PIXART USB OPTICAL MOUSE'
+7,6,1177,741,0,0,0,320539878,13,'PIXART USB OPTICAL MOUSE'
+7,6,1154,741,0,0,0,320539886,13,'PIXART USB OPTICAL MOUSE'
+7,6,1133,741,0,0,0,320539894,13,'PIXART USB OPTICAL MOUSE'
+7,6,1109,741,0,0,0,320539902,13,'PIXART USB OPTICAL MOUSE'
+7,6,1087,741,0,0,0,320539910,13,'PIXART USB OPTICAL MOUSE'
+7,6,1065,741,0,0,0,320539918,13,'PIXART USB OPTICAL MOUSE'
+7,6,1045,741,0,0,0,320539926,13,'PIXART USB OPTICAL MOUSE'
+7,6,1025,741,0,0,0,320539934,13,'PIXART USB OPTICAL MOUSE'
+7,6,1007,741,0,0,0,320539942,13,'PIXART USB OPTICAL MOUSE'
+7,6,987,741,0,0,0,320539950,13,'PIXART USB OPTICAL MOUSE'
+7,6,969,741,0,0,0,320539958,13,'PIXART USB OPTICAL MOUSE'
+7,6,949,741,0,0,0,320539966,13,'PIXART USB OPTICAL MOUSE'
+7,6,935,741,0,0,0,320539975,13,'PIXART USB OPTICAL MOUSE'
+7,6,917,741,0,0,0,320539982,13,'PIXART USB OPTICAL MOUSE'
+7,6,901,741,0,0,0,320539990,13,'PIXART USB OPTICAL MOUSE'
+7,6,888,741,0,0,0,320539998,13,'PIXART USB OPTICAL MOUSE'
+7,6,877,741,0,0,0,320540007,13,'PIXART USB OPTICAL MOUSE'
+7,6,862,741,0,0,0,320540014,13,'PIXART USB OPTICAL MOUSE'
+7,6,851,741,0,0,0,320540022,13,'PIXART USB OPTICAL MOUSE'
+7,6,841,741,0,0,0,320540030,13,'PIXART USB OPTICAL MOUSE'
+7,6,827,741,0,0,0,320540039,13,'PIXART USB OPTICAL MOUSE'
+7,6,817,741,0,0,0,320540046,13,'PIXART USB OPTICAL MOUSE'
+7,6,807,741,0,0,0,320540054,13,'PIXART USB OPTICAL MOUSE'
+7,6,795,741,0,0,0,320540062,13,'PIXART USB OPTICAL MOUSE'
+7,6,785,741,0,0,0,320540070,13,'PIXART USB OPTICAL MOUSE'
+7,6,773,741,0,0,0,320540078,13,'PIXART USB OPTICAL MOUSE'
+7,6,762,741,0,0,0,320540086,13,'PIXART USB OPTICAL MOUSE'
+7,6,748,741,0,0,0,320540094,13,'PIXART USB OPTICAL MOUSE'
+7,6,734,741,0,0,0,320540102,13,'PIXART USB OPTICAL MOUSE'
+7,6,722,741,0,0,0,320540110,13,'PIXART USB OPTICAL MOUSE'
+7,6,706,741,0,0,0,320540118,13,'PIXART USB OPTICAL MOUSE'
+7,6,690,741,0,0,0,320540126,13,'PIXART USB OPTICAL MOUSE'
+7,6,674,741,0,0,0,320540134,13,'PIXART USB OPTICAL MOUSE'
+7,6,659,739,0,0,0,320540142,13,'PIXART USB OPTICAL MOUSE'
+7,6,644,738,0,0,0,320540150,13,'PIXART USB OPTICAL MOUSE'
+7,6,632,734,0,0,0,320540158,13,'PIXART USB OPTICAL MOUSE'
+7,6,619,734,0,0,0,320540166,13,'PIXART USB OPTICAL MOUSE'
+7,6,607,731,0,0,0,320540174,13,'PIXART USB OPTICAL MOUSE'
+7,6,595,731,0,0,0,320540183,13,'PIXART USB OPTICAL MOUSE'
+7,6,586,731,0,0,0,320540191,13,'PIXART USB OPTICAL MOUSE'
+7,6,576,731,0,0,0,320540198,13,'PIXART USB OPTICAL MOUSE'
+7,6,566,731,0,0,0,320540206,13,'PIXART USB OPTICAL MOUSE'
+7,6,556,731,0,0,0,320540214,13,'PIXART USB OPTICAL MOUSE'
+7,6,545,731,0,0,0,320540222,13,'PIXART USB OPTICAL MOUSE'
+7,6,535,729,0,0,0,320540230,13,'PIXART USB OPTICAL MOUSE'
+7,6,527,729,0,0,0,320540238,13,'PIXART USB OPTICAL MOUSE'
+7,6,518,729,0,0,0,320540246,13,'PIXART USB OPTICAL MOUSE'
+7,6,509,729,0,0,0,320540254,13,'PIXART USB OPTICAL MOUSE'
+7,6,499,729,0,0,0,320540262,13,'PIXART USB OPTICAL MOUSE'
+7,6,489,729,0,0,0,320540270,13,'PIXART USB OPTICAL MOUSE'
+7,6,480,729,0,0,0,320540278,13,'PIXART USB OPTICAL MOUSE'
+7,6,470,726,0,0,0,320540286,13,'PIXART USB OPTICAL MOUSE'
+7,6,462,726,0,0,0,320540294,13,'PIXART USB OPTICAL MOUSE'
+7,6,455,725,0,0,0,320540302,13,'PIXART USB OPTICAL MOUSE'
+7,6,448,725,0,0,0,320540310,13,'PIXART USB OPTICAL MOUSE'
+7,6,442,723,0,0,0,320540318,13,'PIXART USB OPTICAL MOUSE'
+7,6,435,723,0,0,0,320540326,13,'PIXART USB OPTICAL MOUSE'
+7,6,431,722,0,0,0,320540334,13,'PIXART USB OPTICAL MOUSE'
+7,6,424,722,0,0,0,320540342,13,'PIXART USB OPTICAL MOUSE'
+7,6,421,720,0,0,0,320540350,13,'PIXART USB OPTICAL MOUSE'
+7,6,417,718,0,0,0,320540358,13,'PIXART USB OPTICAL MOUSE'
+7,6,414,718,0,0,0,320540366,13,'PIXART USB OPTICAL MOUSE'
+7,6,412,717,0,0,0,320540374,13,'PIXART USB OPTICAL MOUSE'
+7,6,409,717,0,0,0,320540382,13,'PIXART USB OPTICAL MOUSE'
+7,6,408,717,0,0,0,320540391,13,'PIXART USB OPTICAL MOUSE'
+7,6,406,716,0,0,0,320540398,13,'PIXART USB OPTICAL MOUSE'
+7,6,403,716,0,0,0,320540406,13,'PIXART USB OPTICAL MOUSE'
+7,6,401,714,0,0,0,320540414,13,'PIXART USB OPTICAL MOUSE'
+7,6,398,714,0,0,0,320540422,13,'PIXART USB OPTICAL MOUSE'
+7,6,396,714,0,0,0,320540430,13,'PIXART USB OPTICAL MOUSE'
+7,6,393,713,0,0,0,320540438,13,'PIXART USB OPTICAL MOUSE'
+7,6,391,712,0,0,0,320540455,13,'PIXART USB OPTICAL MOUSE'
+7,6,389,712,0,0,0,320540478,13,'PIXART USB OPTICAL MOUSE'
+7,6,388,711,0,0,0,320540486,13,'PIXART USB OPTICAL MOUSE'
+7,6,387,711,0,0,0,320540494,13,'PIXART USB OPTICAL MOUSE'
+7,6,385,710,0,0,0,320540502,13,'PIXART USB OPTICAL MOUSE'
+7,6,384,709,0,0,0,320540510,13,'PIXART USB OPTICAL MOUSE'
+7,6,382,708,0,0,0,320540518,13,'PIXART USB OPTICAL MOUSE'
+7,6,381,708,0,0,0,320540526,13,'PIXART USB OPTICAL MOUSE'
+7,6,378,708,0,0,0,320540534,13,'PIXART USB OPTICAL MOUSE'
+7,6,375,707,0,0,0,320540542,13,'PIXART USB OPTICAL MOUSE'
+7,6,372,707,0,0,0,320540550,13,'PIXART USB OPTICAL MOUSE'
+7,6,369,707,0,0,0,320540558,13,'PIXART USB OPTICAL MOUSE'
+7,6,367,707,0,0,0,320540566,13,'PIXART USB OPTICAL MOUSE'
+7,6,364,707,0,0,0,320540574,13,'PIXART USB OPTICAL MOUSE'
+7,6,362,706,0,0,0,320540582,13,'PIXART USB OPTICAL MOUSE'
+7,6,361,706,0,0,0,320540590,13,'PIXART USB OPTICAL MOUSE'
+7,6,359,706,0,0,0,320540598,13,'PIXART USB OPTICAL MOUSE'
+7,6,358,706,0,0,0,320540606,13,'PIXART USB OPTICAL MOUSE'
+7,6,357,706,0,0,0,320540622,13,'PIXART USB OPTICAL MOUSE'
+7,6,356,706,0,0,0,320540638,13,'PIXART USB OPTICAL MOUSE'
+7,6,354,706,0,0,0,320540646,13,'PIXART USB OPTICAL MOUSE'
+7,6,353,706,0,0,0,320540654,13,'PIXART USB OPTICAL MOUSE'
+7,6,351,706,0,0,0,320540662,13,'PIXART USB OPTICAL MOUSE'
+7,6,349,706,0,0,0,320540670,13,'PIXART USB OPTICAL MOUSE'
+7,6,345,704,0,0,0,320540678,13,'PIXART USB OPTICAL MOUSE'
+7,6,343,704,0,0,0,320540686,13,'PIXART USB OPTICAL MOUSE'
+7,6,341,704,0,0,0,320540694,13,'PIXART USB OPTICAL MOUSE'
+7,6,338,703,0,0,0,320540702,13,'PIXART USB OPTICAL MOUSE'
+7,6,337,703,0,0,0,320540710,13,'PIXART USB OPTICAL MOUSE'
+7,6,336,703,0,0,0,320540718,13,'PIXART USB OPTICAL MOUSE'
+7,6,334,703,0,0,0,320540734,13,'PIXART USB OPTICAL MOUSE'
+7,6,333,703,0,0,0,320540758,13,'PIXART USB OPTICAL MOUSE'
+7,6,332,702,0,0,0,320540774,13,'PIXART USB OPTICAL MOUSE'
+7,6,331,702,0,0,0,320540782,13,'PIXART USB OPTICAL MOUSE'
+7,6,329,702,0,0,0,320540790,13,'PIXART USB OPTICAL MOUSE'
+7,6,328,701,0,0,0,320540806,13,'PIXART USB OPTICAL MOUSE'
+7,6,327,701,0,0,0,320540814,13,'PIXART USB OPTICAL MOUSE'
+7,6,326,701,0,0,0,320540830,13,'PIXART USB OPTICAL MOUSE'
+7,6,324,699,0,0,0,320540846,13,'PIXART USB OPTICAL MOUSE'
+7,6,323,699,0,0,0,320540854,13,'PIXART USB OPTICAL MOUSE'
+7,6,322,699,0,0,0,320540870,13,'PIXART USB OPTICAL MOUSE'
+7,6,321,698,0,0,0,320541166,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,699,0,0,0,320541510,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,699,0,0,0,320541518,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,700,0,0,0,320541526,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,701,0,0,0,320541534,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,701,0,0,0,320541574,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,702,0,0,0,320541598,13,'PIXART USB OPTICAL MOUSE'
+7,6,320,703,0,0,0,320541614,13,'PIXART USB OPTICAL MOUSE'
+7,4,0,0,3,0,0,320542462,13,PIXART USB OPTICAL MOUSE
+6,4,0,0,3,0,0,320542462,2,Virtual core pointer
+7,5,0,0,3,0,0,320542646,13,PIXART USB OPTICAL MOUSE
+6,5,0,0,3,0,0,320542646,2,Virtual core pointer
+7,2,0,0,0,116,0,320543894,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320543894,3,Virtual core keyboard
+7,3,0,0,0,116,0,320543990,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320543990,3,Virtual core keyboard
+7,2,0,0,0,116,0,320544246,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,116,0,320544246,3,Virtual core keyboard
+7,3,0,0,0,116,0,320544342,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,116,0,320544342,3,Virtual core keyboard
+7,2,0,0,0,36,0,320545206,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,36,0,320545206,3,Virtual core keyboard
+0,21,0,0,0,0,0,320545229
+NEW-WINDOW:451,254:106954844,106954844,35158698,0,0,0:0x0+879+458:0,0:Exporting graph "Holme and Kim Model - 'nodes'=300 'm'=5 'p'=0.5 "
+0,21,0,0,0,0,0,320545229
+0,21,0,0,0,0,0,320545229
+0,21,0,0,0,0,0,320545229
+7,3,0,0,0,36,0,320545288,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,36,0,320545288,3,Virtual core keyboard
+7,2,0,0,0,28,0,320546478,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,28,0,320546478,3,Virtual core keyboard
+7,3,0,0,0,28,0,320546558,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,28,0,320546558,3,Virtual core keyboard
+7,2,0,0,0,26,0,320546710,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,26,0,320546710,3,Virtual core keyboard
+7,3,0,0,0,26,0,320546790,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,26,0,320546790,3,Virtual core keyboard
+7,2,0,0,0,39,0,320546926,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,39,0,320546926,3,Virtual core keyboard
+7,3,0,0,0,39,0,320546990,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,39,0,320546990,3,Virtual core keyboard
+7,2,0,0,0,28,0,320547182,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,28,0,320547182,3,Virtual core keyboard
+7,3,0,0,0,28,0,320547270,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,28,0,320547270,3,Virtual core keyboard
+7,2,0,0,0,17,0,320547358,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,17,0,320547358,3,Virtual core keyboard
+7,3,0,0,0,17,0,320547454,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,17,0,320547454,3,Virtual core keyboard
+7,2,0,0,0,42,0,320547710,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,42,0,320547710,3,Virtual core keyboard
+7,2,0,0,0,30,0,320547790,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,30,0,320547790,3,Virtual core keyboard
+7,3,0,0,0,42,0,320547822,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,42,0,320547822,3,Virtual core keyboard
+7,2,0,0,0,31,0,320547862,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,31,0,320547862,3,Virtual core keyboard
+7,3,0,0,0,30,0,320547926,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,30,0,320547926,3,Virtual core keyboard
+7,3,0,0,0,31,0,320547966,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,31,0,320547966,3,Virtual core keyboard
+7,2,0,0,0,62,0,320548422,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,62,0,320548422,3,Virtual core keyboard
+7,2,0,0,0,59,0,320548806,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,59,0,320548806,3,Virtual core keyboard
+7,3,0,0,0,59,0,320548902,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,59,0,320548902,3,Virtual core keyboard
+7,3,0,0,0,62,0,320548950,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,62,0,320548950,3,Virtual core keyboard
+7,2,0,0,0,28,0,320549230,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,28,0,320549230,3,Virtual core keyboard
+7,2,0,0,0,46,0,320549310,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,46,0,320549310,3,Virtual core keyboard
+7,3,0,0,0,28,0,320549350,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,28,0,320549350,3,Virtual core keyboard
+7,2,0,0,0,33,0,320549382,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,33,0,320549382,3,Virtual core keyboard
+7,3,0,0,0,46,0,320549438,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,46,0,320549438,3,Virtual core keyboard
+7,3,0,0,0,33,0,320549494,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,33,0,320549494,3,Virtual core keyboard
+7,2,0,0,0,36,0,320549958,12,Dell Dell QuietKey Keyboard
+6,2,0,0,0,36,0,320549958,3,Virtual core keyboard
+0,21,0,0,0,0,0,320549984
+NEW-WINDOW:640,462:106954849,106954849,35158801,0,0,0:0x0+500+42:0,0:TLP Export
+0,21,0,0,0,0,0,320549984
+0,21,0,0,0,0,0,320549984
+0,21,0,0,0,0,0,320549984
+0,21,0,0,0,0,0,320550000
+NEW-WINDOW:8663392,0:106954849,106954849,398,0,0,0:1965191056x32767+-250982983+32562:1965191056,1965191056:
+0,21,0,0,0,0,0,320550000
+0,21,0,0,0,0,0,320550000
+0,21,0,0,0,0,0,320550000
+0,21,0,0,0,0,0,320550000
+7,3,0,0,0,36,0,320550022,12,Dell Dell QuietKey Keyboard
+6,3,0,0,0,36,0,320550022,3,Virtual core keyboard

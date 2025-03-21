@@ -1,0 +1,894 @@
+####################################
+#         System information       #
+####################################
+# Date:                   2020:06:30 
+# Time:                   10:08:40 
+# Xnee program:           cnee 
+# Xnee version:           3.19 
+# Xnee home:              http://www.gnu.org/software/xnee/ 
+# Xnee info mailing list: info-xnee@gnu.org 
+# Xnee bug mailing list:  bug-xnee@gnu.org 
+# X version:              11 
+# X revision:             0 
+# X vendor:               The X.Org Foundation 
+# X vendor release:       11906000 
+# Record version major:   1
+# Record version minor:   13
+# OS name:                Linux 
+# OS Release:             4.15.0-108-generic 
+# OS Version:             #109-Ubuntu SMP Fri Jun 19 11:33:10 UTC 2020 
+# Machine:                x86_64 
+# Nodename:               tulip-Precision-5810 
+# Display name:           :1
+# Dimension:              1920x1080
+
+
+
+##############################################
+#      Xnee application arguments            #
+##############################################
+#  /usr/bin/cnee -rec -etr -1 --keyboard --mouse -sk End -o gexf.xns 
+
+
+##############################################
+#      Displays                              #
+##############################################
+# display :1
+# distribute
+
+
+##############################################
+#      Files                                 #
+##############################################
+# out-file gexf.xns
+# err-file stderr
+
+
+##############################################
+#      Key Grabs                             #
+##############################################
+# stop-key         End
+# pause-key        0
+# resume-key       0
+# insert-key       0
+# exec-key         0
+# exec-program-key         xnee-exec-no-program
+
+
+##############################################
+#      Recording limits etc                  #
+##############################################
+
+events-to-record        -1
+data-to-record          -1
+seconds-to-record       -1
+# first-last
+
+# Record  all (including current) clients or only future ones
+all-clients
+# future-clients
+
+# Store the starting mouse position 
+# store-mouse-position
+
+
+##############################################
+#      Resolution                            #
+##############################################
+
+# Resolution
+#recorded-resolution  1920x1080
+#replay-resolution  1x1
+#resolution-adjustment  0
+
+
+##############################################
+#      Speed                                 #
+##############################################
+
+# Speed
+#speed-percent  100
+
+
+##############################################
+#      Replaying limits etc                  #
+##############################################
+
+max-threshold 20 
+min-threshold 20 
+tot-threshold 40 
+
+
+##############################################
+#      Feedback                              #
+##############################################
+#feedback-none
+#feedback-stderr
+feedback-xosd
+ 
+
+
+##############################################
+#      Various                               #
+##############################################
+
+# Plugin file 
+
+# Modes (currently not used)
+# synchronised-replay
+
+# Replay offset
+#replay-offset 0x0
+
+# Human printout of X11 data (instead of Xnee format)
+# human-printout  
+
+# Delay before starting record/replay
+# time 0
+
+# No recording of ReparentNotify
+# no-reparent-recording 
+
+# Various
+#########################################
+#          Record settings              #
+#########################################
+#   data_flags          7
+#   rState              0x562e5659d270
+#   xids[0]             3
+#   xids[1]             0
+# Number of Ranges      2
+# RecordRange[0]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         21-21 
+device-event-range            2-6 
+error-range                   0-0 
+# RecordRange[1]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         0-0 
+device-event-range            66-71 
+error-range                   0-0 
+7,2,0,0,0,37,0,7026458,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,37,0,7026458,3,Virtual core keyboard
+7,2,0,0,0,50,0,7026618,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,50,0,7026618,3,Virtual core keyboard
+7,2,0,0,0,32,0,7026810,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,32,0,7026810,3,Virtual core keyboard
+7,3,0,0,0,50,0,7026826,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,50,0,7026826,3,Virtual core keyboard
+0,21,0,0,0,0,0,7026842
+NEW-WINDOW:451,254:92274715,92274715,27445724,0,0,0:0x0+879+458:0,0:Import
+0,21,0,0,0,0,0,7026842
+0,21,0,0,0,0,0,7026842
+7,3,0,0,0,37,0,7026867,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,37,0,7026867,3,Virtual core keyboard
+7,3,0,0,0,32,0,7026874,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,32,0,7026874,3,Virtual core keyboard
+7,2,0,0,0,116,0,7028490,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7028490,3,Virtual core keyboard
+7,3,0,0,0,116,0,7028586,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7028586,3,Virtual core keyboard
+7,2,0,0,0,116,0,7028826,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7028826,3,Virtual core keyboard
+7,3,0,0,0,116,0,7028906,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7028906,3,Virtual core keyboard
+7,2,0,0,0,116,0,7029322,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7029322,3,Virtual core keyboard
+7,3,0,0,0,116,0,7029418,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7029418,3,Virtual core keyboard
+7,2,0,0,0,116,0,7029738,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7029738,3,Virtual core keyboard
+7,3,0,0,0,116,0,7029834,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7029834,3,Virtual core keyboard
+7,6,229,709,0,0,0,7031546,10,'Logitech USB Optical Mouse'
+7,6,231,709,0,0,0,7031554,10,'Logitech USB Optical Mouse'
+7,6,238,707,0,0,0,7031562,10,'Logitech USB Optical Mouse'
+7,6,253,705,0,0,0,7031570,10,'Logitech USB Optical Mouse'
+7,6,270,703,0,0,0,7031578,10,'Logitech USB Optical Mouse'
+7,6,284,701,0,0,0,7031586,10,'Logitech USB Optical Mouse'
+7,6,293,701,0,0,0,7031594,10,'Logitech USB Optical Mouse'
+7,6,297,700,0,0,0,7031602,10,'Logitech USB Optical Mouse'
+7,6,300,698,0,0,0,7031610,10,'Logitech USB Optical Mouse'
+7,6,303,698,0,0,0,7031618,10,'Logitech USB Optical Mouse'
+7,6,306,697,0,0,0,7031626,10,'Logitech USB Optical Mouse'
+7,6,307,696,0,0,0,7031634,10,'Logitech USB Optical Mouse'
+7,6,308,696,0,0,0,7031642,10,'Logitech USB Optical Mouse'
+7,6,311,695,0,0,0,7031650,10,'Logitech USB Optical Mouse'
+7,6,313,693,0,0,0,7031658,10,'Logitech USB Optical Mouse'
+7,6,315,692,0,0,0,7031666,10,'Logitech USB Optical Mouse'
+7,6,317,689,0,0,0,7031674,10,'Logitech USB Optical Mouse'
+7,6,320,689,0,0,0,7031682,10,'Logitech USB Optical Mouse'
+7,6,325,687,0,0,0,7031690,10,'Logitech USB Optical Mouse'
+7,6,332,686,0,0,0,7031698,10,'Logitech USB Optical Mouse'
+7,6,337,683,0,0,0,7031706,10,'Logitech USB Optical Mouse'
+7,6,343,681,0,0,0,7031714,10,'Logitech USB Optical Mouse'
+7,6,351,678,0,0,0,7031722,10,'Logitech USB Optical Mouse'
+7,6,360,677,0,0,0,7031730,10,'Logitech USB Optical Mouse'
+7,6,365,673,0,0,0,7031738,10,'Logitech USB Optical Mouse'
+7,6,373,670,0,0,0,7031746,10,'Logitech USB Optical Mouse'
+7,6,380,669,0,0,0,7031754,10,'Logitech USB Optical Mouse'
+7,6,386,666,0,0,0,7031762,10,'Logitech USB Optical Mouse'
+7,6,392,662,0,0,0,7031770,10,'Logitech USB Optical Mouse'
+7,6,398,660,0,0,0,7031778,10,'Logitech USB Optical Mouse'
+7,6,405,656,0,0,0,7031786,10,'Logitech USB Optical Mouse'
+7,6,411,652,0,0,0,7031794,10,'Logitech USB Optical Mouse'
+7,6,418,649,0,0,0,7031802,10,'Logitech USB Optical Mouse'
+7,6,424,645,0,0,0,7031810,10,'Logitech USB Optical Mouse'
+7,6,431,641,0,0,0,7031818,10,'Logitech USB Optical Mouse'
+7,6,439,639,0,0,0,7031826,10,'Logitech USB Optical Mouse'
+7,6,447,635,0,0,0,7031834,10,'Logitech USB Optical Mouse'
+7,6,458,628,0,0,0,7031842,10,'Logitech USB Optical Mouse'
+7,6,471,621,0,0,0,7031850,10,'Logitech USB Optical Mouse'
+7,6,484,614,0,0,0,7031858,10,'Logitech USB Optical Mouse'
+7,6,497,609,0,0,0,7031866,10,'Logitech USB Optical Mouse'
+7,6,510,603,0,0,0,7031874,10,'Logitech USB Optical Mouse'
+7,6,523,600,0,0,0,7031882,10,'Logitech USB Optical Mouse'
+7,6,534,594,0,0,0,7031890,10,'Logitech USB Optical Mouse'
+7,6,545,587,0,0,0,7031898,10,'Logitech USB Optical Mouse'
+7,6,555,583,0,0,0,7031906,10,'Logitech USB Optical Mouse'
+7,6,571,574,0,0,0,7031914,10,'Logitech USB Optical Mouse'
+7,6,586,568,0,0,0,7031922,10,'Logitech USB Optical Mouse'
+7,6,604,561,0,0,0,7031930,10,'Logitech USB Optical Mouse'
+7,6,618,554,0,0,0,7031938,10,'Logitech USB Optical Mouse'
+7,6,631,548,0,0,0,7031946,10,'Logitech USB Optical Mouse'
+7,6,647,541,0,0,0,7031954,10,'Logitech USB Optical Mouse'
+7,6,661,534,0,0,0,7031962,10,'Logitech USB Optical Mouse'
+7,6,680,526,0,0,0,7031970,10,'Logitech USB Optical Mouse'
+7,6,696,517,0,0,0,7031978,10,'Logitech USB Optical Mouse'
+7,6,711,512,0,0,0,7031986,10,'Logitech USB Optical Mouse'
+7,6,727,506,0,0,0,7031994,10,'Logitech USB Optical Mouse'
+7,6,742,501,0,0,0,7032002,10,'Logitech USB Optical Mouse'
+7,6,756,497,0,0,0,7032010,10,'Logitech USB Optical Mouse'
+7,6,773,494,0,0,0,7032018,10,'Logitech USB Optical Mouse'
+7,6,785,490,0,0,0,7032026,10,'Logitech USB Optical Mouse'
+7,6,798,486,0,0,0,7032034,10,'Logitech USB Optical Mouse'
+7,6,809,484,0,0,0,7032042,10,'Logitech USB Optical Mouse'
+7,6,821,481,0,0,0,7032050,10,'Logitech USB Optical Mouse'
+7,6,831,478,0,0,0,7032058,10,'Logitech USB Optical Mouse'
+7,6,842,476,0,0,0,7032066,10,'Logitech USB Optical Mouse'
+7,6,852,472,0,0,0,7032074,10,'Logitech USB Optical Mouse'
+7,6,867,469,0,0,0,7032082,10,'Logitech USB Optical Mouse'
+7,6,878,469,0,0,0,7032090,10,'Logitech USB Optical Mouse'
+7,6,889,466,0,0,0,7032098,10,'Logitech USB Optical Mouse'
+7,6,902,463,0,0,0,7032106,10,'Logitech USB Optical Mouse'
+7,6,912,461,0,0,0,7032114,10,'Logitech USB Optical Mouse'
+7,6,920,458,0,0,0,7032122,10,'Logitech USB Optical Mouse'
+7,6,926,458,0,0,0,7032130,10,'Logitech USB Optical Mouse'
+7,6,929,457,0,0,0,7032138,10,'Logitech USB Optical Mouse'
+7,6,931,455,0,0,0,7032146,10,'Logitech USB Optical Mouse'
+7,6,934,454,0,0,0,7032154,10,'Logitech USB Optical Mouse'
+7,6,937,454,0,0,0,7032162,10,'Logitech USB Optical Mouse'
+7,6,939,454,0,0,0,7032170,10,'Logitech USB Optical Mouse'
+7,6,943,454,0,0,0,7032178,10,'Logitech USB Optical Mouse'
+7,6,947,454,0,0,0,7032186,10,'Logitech USB Optical Mouse'
+7,6,948,454,0,0,0,7032194,10,'Logitech USB Optical Mouse'
+7,6,951,454,0,0,0,7032202,10,'Logitech USB Optical Mouse'
+7,6,954,454,0,0,0,7032210,10,'Logitech USB Optical Mouse'
+7,6,956,454,0,0,0,7032218,10,'Logitech USB Optical Mouse'
+7,6,958,454,0,0,0,7032226,10,'Logitech USB Optical Mouse'
+7,6,959,454,0,0,0,7032234,10,'Logitech USB Optical Mouse'
+7,6,960,453,0,0,0,7032250,10,'Logitech USB Optical Mouse'
+7,6,961,452,0,0,0,7032258,10,'Logitech USB Optical Mouse'
+7,6,963,451,0,0,0,7032266,10,'Logitech USB Optical Mouse'
+7,6,963,450,0,0,0,7032274,10,'Logitech USB Optical Mouse'
+7,6,964,450,0,0,0,7032298,10,'Logitech USB Optical Mouse'
+7,4,0,0,1,0,0,7032538,10,Logitech USB Optical Mouse
+6,4,0,0,1,0,0,7032538,2,Virtual core pointer
+7,5,0,0,1,0,0,7032710,10,Logitech USB Optical Mouse
+6,5,0,0,1,0,0,7032710,2,Virtual core pointer
+0,21,0,0,0,0,0,7032717
+NEW-WINDOW:815,291:92274725,92274725,27445762,0,0,0:0x0+523+400:0,0:Open
+0,21,0,0,0,0,0,7032717
+0,21,0,0,0,0,0,7032717
+7,6,965,449,0,0,0,7034466,10,'Logitech USB Optical Mouse'
+7,6,965,448,0,0,0,7034474,10,'Logitech USB Optical Mouse'
+7,6,965,446,0,0,0,7034482,10,'Logitech USB Optical Mouse'
+7,6,965,443,0,0,0,7034490,10,'Logitech USB Optical Mouse'
+7,6,965,442,0,0,0,7034498,10,'Logitech USB Optical Mouse'
+7,6,965,441,0,0,0,7034506,10,'Logitech USB Optical Mouse'
+7,6,965,440,0,0,0,7034514,10,'Logitech USB Optical Mouse'
+7,6,965,438,0,0,0,7034522,10,'Logitech USB Optical Mouse'
+7,6,965,437,0,0,0,7034530,10,'Logitech USB Optical Mouse'
+7,6,965,435,0,0,0,7034538,10,'Logitech USB Optical Mouse'
+7,6,965,434,0,0,0,7034546,10,'Logitech USB Optical Mouse'
+7,6,965,432,0,0,0,7034554,10,'Logitech USB Optical Mouse'
+7,6,965,431,0,0,0,7034562,10,'Logitech USB Optical Mouse'
+7,6,965,429,0,0,0,7034570,10,'Logitech USB Optical Mouse'
+7,6,965,428,0,0,0,7034578,10,'Logitech USB Optical Mouse'
+7,6,965,427,0,0,0,7034594,10,'Logitech USB Optical Mouse'
+7,6,965,425,0,0,0,7034602,10,'Logitech USB Optical Mouse'
+7,6,964,423,0,0,0,7034610,10,'Logitech USB Optical Mouse'
+7,6,964,422,0,0,0,7034618,10,'Logitech USB Optical Mouse'
+7,6,963,420,0,0,0,7034626,10,'Logitech USB Optical Mouse'
+7,6,963,418,0,0,0,7034634,10,'Logitech USB Optical Mouse'
+7,6,962,417,0,0,0,7034642,10,'Logitech USB Optical Mouse'
+7,6,962,415,0,0,0,7034650,10,'Logitech USB Optical Mouse'
+7,6,962,414,0,0,0,7034658,10,'Logitech USB Optical Mouse'
+7,6,962,412,0,0,0,7034666,10,'Logitech USB Optical Mouse'
+7,6,962,411,0,0,0,7034674,10,'Logitech USB Optical Mouse'
+7,6,962,410,0,0,0,7034682,10,'Logitech USB Optical Mouse'
+7,6,962,408,0,0,0,7034690,10,'Logitech USB Optical Mouse'
+7,6,962,407,0,0,0,7034698,10,'Logitech USB Optical Mouse'
+7,6,962,406,0,0,0,7034706,10,'Logitech USB Optical Mouse'
+7,6,962,405,0,0,0,7034714,10,'Logitech USB Optical Mouse'
+7,6,962,404,0,0,0,7034722,10,'Logitech USB Optical Mouse'
+7,6,962,402,0,0,0,7034738,10,'Logitech USB Optical Mouse'
+7,6,962,401,0,0,0,7034746,10,'Logitech USB Optical Mouse'
+7,6,962,400,0,0,0,7034754,10,'Logitech USB Optical Mouse'
+7,6,962,399,0,0,0,7034762,10,'Logitech USB Optical Mouse'
+7,6,962,398,0,0,0,7034770,10,'Logitech USB Optical Mouse'
+7,6,962,397,0,0,0,7034778,10,'Logitech USB Optical Mouse'
+7,6,962,396,0,0,0,7034786,10,'Logitech USB Optical Mouse'
+7,6,962,395,0,0,0,7034794,10,'Logitech USB Optical Mouse'
+7,6,962,393,0,0,0,7034802,10,'Logitech USB Optical Mouse'
+7,6,962,392,0,0,0,7034810,10,'Logitech USB Optical Mouse'
+7,6,962,390,0,0,0,7034818,10,'Logitech USB Optical Mouse'
+7,6,962,389,0,0,0,7034826,10,'Logitech USB Optical Mouse'
+7,6,962,388,0,0,0,7034842,10,'Logitech USB Optical Mouse'
+7,6,962,387,0,0,0,7034866,10,'Logitech USB Optical Mouse'
+7,6,962,386,0,0,0,7034890,10,'Logitech USB Optical Mouse'
+7,6,962,385,0,0,0,7034914,10,'Logitech USB Optical Mouse'
+7,6,962,384,0,0,0,7034938,10,'Logitech USB Optical Mouse'
+7,6,962,383,0,0,0,7034962,10,'Logitech USB Optical Mouse'
+7,6,962,382,0,0,0,7034986,10,'Logitech USB Optical Mouse'
+7,6,963,381,0,0,0,7035010,10,'Logitech USB Optical Mouse'
+7,6,963,380,0,0,0,7035034,10,'Logitech USB Optical Mouse'
+7,6,963,379,0,0,0,7035050,10,'Logitech USB Optical Mouse'
+7,6,963,378,0,0,0,7035058,10,'Logitech USB Optical Mouse'
+7,6,963,377,0,0,0,7035074,10,'Logitech USB Optical Mouse'
+7,6,963,376,0,0,0,7035082,10,'Logitech USB Optical Mouse'
+7,6,963,376,0,0,0,7035098,10,'Logitech USB Optical Mouse'
+7,6,963,375,0,0,0,7035138,10,'Logitech USB Optical Mouse'
+7,4,0,0,1,0,0,7035530,10,Logitech USB Optical Mouse
+6,4,0,0,1,0,0,7035530,2,Virtual core pointer
+7,5,0,0,1,0,0,7035646,10,Logitech USB Optical Mouse
+6,5,0,0,1,0,0,7035646,2,Virtual core pointer
+7,4,0,0,1,0,0,7035746,10,Logitech USB Optical Mouse
+6,4,0,0,1,0,0,7035746,2,Virtual core pointer
+7,5,0,0,1,0,0,7035894,10,Logitech USB Optical Mouse
+6,5,0,0,1,0,0,7035894,2,Virtual core pointer
+7,2,0,0,0,62,0,7037370,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,7037370,3,Virtual core keyboard
+7,2,0,0,0,52,0,7037722,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,52,0,7037722,3,Virtual core keyboard
+7,3,0,0,0,52,0,7037818,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,52,0,7037818,3,Virtual core keyboard
+7,3,0,0,0,62,0,7037994,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,7037994,3,Virtual core keyboard
+7,2,0,0,0,36,0,7039018,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,7039018,3,Virtual core keyboard
+7,3,0,0,0,36,0,7039098,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,7039098,3,Virtual core keyboard
+7,2,0,0,0,36,0,7039818,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,7039819,3,Virtual core keyboard
+0,21,0,0,0,0,0,7039867
+NEW-WINDOW:640,459:92274730,92274730,27445840,0,0,0:0x0+500+49:0,0:GEXF
+0,21,0,0,0,0,0,7039867
+0,21,0,0,0,0,0,7039867
+7,3,0,0,0,36,0,7039917,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,7039917,3,Virtual core keyboard
+0,21,0,0,0,0,0,7039933
+NEW-WINDOW:451,212:92274715,92274715,761,0,0,0:451x212+879+458:0,0:Import
+0,21,0,0,0,0,0,7039933
+0,21,0,0,0,0,0,7039933
+0,21,0,0,0,0,0,7039933
+0,21,0,0,0,0,0,7040067
+NEW-WINDOW:640,417:92274730,92274730,761,0,0,0:640x417+500+49:0,0:GEXF
+0,21,0,0,0,0,0,7040067
+0,21,0,0,0,0,0,7040067
+0,21,0,0,0,0,0,7040067
+7,6,963,374,0,0,0,7043714,10,'Logitech USB Optical Mouse'
+7,6,963,374,0,0,0,7043722,10,'Logitech USB Optical Mouse'
+7,6,959,374,0,0,0,7043730,10,'Logitech USB Optical Mouse'
+7,6,954,373,0,0,0,7043738,10,'Logitech USB Optical Mouse'
+7,6,946,372,0,0,0,7043746,10,'Logitech USB Optical Mouse'
+7,6,937,372,0,0,0,7043754,10,'Logitech USB Optical Mouse'
+7,6,929,370,0,0,0,7043762,10,'Logitech USB Optical Mouse'
+7,6,924,368,0,0,0,7043770,10,'Logitech USB Optical Mouse'
+7,6,916,365,0,0,0,7043778,10,'Logitech USB Optical Mouse'
+7,6,908,362,0,0,0,7043786,10,'Logitech USB Optical Mouse'
+7,6,902,360,0,0,0,7043794,10,'Logitech USB Optical Mouse'
+7,6,894,358,0,0,0,7043802,10,'Logitech USB Optical Mouse'
+7,6,887,356,0,0,0,7043810,10,'Logitech USB Optical Mouse'
+7,6,878,352,0,0,0,7043818,10,'Logitech USB Optical Mouse'
+7,6,871,350,0,0,0,7043826,10,'Logitech USB Optical Mouse'
+7,6,864,348,0,0,0,7043834,10,'Logitech USB Optical Mouse'
+7,6,857,345,0,0,0,7043842,10,'Logitech USB Optical Mouse'
+7,6,849,344,0,0,0,7043850,10,'Logitech USB Optical Mouse'
+7,6,843,344,0,0,0,7043858,10,'Logitech USB Optical Mouse'
+7,6,837,341,0,0,0,7043866,10,'Logitech USB Optical Mouse'
+7,6,832,341,0,0,0,7043874,10,'Logitech USB Optical Mouse'
+7,6,824,338,0,0,0,7043882,10,'Logitech USB Optical Mouse'
+7,6,816,337,0,0,0,7043890,10,'Logitech USB Optical Mouse'
+7,6,808,336,0,0,0,7043898,10,'Logitech USB Optical Mouse'
+7,6,801,334,0,0,0,7043906,10,'Logitech USB Optical Mouse'
+7,6,793,332,0,0,0,7043914,10,'Logitech USB Optical Mouse'
+7,6,785,329,0,0,0,7043922,10,'Logitech USB Optical Mouse'
+7,6,777,328,0,0,0,7043930,10,'Logitech USB Optical Mouse'
+7,6,771,325,0,0,0,7043938,10,'Logitech USB Optical Mouse'
+7,6,763,324,0,0,0,7043946,10,'Logitech USB Optical Mouse'
+7,6,754,321,0,0,0,7043954,10,'Logitech USB Optical Mouse'
+7,6,747,320,0,0,0,7043962,10,'Logitech USB Optical Mouse'
+7,6,739,316,0,0,0,7043970,10,'Logitech USB Optical Mouse'
+7,6,732,313,0,0,0,7043978,10,'Logitech USB Optical Mouse'
+7,6,727,310,0,0,0,7043986,10,'Logitech USB Optical Mouse'
+7,6,720,308,0,0,0,7043994,10,'Logitech USB Optical Mouse'
+7,6,710,305,0,0,0,7044002,10,'Logitech USB Optical Mouse'
+7,6,703,302,0,0,0,7044010,10,'Logitech USB Optical Mouse'
+7,6,695,299,0,0,0,7044018,10,'Logitech USB Optical Mouse'
+7,6,688,297,0,0,0,7044026,10,'Logitech USB Optical Mouse'
+7,6,679,292,0,0,0,7044034,10,'Logitech USB Optical Mouse'
+7,6,672,288,0,0,0,7044042,10,'Logitech USB Optical Mouse'
+7,6,661,286,0,0,0,7044050,10,'Logitech USB Optical Mouse'
+7,6,651,281,0,0,0,7044058,10,'Logitech USB Optical Mouse'
+7,6,642,278,0,0,0,7044066,10,'Logitech USB Optical Mouse'
+7,6,632,276,0,0,0,7044074,10,'Logitech USB Optical Mouse'
+7,6,621,271,0,0,0,7044082,10,'Logitech USB Optical Mouse'
+7,6,611,267,0,0,0,7044090,10,'Logitech USB Optical Mouse'
+7,6,597,261,0,0,0,7044098,10,'Logitech USB Optical Mouse'
+7,6,588,256,0,0,0,7044106,10,'Logitech USB Optical Mouse'
+7,6,579,253,0,0,0,7044114,10,'Logitech USB Optical Mouse'
+7,6,567,250,0,0,0,7044122,10,'Logitech USB Optical Mouse'
+7,6,558,246,0,0,0,7044130,10,'Logitech USB Optical Mouse'
+7,6,547,241,0,0,0,7044138,10,'Logitech USB Optical Mouse'
+7,6,537,239,0,0,0,7044146,10,'Logitech USB Optical Mouse'
+7,6,528,238,0,0,0,7044154,10,'Logitech USB Optical Mouse'
+7,6,520,236,0,0,0,7044162,10,'Logitech USB Optical Mouse'
+7,6,512,233,0,0,0,7044170,10,'Logitech USB Optical Mouse'
+7,6,503,229,0,0,0,7044178,10,'Logitech USB Optical Mouse'
+7,6,493,227,0,0,0,7044186,10,'Logitech USB Optical Mouse'
+7,6,484,223,0,0,0,7044194,10,'Logitech USB Optical Mouse'
+7,6,476,220,0,0,0,7044202,10,'Logitech USB Optical Mouse'
+7,6,466,215,0,0,0,7044210,10,'Logitech USB Optical Mouse'
+7,6,458,212,0,0,0,7044218,10,'Logitech USB Optical Mouse'
+7,6,450,209,0,0,0,7044226,10,'Logitech USB Optical Mouse'
+7,6,443,207,0,0,0,7044234,10,'Logitech USB Optical Mouse'
+7,6,435,204,0,0,0,7044242,10,'Logitech USB Optical Mouse'
+7,6,430,202,0,0,0,7044250,10,'Logitech USB Optical Mouse'
+7,6,422,200,0,0,0,7044258,10,'Logitech USB Optical Mouse'
+7,6,416,195,0,0,0,7044266,10,'Logitech USB Optical Mouse'
+7,6,411,194,0,0,0,7044274,10,'Logitech USB Optical Mouse'
+7,6,405,191,0,0,0,7044282,10,'Logitech USB Optical Mouse'
+7,6,400,187,0,0,0,7044290,10,'Logitech USB Optical Mouse'
+7,6,393,185,0,0,0,7044298,10,'Logitech USB Optical Mouse'
+7,6,388,182,0,0,0,7044306,10,'Logitech USB Optical Mouse'
+7,6,383,180,0,0,0,7044314,10,'Logitech USB Optical Mouse'
+7,6,381,178,0,0,0,7044322,10,'Logitech USB Optical Mouse'
+7,6,376,176,0,0,0,7044330,10,'Logitech USB Optical Mouse'
+7,6,372,176,0,0,0,7044338,10,'Logitech USB Optical Mouse'
+7,6,370,175,0,0,0,7044346,10,'Logitech USB Optical Mouse'
+7,6,367,173,0,0,0,7044354,10,'Logitech USB Optical Mouse'
+7,6,364,172,0,0,0,7044362,10,'Logitech USB Optical Mouse'
+7,6,363,171,0,0,0,7044370,10,'Logitech USB Optical Mouse'
+7,6,360,171,0,0,0,7044378,10,'Logitech USB Optical Mouse'
+7,6,358,171,0,0,0,7044386,10,'Logitech USB Optical Mouse'
+7,6,357,170,0,0,0,7044394,10,'Logitech USB Optical Mouse'
+7,6,354,169,0,0,0,7044402,10,'Logitech USB Optical Mouse'
+7,6,351,168,0,0,0,7044410,10,'Logitech USB Optical Mouse'
+7,6,349,167,0,0,0,7044418,10,'Logitech USB Optical Mouse'
+7,6,346,165,0,0,0,7044426,10,'Logitech USB Optical Mouse'
+7,6,344,165,0,0,0,7044434,10,'Logitech USB Optical Mouse'
+7,6,341,163,0,0,0,7044442,10,'Logitech USB Optical Mouse'
+7,6,339,162,0,0,0,7044450,10,'Logitech USB Optical Mouse'
+7,6,337,160,0,0,0,7044458,10,'Logitech USB Optical Mouse'
+7,6,334,159,0,0,0,7044466,10,'Logitech USB Optical Mouse'
+7,6,332,158,0,0,0,7044474,10,'Logitech USB Optical Mouse'
+7,6,330,157,0,0,0,7044482,10,'Logitech USB Optical Mouse'
+7,6,328,156,0,0,0,7044490,10,'Logitech USB Optical Mouse'
+7,6,326,155,0,0,0,7044498,10,'Logitech USB Optical Mouse'
+7,6,325,154,0,0,0,7044506,10,'Logitech USB Optical Mouse'
+7,6,324,153,0,0,0,7044514,10,'Logitech USB Optical Mouse'
+7,6,322,152,0,0,0,7044522,10,'Logitech USB Optical Mouse'
+7,6,321,151,0,0,0,7044530,10,'Logitech USB Optical Mouse'
+7,6,320,151,0,0,0,7044538,10,'Logitech USB Optical Mouse'
+7,6,319,150,0,0,0,7044546,10,'Logitech USB Optical Mouse'
+7,6,317,149,0,0,0,7044554,10,'Logitech USB Optical Mouse'
+7,6,316,148,0,0,0,7044562,10,'Logitech USB Optical Mouse'
+7,6,315,147,0,0,0,7044570,10,'Logitech USB Optical Mouse'
+7,6,313,146,0,0,0,7044578,10,'Logitech USB Optical Mouse'
+7,6,312,145,0,0,0,7044586,10,'Logitech USB Optical Mouse'
+7,6,310,144,0,0,0,7044594,10,'Logitech USB Optical Mouse'
+7,6,309,143,0,0,0,7044610,10,'Logitech USB Optical Mouse'
+7,6,308,142,0,0,0,7044626,10,'Logitech USB Optical Mouse'
+7,6,308,141,0,0,0,7044634,10,'Logitech USB Optical Mouse'
+7,6,307,141,0,0,0,7044642,10,'Logitech USB Optical Mouse'
+7,6,306,140,0,0,0,7044674,10,'Logitech USB Optical Mouse'
+7,6,306,139,0,0,0,7044730,10,'Logitech USB Optical Mouse'
+7,6,305,139,0,0,0,7044778,10,'Logitech USB Optical Mouse'
+7,4,0,0,1,0,0,7045050,10,Logitech USB Optical Mouse
+6,4,0,0,1,0,0,7045050,2,Virtual core pointer
+7,5,0,0,1,0,0,7045238,10,Logitech USB Optical Mouse
+6,5,0,0,1,0,0,7045238,2,Virtual core pointer
+7,2,0,0,0,42,0,7046330,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,7046331,3,Virtual core keyboard
+7,3,0,0,0,42,0,7046394,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,7046394,3,Virtual core keyboard
+7,2,0,0,0,27,0,7046634,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,27,0,7046635,3,Virtual core keyboard
+7,3,0,0,0,27,0,7046730,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,27,0,7046730,3,Virtual core keyboard
+7,2,0,0,0,31,0,7046810,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,31,0,7046811,3,Virtual core keyboard
+7,2,0,0,0,33,0,7047002,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,33,0,7047002,3,Virtual core keyboard
+7,3,0,0,0,31,0,7047034,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,31,0,7047034,3,Virtual core keyboard
+7,3,0,0,0,33,0,7047162,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,33,0,7047162,3,Virtual core keyboard
+7,6,305,138,0,0,0,7048386,10,'Logitech USB Optical Mouse'
+7,6,304,138,0,0,0,7048394,10,'Logitech USB Optical Mouse'
+7,6,303,140,0,0,0,7048402,10,'Logitech USB Optical Mouse'
+7,6,302,142,0,0,0,7048410,10,'Logitech USB Optical Mouse'
+7,6,302,145,0,0,0,7048418,10,'Logitech USB Optical Mouse'
+7,6,301,147,0,0,0,7048426,10,'Logitech USB Optical Mouse'
+7,6,300,150,0,0,0,7048434,10,'Logitech USB Optical Mouse'
+7,6,299,152,0,0,0,7048442,10,'Logitech USB Optical Mouse'
+7,6,299,155,0,0,0,7048450,10,'Logitech USB Optical Mouse'
+7,6,298,158,0,0,0,7048458,10,'Logitech USB Optical Mouse'
+7,6,298,160,0,0,0,7048466,10,'Logitech USB Optical Mouse'
+7,6,296,162,0,0,0,7048474,10,'Logitech USB Optical Mouse'
+7,6,295,163,0,0,0,7048482,10,'Logitech USB Optical Mouse'
+7,6,295,164,0,0,0,7048490,10,'Logitech USB Optical Mouse'
+7,6,295,165,0,0,0,7048498,10,'Logitech USB Optical Mouse'
+7,6,295,167,0,0,0,7048506,10,'Logitech USB Optical Mouse'
+7,6,294,168,0,0,0,7048514,10,'Logitech USB Optical Mouse'
+7,6,294,170,0,0,0,7048522,10,'Logitech USB Optical Mouse'
+7,6,294,171,0,0,0,7048530,10,'Logitech USB Optical Mouse'
+7,6,294,173,0,0,0,7048538,10,'Logitech USB Optical Mouse'
+7,6,294,174,0,0,0,7048546,10,'Logitech USB Optical Mouse'
+7,6,294,176,0,0,0,7048554,10,'Logitech USB Optical Mouse'
+7,6,294,177,0,0,0,7048562,10,'Logitech USB Optical Mouse'
+7,6,294,179,0,0,0,7048570,10,'Logitech USB Optical Mouse'
+7,6,293,182,0,0,0,7048578,10,'Logitech USB Optical Mouse'
+7,6,293,184,0,0,0,7048586,10,'Logitech USB Optical Mouse'
+7,6,293,186,0,0,0,7048594,10,'Logitech USB Optical Mouse'
+7,6,293,188,0,0,0,7048602,10,'Logitech USB Optical Mouse'
+7,6,292,189,0,0,0,7048610,10,'Logitech USB Optical Mouse'
+7,6,292,191,0,0,0,7048626,10,'Logitech USB Optical Mouse'
+7,6,292,192,0,0,0,7048634,10,'Logitech USB Optical Mouse'
+7,6,291,193,0,0,0,7048650,10,'Logitech USB Optical Mouse'
+7,6,291,194,0,0,0,7048658,10,'Logitech USB Optical Mouse'
+7,6,290,195,0,0,0,7048666,10,'Logitech USB Optical Mouse'
+7,6,290,196,0,0,0,7048682,10,'Logitech USB Optical Mouse'
+7,6,290,197,0,0,0,7048690,10,'Logitech USB Optical Mouse'
+7,6,290,198,0,0,0,7048698,10,'Logitech USB Optical Mouse'
+7,6,289,199,0,0,0,7048706,10,'Logitech USB Optical Mouse'
+7,6,289,200,0,0,0,7048714,10,'Logitech USB Optical Mouse'
+7,6,289,201,0,0,0,7048722,10,'Logitech USB Optical Mouse'
+7,6,289,203,0,0,0,7048730,10,'Logitech USB Optical Mouse'
+7,6,289,204,0,0,0,7048738,10,'Logitech USB Optical Mouse'
+7,6,289,206,0,0,0,7048746,10,'Logitech USB Optical Mouse'
+7,6,289,207,0,0,0,7048754,10,'Logitech USB Optical Mouse'
+7,6,289,209,0,0,0,7048762,10,'Logitech USB Optical Mouse'
+7,6,288,210,0,0,0,7048770,10,'Logitech USB Optical Mouse'
+7,6,288,211,0,0,0,7048786,10,'Logitech USB Optical Mouse'
+7,6,288,212,0,0,0,7048810,10,'Logitech USB Optical Mouse'
+7,6,288,213,0,0,0,7048818,10,'Logitech USB Optical Mouse'
+7,6,288,214,0,0,0,7048834,10,'Logitech USB Optical Mouse'
+7,6,288,215,0,0,0,7048842,10,'Logitech USB Optical Mouse'
+7,6,288,216,0,0,0,7048858,10,'Logitech USB Optical Mouse'
+7,6,288,217,0,0,0,7048874,10,'Logitech USB Optical Mouse'
+7,6,288,218,0,0,0,7048898,10,'Logitech USB Optical Mouse'
+7,6,288,219,0,0,0,7048914,10,'Logitech USB Optical Mouse'
+7,6,288,220,0,0,0,7048946,10,'Logitech USB Optical Mouse'
+7,6,288,221,0,0,0,7048962,10,'Logitech USB Optical Mouse'
+7,6,288,222,0,0,0,7049002,10,'Logitech USB Optical Mouse'
+7,6,288,223,0,0,0,7049026,10,'Logitech USB Optical Mouse'
+7,6,288,224,0,0,0,7049114,10,'Logitech USB Optical Mouse'
+7,6,288,225,0,0,0,7049130,10,'Logitech USB Optical Mouse'
+7,6,288,225,0,0,0,7049138,10,'Logitech USB Optical Mouse'
+7,6,287,225,0,0,0,7049170,10,'Logitech USB Optical Mouse'
+7,4,0,0,1,0,0,7049370,10,Logitech USB Optical Mouse
+6,4,0,0,1,0,0,7049370,2,Virtual core pointer
+7,5,0,0,1,0,0,7049502,10,Logitech USB Optical Mouse
+6,5,0,0,1,0,0,7049502,2,Virtual core pointer
+0,21,0,0,0,0,0,7049524
+NEW-WINDOW:640,448:92274768,92274768,27445955,0,0,0:0x0+500+71:0,0:GRIP
+0,21,0,0,0,0,0,7049524
+0,21,0,0,0,0,0,7049524
+7,6,287,226,0,0,0,7051882,10,'Logitech USB Optical Mouse'
+7,6,287,227,0,0,0,7051890,10,'Logitech USB Optical Mouse'
+7,6,285,231,0,0,0,7051898,10,'Logitech USB Optical Mouse'
+7,6,284,235,0,0,0,7051906,10,'Logitech USB Optical Mouse'
+7,6,283,239,0,0,0,7051914,10,'Logitech USB Optical Mouse'
+7,6,281,243,0,0,0,7051922,10,'Logitech USB Optical Mouse'
+7,6,280,248,0,0,0,7051930,10,'Logitech USB Optical Mouse'
+7,6,280,252,0,0,0,7051938,10,'Logitech USB Optical Mouse'
+7,6,279,257,0,0,0,7051946,10,'Logitech USB Optical Mouse'
+7,6,278,261,0,0,0,7051954,10,'Logitech USB Optical Mouse'
+7,6,278,265,0,0,0,7051962,10,'Logitech USB Optical Mouse'
+7,6,276,270,0,0,0,7051970,10,'Logitech USB Optical Mouse'
+7,6,275,274,0,0,0,7051978,10,'Logitech USB Optical Mouse'
+7,6,273,279,0,0,0,7051986,10,'Logitech USB Optical Mouse'
+7,6,272,283,0,0,0,7051994,10,'Logitech USB Optical Mouse'
+7,6,271,288,0,0,0,7052002,10,'Logitech USB Optical Mouse'
+7,6,270,293,0,0,0,7052010,10,'Logitech USB Optical Mouse'
+7,6,267,299,0,0,0,7052018,10,'Logitech USB Optical Mouse'
+7,6,266,306,0,0,0,7052026,10,'Logitech USB Optical Mouse'
+7,6,264,311,0,0,0,7052034,10,'Logitech USB Optical Mouse'
+7,6,263,318,0,0,0,7052042,10,'Logitech USB Optical Mouse'
+7,6,260,321,0,0,0,7052050,10,'Logitech USB Optical Mouse'
+7,6,258,326,0,0,0,7052058,10,'Logitech USB Optical Mouse'
+7,6,257,331,0,0,0,7052066,10,'Logitech USB Optical Mouse'
+7,6,255,337,0,0,0,7052074,10,'Logitech USB Optical Mouse'
+7,6,253,341,0,0,0,7052082,10,'Logitech USB Optical Mouse'
+7,6,252,347,0,0,0,7052090,10,'Logitech USB Optical Mouse'
+7,6,252,352,0,0,0,7052098,10,'Logitech USB Optical Mouse'
+7,6,251,358,0,0,0,7052106,10,'Logitech USB Optical Mouse'
+7,6,250,362,0,0,0,7052114,10,'Logitech USB Optical Mouse'
+7,6,249,367,0,0,0,7052122,10,'Logitech USB Optical Mouse'
+7,6,249,373,0,0,0,7052130,10,'Logitech USB Optical Mouse'
+7,6,249,377,0,0,0,7052138,10,'Logitech USB Optical Mouse'
+7,6,247,382,0,0,0,7052146,10,'Logitech USB Optical Mouse'
+7,6,246,386,0,0,0,7052154,10,'Logitech USB Optical Mouse'
+7,6,245,390,0,0,0,7052162,10,'Logitech USB Optical Mouse'
+7,6,244,393,0,0,0,7052170,10,'Logitech USB Optical Mouse'
+7,6,243,397,0,0,0,7052178,10,'Logitech USB Optical Mouse'
+7,6,242,401,0,0,0,7052186,10,'Logitech USB Optical Mouse'
+7,6,239,406,0,0,0,7052194,10,'Logitech USB Optical Mouse'
+7,6,237,410,0,0,0,7052202,10,'Logitech USB Optical Mouse'
+7,6,237,416,0,0,0,7052210,10,'Logitech USB Optical Mouse'
+7,6,237,421,0,0,0,7052218,10,'Logitech USB Optical Mouse'
+7,6,235,424,0,0,0,7052226,10,'Logitech USB Optical Mouse'
+7,6,235,428,0,0,0,7052234,10,'Logitech USB Optical Mouse'
+7,6,235,431,0,0,0,7052242,10,'Logitech USB Optical Mouse'
+7,6,235,435,0,0,0,7052250,10,'Logitech USB Optical Mouse'
+7,6,235,438,0,0,0,7052258,10,'Logitech USB Optical Mouse'
+7,6,235,440,0,0,0,7052266,10,'Logitech USB Optical Mouse'
+7,6,235,443,0,0,0,7052274,10,'Logitech USB Optical Mouse'
+7,6,235,446,0,0,0,7052282,10,'Logitech USB Optical Mouse'
+7,6,235,449,0,0,0,7052290,10,'Logitech USB Optical Mouse'
+7,6,235,453,0,0,0,7052298,10,'Logitech USB Optical Mouse'
+7,6,235,457,0,0,0,7052306,10,'Logitech USB Optical Mouse'
+7,6,235,461,0,0,0,7052314,10,'Logitech USB Optical Mouse'
+7,6,235,465,0,0,0,7052322,10,'Logitech USB Optical Mouse'
+7,6,235,470,0,0,0,7052330,10,'Logitech USB Optical Mouse'
+7,6,235,473,0,0,0,7052338,10,'Logitech USB Optical Mouse'
+7,6,235,478,0,0,0,7052346,10,'Logitech USB Optical Mouse'
+7,6,235,483,0,0,0,7052354,10,'Logitech USB Optical Mouse'
+7,6,235,487,0,0,0,7052362,10,'Logitech USB Optical Mouse'
+7,6,235,491,0,0,0,7052370,10,'Logitech USB Optical Mouse'
+7,6,236,496,0,0,0,7052378,10,'Logitech USB Optical Mouse'
+7,6,237,499,0,0,0,7052386,10,'Logitech USB Optical Mouse'
+7,6,237,503,0,0,0,7052394,10,'Logitech USB Optical Mouse'
+7,6,237,506,0,0,0,7052402,10,'Logitech USB Optical Mouse'
+7,6,238,509,0,0,0,7052410,10,'Logitech USB Optical Mouse'
+7,6,239,512,0,0,0,7052418,10,'Logitech USB Optical Mouse'
+7,6,239,515,0,0,0,7052426,10,'Logitech USB Optical Mouse'
+7,6,239,519,0,0,0,7052434,10,'Logitech USB Optical Mouse'
+7,6,239,522,0,0,0,7052442,10,'Logitech USB Optical Mouse'
+7,6,239,528,0,0,0,7052450,10,'Logitech USB Optical Mouse'
+7,6,239,533,0,0,0,7052458,10,'Logitech USB Optical Mouse'
+7,6,241,538,0,0,0,7052466,10,'Logitech USB Optical Mouse'
+7,6,242,544,0,0,0,7052474,10,'Logitech USB Optical Mouse'
+7,6,242,549,0,0,0,7052482,10,'Logitech USB Optical Mouse'
+7,6,242,554,0,0,0,7052490,10,'Logitech USB Optical Mouse'
+7,6,242,559,0,0,0,7052498,10,'Logitech USB Optical Mouse'
+7,6,242,564,0,0,0,7052506,10,'Logitech USB Optical Mouse'
+7,6,242,568,0,0,0,7052514,10,'Logitech USB Optical Mouse'
+7,6,242,573,0,0,0,7052522,10,'Logitech USB Optical Mouse'
+7,6,242,576,0,0,0,7052530,10,'Logitech USB Optical Mouse'
+7,6,242,579,0,0,0,7052538,10,'Logitech USB Optical Mouse'
+7,6,242,583,0,0,0,7052546,10,'Logitech USB Optical Mouse'
+7,6,242,586,0,0,0,7052554,10,'Logitech USB Optical Mouse'
+7,6,242,591,0,0,0,7052562,10,'Logitech USB Optical Mouse'
+7,6,242,595,0,0,0,7052570,10,'Logitech USB Optical Mouse'
+7,6,241,598,0,0,0,7052578,10,'Logitech USB Optical Mouse'
+7,6,241,602,0,0,0,7052586,10,'Logitech USB Optical Mouse'
+7,6,239,606,0,0,0,7052594,10,'Logitech USB Optical Mouse'
+7,6,239,610,0,0,0,7052602,10,'Logitech USB Optical Mouse'
+7,6,238,613,0,0,0,7052610,10,'Logitech USB Optical Mouse'
+7,6,237,619,0,0,0,7052618,10,'Logitech USB Optical Mouse'
+7,6,236,623,0,0,0,7052626,10,'Logitech USB Optical Mouse'
+7,6,236,626,0,0,0,7052634,10,'Logitech USB Optical Mouse'
+7,6,235,630,0,0,0,7052642,10,'Logitech USB Optical Mouse'
+7,6,235,633,0,0,0,7052650,10,'Logitech USB Optical Mouse'
+7,6,235,636,0,0,0,7052658,10,'Logitech USB Optical Mouse'
+7,6,234,638,0,0,0,7052666,10,'Logitech USB Optical Mouse'
+7,6,234,640,0,0,0,7052674,10,'Logitech USB Optical Mouse'
+7,6,234,642,0,0,0,7052682,10,'Logitech USB Optical Mouse'
+7,6,234,643,0,0,0,7052698,10,'Logitech USB Optical Mouse'
+7,6,234,644,0,0,0,7052706,10,'Logitech USB Optical Mouse'
+7,6,234,645,0,0,0,7052714,10,'Logitech USB Optical Mouse'
+7,6,234,646,0,0,0,7052722,10,'Logitech USB Optical Mouse'
+7,6,234,647,0,0,0,7052738,10,'Logitech USB Optical Mouse'
+7,6,234,648,0,0,0,7052746,10,'Logitech USB Optical Mouse'
+7,6,234,649,0,0,0,7052754,10,'Logitech USB Optical Mouse'
+7,6,234,650,0,0,0,7052762,10,'Logitech USB Optical Mouse'
+7,6,233,651,0,0,0,7052770,10,'Logitech USB Optical Mouse'
+7,6,233,653,0,0,0,7052778,10,'Logitech USB Optical Mouse'
+7,6,233,654,0,0,0,7052786,10,'Logitech USB Optical Mouse'
+7,6,233,656,0,0,0,7052794,10,'Logitech USB Optical Mouse'
+7,6,233,658,0,0,0,7052802,10,'Logitech USB Optical Mouse'
+7,6,233,659,0,0,0,7052810,10,'Logitech USB Optical Mouse'
+7,6,232,660,0,0,0,7052818,10,'Logitech USB Optical Mouse'
+7,6,232,661,0,0,0,7052826,10,'Logitech USB Optical Mouse'
+7,6,232,662,0,0,0,7052834,10,'Logitech USB Optical Mouse'
+7,6,232,663,0,0,0,7052842,10,'Logitech USB Optical Mouse'
+7,6,232,664,0,0,0,7052850,10,'Logitech USB Optical Mouse'
+7,6,231,665,0,0,0,7052858,10,'Logitech USB Optical Mouse'
+7,6,231,666,0,0,0,7052874,10,'Logitech USB Optical Mouse'
+7,6,230,668,0,0,0,7052882,10,'Logitech USB Optical Mouse'
+7,6,230,669,0,0,0,7052890,10,'Logitech USB Optical Mouse'
+7,6,230,670,0,0,0,7052898,10,'Logitech USB Optical Mouse'
+7,6,230,671,0,0,0,7052906,10,'Logitech USB Optical Mouse'
+7,6,230,672,0,0,0,7052914,10,'Logitech USB Optical Mouse'
+7,6,230,673,0,0,0,7052922,10,'Logitech USB Optical Mouse'
+7,6,229,675,0,0,0,7052946,10,'Logitech USB Optical Mouse'
+7,6,229,676,0,0,0,7052954,10,'Logitech USB Optical Mouse'
+7,6,229,677,0,0,0,7052970,10,'Logitech USB Optical Mouse'
+7,6,229,678,0,0,0,7052978,10,'Logitech USB Optical Mouse'
+7,6,229,679,0,0,0,7053002,10,'Logitech USB Optical Mouse'
+7,6,229,680,0,0,0,7053018,10,'Logitech USB Optical Mouse'
+7,6,229,681,0,0,0,7053034,10,'Logitech USB Optical Mouse'
+7,6,229,682,0,0,0,7053050,10,'Logitech USB Optical Mouse'
+7,6,229,683,0,0,0,7053058,10,'Logitech USB Optical Mouse'
+7,6,229,684,0,0,0,7053066,10,'Logitech USB Optical Mouse'
+7,6,229,685,0,0,0,7053082,10,'Logitech USB Optical Mouse'
+7,6,229,686,0,0,0,7053090,10,'Logitech USB Optical Mouse'
+7,6,229,687,0,0,0,7053106,10,'Logitech USB Optical Mouse'
+7,6,229,688,0,0,0,7053114,10,'Logitech USB Optical Mouse'
+7,6,229,689,0,0,0,7053130,10,'Logitech USB Optical Mouse'
+7,6,229,690,0,0,0,7053138,10,'Logitech USB Optical Mouse'
+7,6,230,690,0,0,0,7053146,10,'Logitech USB Optical Mouse'
+7,6,230,691,0,0,0,7053154,10,'Logitech USB Optical Mouse'
+7,6,230,692,0,0,0,7053178,10,'Logitech USB Optical Mouse'
+7,6,231,693,0,0,0,7053186,10,'Logitech USB Optical Mouse'
+7,6,232,694,0,0,0,7053202,10,'Logitech USB Optical Mouse'
+7,6,232,695,0,0,0,7053210,10,'Logitech USB Optical Mouse'
+7,6,232,696,0,0,0,7053218,10,'Logitech USB Optical Mouse'
+7,6,233,697,0,0,0,7053226,10,'Logitech USB Optical Mouse'
+7,6,234,697,0,0,0,7053234,10,'Logitech USB Optical Mouse'
+7,6,234,698,0,0,0,7053242,10,'Logitech USB Optical Mouse'
+7,6,234,699,0,0,0,7053250,10,'Logitech USB Optical Mouse'
+7,6,235,700,0,0,0,7053258,10,'Logitech USB Optical Mouse'
+7,6,235,702,0,0,0,7053266,10,'Logitech USB Optical Mouse'
+7,6,236,702,0,0,0,7053274,10,'Logitech USB Optical Mouse'
+7,6,236,703,0,0,0,7053290,10,'Logitech USB Optical Mouse'
+7,6,237,704,0,0,0,7053314,10,'Logitech USB Optical Mouse'
+7,6,237,705,0,0,0,7053338,10,'Logitech USB Optical Mouse'
+7,6,237,706,0,0,0,7053354,10,'Logitech USB Optical Mouse'
+7,6,237,706,0,0,0,7053370,10,'Logitech USB Optical Mouse'
+7,4,0,0,3,0,0,7055114,10,Logitech USB Optical Mouse
+6,4,0,0,3,0,0,7055114,2,Virtual core pointer
+7,5,0,0,3,0,0,7055262,10,Logitech USB Optical Mouse
+6,5,0,0,3,0,0,7055262,2,Virtual core pointer
+7,2,0,0,0,116,0,7056651,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7056651,3,Virtual core keyboard
+7,3,0,0,0,116,0,7056747,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7056747,3,Virtual core keyboard
+7,2,0,0,0,116,0,7057019,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7057019,3,Virtual core keyboard
+7,3,0,0,0,116,0,7057115,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7057115,3,Virtual core keyboard
+7,2,0,0,0,116,0,7057386,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7057387,3,Virtual core keyboard
+7,3,0,0,0,116,0,7057466,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7057466,3,Virtual core keyboard
+7,2,0,0,0,116,0,7057770,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7057771,3,Virtual core keyboard
+7,3,0,0,0,116,0,7057867,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7057867,3,Virtual core keyboard
+7,2,0,0,0,36,0,7058539,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,7058539,3,Virtual core keyboard
+7,3,0,0,0,36,0,7058618,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,7058619,3,Virtual core keyboard
+7,2,0,0,0,62,0,7059355,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,7059355,3,Virtual core keyboard
+7,2,0,0,0,42,0,7059899,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,7059899,3,Virtual core keyboard
+7,3,0,0,0,42,0,7059963,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,7059963,3,Virtual core keyboard
+7,2,0,0,0,26,0,7060507,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,26,0,7060507,3,Virtual core keyboard
+7,3,0,0,0,26,0,7060587,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,26,0,7060587,3,Virtual core keyboard
+7,2,0,0,0,53,0,7060779,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,53,0,7060779,3,Virtual core keyboard
+7,3,0,0,0,53,0,7060875,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,53,0,7060875,3,Virtual core keyboard
+7,2,0,0,0,41,0,7061099,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,41,0,7061099,3,Virtual core keyboard
+7,3,0,0,0,41,0,7061147,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,41,0,7061147,3,Virtual core keyboard
+7,3,0,0,0,62,0,7061339,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,7061339,3,Virtual core keyboard
+7,2,0,0,0,36,0,7062203,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,7062203,3,Virtual core keyboard
+7,3,0,0,0,36,0,7062314,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,7062314,3,Virtual core keyboard
+7,4,0,0,3,0,0,7063986,10,Logitech USB Optical Mouse
+6,4,0,0,3,0,0,7063986,2,Virtual core pointer
+7,5,0,0,3,0,0,7064158,10,Logitech USB Optical Mouse
+6,5,0,0,3,0,0,7064158,2,Virtual core pointer
+7,2,0,0,0,116,0,7065371,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7065371,3,Virtual core keyboard
+7,3,0,0,0,116,0,7065467,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7065467,3,Virtual core keyboard
+7,2,0,0,0,116,0,7065739,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,116,0,7065739,3,Virtual core keyboard
+7,3,0,0,0,116,0,7065835,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,116,0,7065835,3,Virtual core keyboard
+7,2,0,0,0,36,0,7066683,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,7066683,3,Virtual core keyboard
+0,21,0,0,0,0,0,7066716
+NEW-WINDOW:451,254:92274792,92274792,27446099,0,0,0:0x0+879+458:0,0:Exporting graph "GEXF"
+0,21,0,0,0,0,0,7066716
+0,21,0,0,0,0,0,7066716
+7,3,0,0,0,36,0,7066747,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,7066747,3,Virtual core keyboard
+7,2,0,0,0,28,0,7067979,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,7067979,3,Virtual core keyboard
+7,3,0,0,0,28,0,7068059,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,7068059,3,Virtual core keyboard
+7,2,0,0,0,26,0,7068219,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,26,0,7068219,3,Virtual core keyboard
+7,3,0,0,0,26,0,7068299,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,26,0,7068299,3,Virtual core keyboard
+7,2,0,0,0,39,0,7068459,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,39,0,7068459,3,Virtual core keyboard
+7,3,0,0,0,39,0,7068507,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,39,0,7068507,3,Virtual core keyboard
+7,2,0,0,0,28,0,7068715,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,7068715,3,Virtual core keyboard
+7,3,0,0,0,28,0,7068811,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,7068811,3,Virtual core keyboard
+7,2,0,0,0,17,0,7068875,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,17,0,7068875,3,Virtual core keyboard
+7,3,0,0,0,17,0,7068955,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,17,0,7068955,3,Virtual core keyboard
+7,2,0,0,0,42,0,7069307,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,42,0,7069307,3,Virtual core keyboard
+7,2,0,0,0,30,0,7069371,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,30,0,7069371,3,Virtual core keyboard
+7,3,0,0,0,42,0,7069403,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,42,0,7069403,3,Virtual core keyboard
+7,2,0,0,0,31,0,7069435,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,31,0,7069435,3,Virtual core keyboard
+7,3,0,0,0,30,0,7069483,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,30,0,7069483,3,Virtual core keyboard
+7,3,0,0,0,31,0,7069531,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,31,0,7069531,3,Virtual core keyboard
+7,2,0,0,0,62,0,7069915,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,62,0,7069915,3,Virtual core keyboard
+7,2,0,0,0,59,0,7070123,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,59,0,7070123,3,Virtual core keyboard
+7,3,0,0,0,62,0,7070219,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,62,0,7070219,3,Virtual core keyboard
+7,3,0,0,0,59,0,7070219,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,59,0,7070219,3,Virtual core keyboard
+7,2,0,0,0,28,0,7070411,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,28,0,7070411,3,Virtual core keyboard
+7,3,0,0,0,28,0,7070507,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,28,0,7070507,3,Virtual core keyboard
+7,2,0,0,0,46,0,7070587,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,46,0,7070587,3,Virtual core keyboard
+7,2,0,0,0,33,0,7070731,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,33,0,7070731,3,Virtual core keyboard
+7,3,0,0,0,46,0,7070763,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,46,0,7070763,3,Virtual core keyboard
+7,3,0,0,0,33,0,7070859,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,33,0,7070859,3,Virtual core keyboard
+7,2,0,0,0,36,0,7071435,8,Dell KB216 Wired Keyboard
+6,2,0,0,0,36,0,7071435,3,Virtual core keyboard
+0,21,0,0,0,0,0,7071482
+NEW-WINDOW:640,462:92274797,92274797,27446186,0,0,0:0x0+500+42:0,0:TLP Export
+0,21,0,0,0,0,0,7071482
+0,21,0,0,0,0,0,7071482
+7,3,0,0,0,36,0,7071499,8,Dell KB216 Wired Keyboard
+6,3,0,0,0,36,0,7071499,3,Virtual core keyboard
+0,21,0,0,0,0,0,7071532
+NEW-WINDOW:451,254:92274792,92274792,761,0,0,0:451x254+879+458:0,0:Exporting graph "GEXF"
+0,21,0,0,0,0,0,7071533
+0,21,0,0,0,0,0,7071533
+0,21,0,0,0,0,0,7071533

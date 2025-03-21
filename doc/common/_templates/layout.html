@@ -1,0 +1,22 @@
+{% extends "!layout.html" %}
+
+{%- block extrahead %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
+    <script>
+        // from the sphinx-trap theme (https://github.com/jfardello/Sphinxtrap)
+        $(document).ready(function(){
+            // The faicon role produces <em> elements, <i> are strictly graphical.
+            $("em.icon-holder").each(function(){
+                var newtag = $("<i></i>");
+                newtag.attr('class', $(this).attr('class'));
+                $(this).replaceWith(newtag);
+            });
+
+            // hack to get a better rendering of Tulip plugin parameters tables
+            $("table.docutils colgroup").remove();
+
+        })
+    </script>
+{% endblock %}
+

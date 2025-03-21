@@ -1,0 +1,249 @@
+#!/bin/bash
+
+# This script is centos 6.8 specific:
+# it intends to create a tulip bundle suitable to build a portable app
+# (using AppImageKit) runable on most linux distributions
+
+TULIP_INSTALL_DIR=@CMAKE_INSTALL_PREFIX@
+OUTPUT_DIR=/tmp
+PERSPECTIVE=Tulip
+QMAKE=@QT_QMAKE_EXECUTABLE@
+
+usage()
+{
+  echo "Usage: $(basename $0) [OPTIONS]"
+  cat <<EOF
+Options:
+  --appdir <dir> (indicate the directory where the Tulip.AppDir will be created, default is /tmp)
+  --perspective <name> (indicate the perspective the AppImage will launch, default is Tulip)
+EOF
+  exit $1
+}
+
+while test $# -gt 0; do
+  case $1 in
+    --appdir)
+      shift
+      OUTPUT_DIR=$1
+      ;;
+    --perspective)
+      shift
+      PERSPECTIVE=$1
+      ;;
+    --help)
+      usage 0
+      ;;
+    *)
+      usage 1
+      ;;
+  esac
+  shift
+done
+
+BUNDLE_DIR=$OUTPUT_DIR/$PERSPECTIVE.AppDir
+
+# if BUNDLE_DIR already exists
+# remove it
+if [ -d $BUNDLE_DIR ]; then
+  rm -rf $BUNDLE_DIR
+fi
+
+# create BUNDLE_DIR
+mkdir $BUNDLE_DIR
+BUNDLE_BIN_DIR=$BUNDLE_DIR/usr/bin
+mkdir -p $BUNDLE_BIN_DIR
+BUNDLE_LIB_DIR=$BUNDLE_DIR/usr/lib
+mkdir -p $BUNDLE_LIB_DIR
+BUNDLE_SHARE_DIR=$BUNDLE_DIR/usr/share
+mkdir -p $BUNDLE_SHARE_DIR/metainfo
+BUNDLE_USR_DIR=$BUNDLE_DIR/usr
+
+# create AppRun executable file
+APPRUN_FILE=$BUNDLE_DIR/AppRun
+echo "#!/bin/sh" > $APPRUN_FILE
+echo "BUNDLE_DIR=\"\$(dirname \$0)\"" >> $APPRUN_FILE
+# setup embedded python env
+echo "export PYTHONHOME=\${BUNDLE_DIR}/usr" >> $APPRUN_FILE
+# setup embedded tulip env
+echo "export TLP_DIR=\${BUNDLE_DIR}/usr/lib" >> $APPRUN_FILE
+# fix for Geographic View crash on Fedora 29-30...
+echo "export OPENSSL_CONF=" >> $APPRUN_FILE
+echo "if [ \"\$1\" = \"-no-output-filtering\" ]; then" >> $APPRUN_FILE
+# for debugging purpose, allow to run without filtering of console output
+echo "  \${BUNDLE_DIR}/usr/bin/tulip -p ${PERSPECTIVE} \"\$2\"" >> $APPRUN_FILE
+echo "else" >> $APPRUN_FILE
+# unset SESSION_MANAGER to avoid a Qt 5.15 warning
+echo "  env -u SESSION_MANAGER \${BUNDLE_DIR}/usr/bin/tulip -p ${PERSPECTIVE} \"\$1\" 2>&1" >> $APPRUN_FILE
+echo "fi" >> $APPRUN_FILE
+chmod 755 $APPRUN_FILE
+
+# create desktop file
+DESKTOP_FILE=$BUNDLE_DIR/tulip.desktop
+echo "[Desktop Entry]" > $DESKTOP_FILE
+echo "Name=Tulip" >> $DESKTOP_FILE
+echo "Type=Application" >> $DESKTOP_FILE
+echo "Exec=tulip" >> $DESKTOP_FILE
+echo "Icon=Tulip" >> $DESKTOP_FILE
+echo "Categories=Science;" >> $DESKTOP_FILE
+
+# create qt.conf file
+QTCONF_FILE=$BUNDLE_BIN_DIR/qt.conf
+echo "[Paths]" > $QTCONF_FILE
+echo "Prefix=.." >> $QTCONF_FILE
+
+# copy Tulip.png
+cp @Tulip_SOURCE_DIR@/bundlers/linux/Tulip.png $BUNDLE_DIR
+
+# copy tulip.appdata.xml
+cp @Tulip_SOURCE_DIR@/bundlers/linux/tulip.appdata.xml $BUNDLE_SHARE_DIR/metainfo
+
+# copy tulip exe
+cp -v -p $TULIP_INSTALL_DIR/bin/tulip $BUNDLE_BIN_DIR
+# copy all lib and share installed files (no include)
+echo "copying $TULIP_INSTALL_DIR/lib files into $BUNDLE_LIB_DIR"
+cp -Rp $TULIP_INSTALL_DIR/@CMAKE_INSTALL_LIBDIR@/* $BUNDLE_LIB_DIR
+# no need of lib/cmake
+rm -rf $BUNDLE_LIB_DIR/cmake
+echo "copying $TULIP_INSTALL_DIR/share files into $BUNDLE_SHARE_DIR"
+cp -Rp $TULIP_INSTALL_DIR/share $BUNDLE_USR_DIR
+
+# add qt plugins directory
+mkdir $BUNDLE_USR_DIR/plugins
+cp -v -Rp @QT_PLUGINS_DIR@/imageformats $BUNDLE_USR_DIR/plugins
+if [ -e @QT_PLUGINS_DIR@/platforms ]; then
+  cp -v -Rp @QT_PLUGINS_DIR@/platforms $BUNDLE_USR_DIR/plugins
+fi
+if [ -e @QT_PLUGINS_DIR@/platformthemes ]; then
+  cp -v -Rp @QT_PLUGINS_DIR@/platformthemes $BUNDLE_USR_DIR/plugins
+fi
+if [ -e @QT_PLUGINS_DIR@/xcbglintegrations ]; then
+  cp -v -Rp @QT_PLUGINS_DIR@/xcbglintegrations $BUNDLE_USR_DIR/plugins
+fi
+
+# set up LD_LIBRARY_PATH with the installation path of the Qt libs used
+export QT_INSTALL_LIBS_DIR=$(${QMAKE} -query QT_INSTALL_LIBS)
+export LD_LIBRARY_PATH=${QT_INSTALL_LIBS_DIR}:${LD_LIBRARY_PATH}
+
+# copy tulip needed libs
+pushd $BUNDLE_DIR > /dev/null 2>&1
+ldd $BUNDLE_BIN_DIR/tulip | grep "=> /" | awk '{print $3}' | grep -v tulip | xargs -I '{}' cp -v '{}' ./usr/lib || true
+popd > /dev/null 2>&1
+
+# if PYTHON_LIBRARY is specified to indicate the Python installation
+# to use, we must extend LD_LIBRARY_PATH to ensure PYTHON_LIBRARY can be found
+# even if a non standard installation is in use
+if [ -n "@PYTHON_LIBRARY@" ]; then
+  ls $(dirname @PYTHON_LIBRARY@)/libQt5*.so > /dev/null 2>&1
+  if [ ! $? -eq 0 ]; then
+    export LD_LIBRARY_PATH=$(dirname @PYTHON_LIBRARY@):$LD_LIBRARY_PATH
+  else
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(dirname @PYTHON_LIBRARY@)
+  fi
+fi
+
+# add Python environment
+# python exe is needed to execute pip commands
+cp -v -p $PYTHON_EXECUTABLE $BUNDLE_BIN_DIR/python3
+PYTHON_LIB=$(ldd $(ls $BUNDLE_LIB_DIR/tulip/libtulip-python*) | grep libpython | awk '{print $3}')
+# we need to create a symlink as the libtulip-python*.so
+# performs a dlopen on libpythonX.Y.so when it is loaded
+if [ "$PYTHON_LIB" != "" ]; then
+  cp -v --preserve=mode $PYTHON_LIB $BUNDLE_LIB_DIR
+  PYTHON_LIB_NAME=$(basename $PYTHON_LIB)
+  PYTHON_LIB_SYMLINK_NAME=$(echo $PYTHON_LIB | sed 's/^.*libpython\(.*\.so\).*$/libpython\1/')
+  pushd $BUNDLE_LIB_DIR
+  # check for a non standard python lib name coming from a rh package
+  ls $PYTHON_LIB_SYMLINK_NAME.rh* > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    # tweak libs to have a standard python lib name
+    # this fix a crash on openSUSE Leap 15
+    mv $PYTHON_LIB_NAME $PYTHON_LIB_SYMLINK_NAME.1.0
+    ln -s $PYTHON_LIB_SYMLINK_NAME.1.0 $PYTHON_LIB_NAME
+    PYTHON_LIB_NAME=$PYTHON_LIB_SYMLINK_NAME.1.0
+  fi
+  ln -s $PYTHON_LIB_NAME $PYTHON_LIB_SYMLINK_NAME
+  popd
+  # get pythonX.Y
+  PYTHON_PACKAGE_NAME=python@PYTHON_VERSION@
+  PYTHON_PACKAGE_BUNDLE_DIR=$BUNDLE_LIB_DIR/$PYTHON_PACKAGE_NAME
+  mkdir -p $PYTHON_PACKAGE_BUNDLE_DIR
+  PYTHON_PACKAGE_DIR=$(dirname $PYTHON_LIB)/$PYTHON_PACKAGE_NAME
+  if [ ! -d $PYTHON_PACKAGE_DIR ] && [ -d /usr/lib/$PYTHON_PACKAGE_NAME ]; then
+    PYTHON_PACKAGE_DIR=/usr/lib/$PYTHON_PACKAGE_NAME
+  fi
+  pushd $PYTHON_PACKAGE_DIR > /dev/null 2>&1
+  if [ ! $? -eq 0 ]; then
+    echo "$PYTHON_PACKAGE_DIR does not exist"
+    exit
+  fi
+  echo "copying $PYTHON_PACKAGE_DIR files into $PYTHON_PACKAGE_BUNDLE_DIR"
+  find . \( -type f \) \( ! -name "*.pyc" \) \( ! -name "*.pyo" \) -exec cp --parents --preserve=mode {} $PYTHON_PACKAGE_BUNDLE_DIR \;
+  echo "cleanup $PYTHON_PACKAGE_BUNDLE_DIR/site-packages"
+  cd $PYTHON_PACKAGE_BUNDLE_DIR/site-packages
+  find . -mindepth 1 -maxdepth 1 -type d | grep -v pip | xargs rm -rf *.pth *.py
+  popd > /dev/null 2>&1
+fi
+
+function looking_for_plugin_dependencies() {
+  LIBS_DIR=$1
+  for PLUGIN in $(find $LIBS_DIR -name "*.so")
+  do
+    echo "looking for $(basename $PLUGIN) dependencies"
+    for LIB in $(ldd $PLUGIN | grep "=> /" | awk '{print $3}')
+    do
+      if [ ! -e $BUNDLE_LIB_DIR/$(basename $LIB) ]; then
+        cp -v --preserve=mode $LIB $BUNDLE_LIB_DIR
+      fi
+    done;
+  done;
+}
+
+# copy other common libs needed by tulip plugins
+looking_for_plugin_dependencies $BUNDLE_LIB_DIR/tulip
+
+# copy other common libs needed by qt plugins
+looking_for_plugin_dependencies $BUNDLE_USR_DIR/plugins
+
+# copy other common libs needed by python modules
+looking_for_plugin_dependencies $PYTHON_PACKAGE_BUNDLE_DIR/lib-dynload
+
+pushd $BUNDLE_LIB_DIR > /dev/null 2>&1
+# remove unneeded libs
+LIBS=$(ls libc.* libdbus*.* libdl.* libdrm.* libelf.* libexpat.* libfontconfig.* libfreetype.* libgio-*.* libglapi.* libglib-*.* libgobject-*.* libgcc_s.* libGL.* libm.* libnsl.* libpthread.* libresolv.* librt.* libstdc++.* libutil.*  libuuid.* libxcb*.* libxml2.* libxslt.* libX*.* libz.* 2> /dev/null)
+if [ "$LIBS" != "" ]; then
+  rm $LIBS
+fi
+
+# copy some missing libs
+ls libffi.so* > /dev/null 2>&1
+if [ ! $? -eq 0 ]; then
+  cp -v --preserve=mode $(/sbin/ldconfig -p | grep libffi.so | cut -d ">" -f 2 | xargs) .
+fi
+for LIB in icccm image keysyms render-util
+do
+  /sbin/ldconfig -p | grep libxcb-$LIB > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    cp -v --preserve=mode $(/sbin/ldconfig -p | grep libxcb-$LIB | cut -d ">" -f 2 | xargs) .
+  fi
+done
+
+popd > /dev/null 2>&1
+
+
+pushd $BUNDLE_USR_DIR > /dev/null 2>&1
+
+# create a symbolic link lib64 pointing to lib in $BUNDLE_DIR/usr
+# in order for Python to find its standard library on a x86_64 AppImage
+if [ ! -e @CMAKE_INSTALL_LIBDIR@ ]; then
+  ln -s lib @CMAKE_INSTALL_LIBDIR@ 2>/dev/null
+fi
+
+popd > /dev/null 2>&1
+
+# tweak OS/ABI header part of libraries (System V instead of Linux)
+for LIB in $(find $BUNDLE_LIB_DIR -name '*.so*')
+do
+  # LIB may be in read only mode, make it writable before stripping it
+  chmod +w $LIB
+  strip --strip-unneeded $LIB
+done;

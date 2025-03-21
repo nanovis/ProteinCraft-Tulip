@@ -1,0 +1,110 @@
+/**
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+#include <cstring>
+#include <cerrno>
+#include <tulip/TulipPluginHeaders.h>
+#include "dotImportCLUT.h"
+
+using namespace std;
+using namespace tlp;
+
+#ifdef _WIN32
+#define uint unsigned int
+#include <utf8.h>
+#endif
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+namespace {
+#include "dotImportParser.h"
+#include "dotImportLexer.h"
+} // namespace
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+/** \addtogroup import */
+
+/** This plugin enables to import a graph coded with in dot format
+ *
+ *  File format:
+ *     [ http://www.research.att.com/sw/tools/graphviz/ ]
+ *
+ *  First (quick) support of the AT&T DOT language
+ *    - main graph entities are extracted (node/edges)
+ *    - subgraphs are not already supported
+ *    - several attributes (node & edge) are supported
+ *    - based on a modified grammar file available with the graphviz software
+ *    - this parser can be largely optimized ...
+ *
+ */
+class DotImport : public ImportFileModule {
+public:
+  PLUGININFORMATION("graphviz", "Gerald Gainant", "01/03/2004",
+                    "<p>File extension: dot</p><p>Imports a new graph from a file in the dot "
+                    "input format.</p>"
+                    "<p>(see <a "
+                    "href=\"https://www.graphviz.org/doc/info/lang.html\">https://www.graphviz.org/"
+                    "doc/info/lang.html</a>)</p>",
+                    "1.0", "File")
+  DotImport(tlp::PluginContext *context) : ImportFileModule(context, {"dot"}) {}
+  ~DotImport() override {}
+
+  std::string icon() const override {
+    return ":/tulip/graphperspective/icons/32/import_graphviz.png";
+  }
+
+  bool importFile() override {
+    // Open input stream
+#ifndef WIN32
+    FILE *fd = fopen(filename.c_str(), "r");
+#else
+    wstring wfn;
+    utf8::utf8to16(filename.begin(), filename.end(), back_inserter(wfn));
+    FILE *fd = _wfopen(wfn.c_str(), L"r");
+#endif
+
+    if (!fd) {
+      if (pluginProgress)
+        pluginProgress->setError(tlp::getStrError());
+
+      return false;
+    }
+
+    // Create & Init YY global data
+    DOT_YY _dotyy(fd, graph, pluginProgress);
+
+    if (pluginProgress) {
+      pluginProgress->showPreview(false);
+      pluginProgress->progress(1, 100000);
+    }
+
+    dotyy = &_dotyy;
+    yyrestart(fd);
+    yyparse();
+
+    fclose(fd);
+
+    return _dotyy.pStatus != TLP_CANCEL;
+  }
+};
+
+PLUGIN(DotImport)

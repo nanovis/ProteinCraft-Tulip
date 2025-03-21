@@ -1,0 +1,148 @@
+#!/bin/bash
+#This file is auto-generated when compiling Tulip.
+thisdir=$(dirname "$0")
+if test "$thisdir" = "." ; then
+  thisdir=$PWD
+fi
+upthisdir=$(dirname ${thisdir})
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+libdir=@libdir@
+sharedir=${prefix}/share
+libversion=@libversion@
+libextension=$(echo @CMAKE_SHARED_LIBRARY_SUFFIX@ | cut -d'.' -f 2)
+plugincxxflags="-fPIC -DPIC"
+pluginldflags=-shared
+pluginpath=@libdir@/tulip
+
+if [ "@CMAKE_DEBUG_MODE@" = "FALSE" ]; then
+  ndebugflag=-DNDEBUG
+fi
+
+WINDOWS=$(test ${libextension} = dll; echo $?)
+MACOSX=$(test ${libextension} = dylib; echo $?)
+LINUX=$(test ${libextension} = so; echo $?)
+
+# check for MacOS installation
+if [ $MACOSX -eq 0 ] ; then
+  pluginldflags="-bundle -Wl,-bind_at_load -flat_namespace"
+  # add sysroot if needed
+  if [ -n "@CMAKE_OSX_SYSROOT@" ] ; then
+    osx_sysroot="-isysroot @CMAKE_OSX_SYSROOT@"
+  fi
+  if [ -e ${upthisdir}/Frameworks/QtCore ] ; then
+# MacOS bundle
+    includedir=${upthisdir}/include
+    libdir=${upthisdir}/Frameworks
+    pluginpath=${upthisdir}/lib/tulip
+  fi
+fi
+# check for Windows installation
+if [ $WINDOWS -eq 0 ] ; then
+  libversion=@WIN_VERSION@
+  plugincxxflags=-DPIC
+  if [ -f "${upthisdir}/Uninstall.exe" ] ; then
+# Windows installation
+    drive=`echo ${thisdir} | awk -F / '{print $2}'`
+    ndir=${thisdir/\/$drive\//$drive:/}
+    if [ -d ${ndir} ]; then
+      thisdir=${ndir}
+    fi
+    includedir=${upthisdir}/include
+    libdir=${upthisdir}/bin
+    pluginpath=${upthisdir}/lib/tulip
+  else
+    pluginpath=${prefix}/lib/tulip
+    libdir=${prefix}/bin
+  fi
+fi
+
+usage()
+{
+    cat <<EOF
+Usage: tulip-config [OPTIONS]
+Options:
+	--version (return the current version of Tulip)
+	--libs (return the whole Tulip libs)
+	--lib_tulip (return the Tulip core lib)
+	--lib_ogl (return the Tulip OpenGL lib)
+	--cxxflags (return the Tulip needed cxx flags)
+	--glincludes (return the OpenGL includes)
+	--gllibs (return the OpenGL libs)
+	--plugincxxflags (return the Tulip plugin cxx flags)
+	--pluginextension (return the plugin file extension)
+	--pluginldflags (return the plugin loader flags)
+        --pluginpath (return the path for installation of Tulip plugins)
+        --qtincludes (return the Qt includes)
+        --qtlibs (return the Qt libs needed by Tulip)
+        --sharepath (return the path where share data are installed)
+
+EOF
+    exit $1
+}
+
+if test $# -eq 0; then
+	usage 1 1>&2
+fi
+
+OUTPUT=
+while test $# -gt 0; do
+  case "$1" in
+  -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
+  *) optarg= ;;
+  esac
+
+  case $1 in
+    --version)
+      OUTPUT=`echo ${OUTPUT} @VERSION@`
+      ;;
+    --cxxflags)
+      OUTPUT=`echo ${OUTPUT} @CMAKE_CXX_FLAGS@ -std=c++@CMAKE_CXX_STANDARD@ @OPENMP_CXX_FLAGS@ ${ndebugflag} ${osx_sysroot} -I${includedir}`
+      ;;
+    --glincludes)
+      OUTPUT=`echo ${OUTPUT} @GL_INCLUDES@`
+      ;;
+    --gllibs)
+      OUTPUT=`echo ${OUTPUT} @GL_LDFLAGS@ @LIB_GL@`
+      ;;
+    --libs)
+      OUTPUT=`echo ${OUTPUT} ${libdir}/libtulip-core-${libversion}.${libextension} ${libdir}/libtulip-ogl-${libversion}.${libextension} ${libdir}/lib@FTGLLibrary@.${libextension} ${libdir}/libtulip-gui-${libversion}.${libextension} @CMAKE_SHARED_LINKER_FLAGS@ @OPENMP_CXX_FLAGS@`
+      ;;
+    --lib_tulip)
+      OUTPUT=`echo ${OUTPUT} ${libdir}/libtulip-core-${libversion}.${libextension} @CMAKE_SHARED_LINKER_FLAGS@ @OPENMP_CXX_FLAGS@`
+      ;;
+    --lib_ogl)
+      OUTPUT=`echo ${OUTPUT} ${libdir}/libtulip-ogl-${libversion}.${libextension}  ${libdir}/lib@FTGLLibrary@.${libextension}`
+      ;;
+    --plugincxxflags)
+      OUTPUT=`echo ${OUTPUT} ${plugincxxflags}`
+      ;;
+    --pluginldflags)
+      OUTPUT=`echo ${OUTPUT} ${pluginldflags}`
+      ;;
+    --pluginextension)
+      OUTPUT=`echo ${OUTPUT} ${libextension}`
+      ;;
+    --pluginpath)
+      OUTPUT=`echo ${OUTPUT} ${pluginpath}`
+      ;;
+    --qtlibs)
+      OUTPUT=`echo ${OUTPUT} @QT_LDFLAGS@ @LIB_QT@`
+      ;;
+    --qtincludes)
+      OUTPUT=`echo ${OUTPUT} -I@QT_INCLUDE_DIR@`
+      ;;
+    --sharepath)
+      OUTPUT=`echo ${OUTPUT} ${sharedir}`
+      ;;
+    *)
+      usage
+      ;;
+  esac
+  shift
+done
+
+echo ${OUTPUT}
+
+exit 0

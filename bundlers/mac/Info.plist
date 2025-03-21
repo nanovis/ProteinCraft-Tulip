@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="1.0">
+<dict>
+
+  <key>NSPrincipalClass</key>
+  <string>NSApplication</string>
+
+  <key>NSHighResolutionCapable</key>
+  <string>True</string>
+
+  <key>NSRequiresAquaSystemAppearance</key>
+  <string>True</string>
+
+  <key>CFBundleIdentifier</key>
+  <string>org.TulipSoftware.tulip</string>
+
+  <key>CFBundleExecutable</key>
+  <string>Tulip</string>
+
+  <key>CFBundleGetInfoString</key>
+  <string>Tulip from https://tulip.labri.fr</string>
+
+  <key>CFBundleIconFile</key>
+  <string>tulip.icns</string>
+
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+
+  <key>CFBundleSignature</key>
+  <string>tlps</string>
+
+  <key>CFBundleShortVersionString</key>
+  <string>TLP_VERSION</string>
+
+  <key>LSArchitecturePriority</key>
+  <string>ARCH</string>
+
+  <key>NOTE</key>
+  <string>Created by LaBRI Visualization Team</string>
+
+</dict>
+</plist>

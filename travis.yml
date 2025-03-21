@@ -1,0 +1,682 @@
+# Tulip continuous integration on Linux and Mac OS platforms through TravisCI.
+# Two type of builds are performed by os:
+#  - a "legacy" Tulip build using :
+#     * default system compiler (GCC 5.4 on Linux, clang from Xcode9.x on Mac OS)
+#     * Qt 5.6 on Linux, Qt 5.9 on MacOS
+#     * Python 3.6 on linux and MacOS
+#  - a "modern" Tulip build using:
+#     * recent compiler (GCC 9.x on Linux, clang 10.x from MacPorts or Homebrew on MacOS)
+#     * Qt 5.15 on Linux and MacOS
+#     * Python 3.9 on Linux and MacOS
+# As TravisCI limits build job times to 50 minutes, Tulip is built in 2 or 3 successive stages
+# to avoid timeouts (which happened often with MacOs builds):
+#  - a third party only build
+#  - a core build with no OpenGL and Qt components
+#  - a complete build including OpenGL and Qt components
+# The trick is to use travis build cache and ccache to cache already compiled object
+# files between stages and thus not exceeding Travis build timeout limits
+
+# inform travis that we are building a cpp project
+language: cpp
+
+# send build status notifications to tulipdev mailing list
+notifications:
+  email:
+    - tulipdev@labri.fr
+
+# define build jobs
+jobs:
+  include:
+  #==============================================================================================================================================================
+    # Tulip core build stage on Linux
+    - stage: Tulip core build (Linux)
+      # nothing to build if a non-linux platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|macos|macports|homebrew|windows)-only\]$/
+    # legacy Tulip core build on Linux
+      os: linux
+      dist: xenial
+      compiler: gcc
+      cache: ccache
+      addons:
+        apt:
+          # Python 3.6 from ppa:deadsnakes/ppa
+          sources:
+            - sourceline: "ppa:deadsnakes/ppa"
+          # install Tulip build dependencies
+          packages:
+            - cmake
+            - ccache
+            - ninja-build
+            - libqhull-dev
+            - python3.6-dev
+            - libcppunit-dev
+            - binutils-dev
+      env:
+        # use Python 3.6
+        - PYTHON_EXECUTABLE=/usr/bin/python3.6
+      script:
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip core build with cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DTULIP_BUILD_CORE_ONLY=ON -DTULIP_BUILD_TESTS=ON -DTULIP_USE_CCACHE=ON -DTULIP_PYTHON_SITE_INSTALL=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j4 || travis_terminate 1
+        - ninja -j4 install || travis_terminate 1
+        # run Tulip unit tests
+        - ninja runTests
+
+   #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip core build on Linux
+    -
+      # nothing to build if a non-linux platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|macos|macports|homebrew|windows)-only\]$/
+      os: linux
+      dist: focal
+      compiler: gcc
+      cache: ccache
+      addons:
+        apt:
+          # Python 3.9.x from ppa:deadsnakes/ppa
+          sources:
+            - sourceline: "ppa:deadsnakes/ppa"
+          # install Tulip build dependencies
+          packages:
+            - cmake
+            - ccache
+            - ninja-build
+            - libqhull-dev
+            - libcppunit-dev
+            - binutils-dev
+            - python3.9
+            - python3.9-distutils
+            - libpython3.9-dev
+      env:
+        # use Python 3.9
+        - PYTHON_EXECUTABLE=/usr/bin/python3.9
+      script:
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip core build with cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DTULIP_BUILD_CORE_ONLY=ON -DTULIP_BUILD_TESTS=ON -DTULIP_USE_CCACHE=ON -DTULIP_PYTHON_SITE_INSTALL=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j4  || travis_terminate 1
+        - ninja -j4 install || travis_terminate 1
+        # run Tulip unit tests
+        - ninja runTests
+
+  #==============================================================================================================================================================
+    # Tulip complete build stage on Linux
+    - stage: Tulip complete build (Linux)
+      # nothing to build if a non-linux platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|macos|macports|homebrew|windows)-only\]$/
+      # legacy Tulip complete build on Linux
+      # we also build the documentation in this one
+      os: linux
+      dist: xenial
+      compiler: gcc
+      cache: ccache
+      services:
+        - xvfb
+      addons:
+        apt:
+          # Python 3.6 from ppa:deadsnakes/ppa
+          # Qt 5.6.3 from ppa:beineri/opt-qt563-xenial
+          sources:
+            - sourceline: "ppa:deadsnakes/ppa"
+            - sourceline: "ppa:beineri/opt-qt563-xenial"
+          # install Tulip build dependencies
+          packages:
+            - cmake
+            - ccache
+            - ninja-build
+            - doxygen
+            - graphviz
+            - libqhull-dev
+            - python3.6-dev
+            - python-sphinx
+            - libcppunit-dev
+            - binutils-dev
+            - qt56base
+            - qt56tools
+            - qt56webengine
+            - libglew-dev
+            - libpng-dev
+            - libjpeg-dev
+            - libfreetype6-dev
+      env:
+        # use Python 3.6
+        - PYTHON_EXECUTABLE=/usr/bin/python3.6
+      script:
+        # setup qt56 envt
+        - source /opt/qt56/bin/qt56-env.sh
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip complete build with cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DTULIP_BUILD_DOC=ON -DTULIP_BUILD_TESTS=ON -DTULIP_BUILD_GL_TEX_LOADER=ON -DTULIP_USE_CCACHE=ON -DTULIP_PYTHON_SITE_INSTALL=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j4 || travis_terminate 1
+        - ninja -j4 install || travis_terminate 1
+        # run Tulip unit tests
+        - ninja runTests
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip complete build on Linux
+    -
+      # nothing to build if a non-linux platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|macos|macports|homebrew|windows)-only\]$/
+      os: linux
+      dist: focal
+      compiler: gcc
+      cache: ccache
+      services:
+        - xvfb
+      addons:
+        apt:
+          # Python 3.9.x from ppa:deadsnakes/ppa
+          # and Qt 5.15.x from http://archive.neon.kde.org/user/
+          sources:
+            - sourceline: "ppa:deadsnakes/ppa"
+            - sourceline: 'deb http://archive.neon.kde.org/user/ focal main'
+              key_url: 'http://archive.neon.kde.org/public.key'
+          # install Tulip build dependencies
+          packages:
+            - cmake
+            - ccache
+            - ninja-build
+            - doxygen
+            - graphviz
+            - libqhull-dev
+            - libcppunit-dev
+            - binutils-dev
+            - python3.9
+            - python3.9-distutils
+            - libpython3.9-dev
+            - qt5-default
+            - libqt5webkit5-dev
+            - libglew-dev
+            - libpng-dev
+            - libjpeg-dev
+            - libfreetype6-dev
+      env:
+        # use Python 3.9
+        - PYTHON_EXECUTABLE=/usr/bin/python3.9
+      script:
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip complete build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DTULIP_BUILD_DOC=ON -DTULIP_BUILD_TESTS=ON -DTULIP_BUILD_GL_TEX_LOADER=ON -DTULIP_USE_CCACHE=ON -DTULIP_PYTHON_SITE_INSTALL=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j4  || travis_terminate 1
+        - ninja -j4 install || travis_terminate 1
+        # run Tulip unit tests
+        - ninja runTests
+
+  #==============================================================================================================================================================
+    # Tulip AppImage build on CentOS
+    - stage: Tulip AppImage build (CentOS)
+      # nothing to build if a non-linux platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(macos|macports|homebrew|windows)-only\]$/
+      # Tulip x86_64 AppImage build on CentOS 6
+      os: linux
+      dist: trusty
+      cache:
+        directories:
+          - $HOME/ccache
+
+      sudo: required
+      env:
+        - ARCH=x86_64
+        - DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
+
+      services:
+        - docker
+
+      before_install:
+        - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+        - sudo service docker restart
+        - sleep 5
+        - sudo docker pull ${DOCKER_IMAGE}
+        - sudo docker create -v $HOME/ccache:/ccache --name ccache ${DOCKER_IMAGE}
+
+      before_script:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - sleep 3
+
+      script:
+        - sudo docker run --rm=true -e CCACHE_DIR=/ccache --volumes-from ccache --cap-add SYS_ADMIN --device /dev/fuse:/dev/fuse:mrw --rm=true -v `pwd`:/tulip:rw -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ${DOCKER_IMAGE} /bin/bash -c "bash -xe /tulip/bundlers/linux/tulip_appimage_centos6_build.sh CCACHE RUN_TESTS"
+
+  #==============================================================================================================================================================
+    # Tulip thirdparty macports build stage
+    - stage: Tulip thirdparty build (MacPorts)
+      # nothing to build if a non-macports platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|homebrew|windows)-only\]$/
+    # legacy Tulip thirdparty macports build
+      os: osx
+      # use the oldest osx image acceptable for macports without build
+      osx_image: xcode10.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+        - $HOME/.macports-ci-ccache
+      env:
+        - ENV="MacOS default, AppleClang, MacPorts"
+
+      script:
+        # setup build env
+        - export TRAVIS_BUILD_THIRDPARTY_ONLY=ON
+        - export MACPORTS_CI_CCACHE=ON
+        # launch macports build
+        - bash -xe ./bundlers/mac/macports_build.sh
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip thirdparty macports build
+    -
+      # nothing to build if a non-macports platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|homebrew|windows)-only\]$/
+      os: osx
+      # use the most recent Xcode version
+      osx_image: xcode12.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+        - $HOME/.macports-ci-ccache
+      env:
+        - ENV="MacOS most recent, LLVM Clang, MacPorts"
+
+      script:
+        # setup build env
+        - export CLANG_COMPILER_VERSION=10
+        - export TRAVIS_BUILD_THIRDPARTY_ONLY=ON
+        - export MACPORTS_CI_CCACHE=ON
+        # launch macports build
+        - bash -xe ./bundlers/mac/macports_build.sh
+
+  #==============================================================================================================================================================
+    # Tulip core macports build stage
+    - stage: Tulip core build (MacPorts)
+      # nothing to build if a non-macports platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|homebrew|windows)-only\]$/
+    # legacy Tulip core macports build
+      os: osx
+      # use the oldest osx image acceptable for macports without build
+      osx_image: xcode10.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+        - $HOME/.macports-ci-ccache
+      env:
+        - ENV="MacOS default, AppleClang, MacPorts"
+
+      script:
+        # get Python 3.6 and install it
+        - curl -LO https://www.python.org/ftp/python/3.6.8/python-3.6.8-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.6.*.pkg -target /
+        # setup build env
+        - export MACPORTS_CI_CCACHE=ON
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+        - export TULIP_BUILD_CORE_ONLY=ON
+        - export TULIP_BUILD_DOC=OFF
+        - export TULIP_BUILD_TESTS=ON
+        # launch macports build
+        - bash -xe ./bundlers/mac/macports_build.sh
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip core macports build
+    -
+      # nothing to build if a non-macports platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|homebrew|windows)-only\]$/
+      os: osx
+      # use the most recent Xcode version
+      osx_image: xcode12.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+        - $HOME/.macports-ci-ccache
+      env:
+        - ENV="MacOS most recent, LLVM Clang, MacPorts"
+
+      script:
+        # get Python 3.9 and install it
+        - curl -LO https://www.python.org/ftp/python/3.9.4/python-3.9.4-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.9.*.pkg -target /
+        # setup build env
+        - export CLANG_COMPILER_VERSION=10
+        - export MACPORTS_CI_CCACHE=ON
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
+        - export TULIP_BUILD_CORE_ONLY=ON
+        - export TULIP_BUILD_TESTS=OFF
+        # launch macports build
+        - bash -xe ./bundlers/mac/macports_build.sh
+
+  #==============================================================================================================================================================
+    # Tulip complete macports build stage
+    - stage: Tulip complete build (MacPorts)
+      # nothing to build if a non-macports platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|homebrew|windows)-only\]$/
+    # legacy Tulip complete macports build
+      os: osx
+      # use the oldest osx image acceptable for macports without build
+      osx_image: xcode10.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+        - $HOME/.macports-ci-ccache
+      env:
+        - ENV="MacOS default, AppleClang, MacPorts"
+
+      script:
+        # get Python 3.6 and install it
+        - curl -LO https://www.python.org/ftp/python/3.6.8/python-3.6.8-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.6.*.pkg -target /
+        # setup build env
+        - export MACPORTS_CI_CCACHE=ON
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+        - export TULIP_BUILD_DOC=ON
+        - export TULIP_BUILD_TESTS=ON
+        # launch macports build
+        - bash -xe ./bundlers/mac/macports_build.sh
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip complete macports build
+    -
+      # nothing to build if a non-macports platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|homebrew|windows)-only\]$/
+      os: osx
+      # use the most recent Xcode version
+      osx_image: xcode12.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+        - $HOME/.macports-ci-ccache
+      env:
+        - ENV="MacOS most recent, LLVM Clang, MacPorts"
+
+      script:
+        # get Python 3.9 and install it
+        - curl -LO https://www.python.org/ftp/python/3.9.4/python-3.9.4-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.9.*.pkg -target /
+        # setup build env
+        - export CLANG_COMPILER_VERSION=10
+        - export MACPORTS_CI_CCACHE=OFF
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
+        - export TULIP_BUILD_TESTS=OFF
+        # launch macports build
+        - bash -xe ./bundlers/mac/macports_build.sh
+
+  #==============================================================================================================================================================
+    # Tulip thirdparty Homebrew build stage
+    - stage: Tulip thirdparty build (Homebrew)
+      # nothing to build if a non-homebrew platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|macports|windows)-only\]$/
+    # legacy Tulip thirdparty homebrew build
+      os: osx
+      # use the oldest osx 10.14 image acceptable for homebrew
+      osx_image: xcode10.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      addons:
+        homebrew:
+          # install Tulip core build dependencies
+          packages:
+            - ccache
+            - cmake
+            - ninja
+            - llvm@9
+            - qhull
+          update: true
+
+      env:
+        - ENV="MacOS oldest, LLVM Clang, Homebrew"
+      script:
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip thirdparty build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_C_COMPILER=/usr/local/opt/llvm@9/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm@9/bin/clang++ -DTRAVIS_BUILD_THIRDPARTY_ONLY=ON -DTULIP_USE_CCACHE=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j$(getconf _NPROCESSORS_ONLN) || travis_terminate 1
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip thirdparty homebrew build
+    -
+      # nothing to build if a non-homebrew platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|macports|windows)-only\]$/
+      os: osx
+      # use the most recent Xcode version
+      osx_image: xcode12.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      addons:
+        homebrew:
+          # install Tulip thirdparty build dependencies
+          packages:
+            - ccache
+            - cmake
+            - ninja
+            - llvm
+            - qhull
+          update: true
+
+      env:
+        - ENV="MacOS most recent, LLVM Clang, Homebrew"
+      script:
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip thirdparty build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++ -DTRAVIS_BUILD_THIRDPARTY_ONLY=ON -DTULIP_USE_CCACHE=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j$(getconf _NPROCESSORS_ONLN) || travis_terminate 1
+
+  #==============================================================================================================================================================
+    # Tulip core Homebrew build stage
+    - stage: Tulip core build (Homebrew)
+      # nothing to build if a non-homebrew platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|macports|windows)-only\]$/
+    # legacy Tulip core Homebrew build
+      os: osx
+      # use the oldest osx 10.14 image acceptable for homebrew
+      osx_image: xcode10.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      addons:
+        homebrew:
+          # install Tulip core build dependencies
+          packages:
+            - ccache
+            - cmake
+            - ninja
+            - llvm@9
+            - qhull
+            - cppunit
+            - pkg-config
+          update: true
+
+      env:
+        - ENV="MacOS oldest, LLVM Clang, Homebrew"
+      script:
+        # get Python 3.6 and install it
+        - curl -LO https://www.python.org/ftp/python/3.6.8/python-3.6.8-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.6.*.pkg -target /
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip core build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_C_COMPILER=/usr/local/opt/llvm@9/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm@9/bin/clang++ -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DTULIP_BUILD_CORE_ONLY=ON -DTULIP_BUILD_TESTS=ON -DTULIP_USE_CCACHE=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j$(getconf _NPROCESSORS_ONLN) || travis_terminate 1
+        #- ninja -j$(getconf _NPROCESSORS_ONLN) install || travis_terminate 1
+        # run Tulip unit tests
+        #- ninja runTests
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip core homebrew build
+    -
+      # nothing to build if a non-homebrew platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|macports|windows)-only\]$/
+      os: osx
+      # use the most recent Xcode version
+      osx_image: xcode12.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      addons:
+        homebrew:
+          # install Tulip core build dependencies
+          packages:
+            - ccache
+            - cmake
+            - ninja
+            - llvm
+            - qhull
+            - cppunit
+            - pkg-config
+          update: true
+
+      env:
+        - ENV="MacOS most recent, LLVM Clang, Homebrew"
+      script:
+        # get Python 3.9 and install it
+        - curl -LO https://www.python.org/ftp/python/3.9.4/python-3.9.4-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.9.*.pkg -target /
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip core build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++ -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DTULIP_BUILD_CORE_ONLY=ON -DTULIP_BUILD_TESTS=ON -DTULIP_USE_CCACHE=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j$(getconf _NPROCESSORS_ONLN) || travis_terminate 1
+        #- ninja -j$(getconf _NPROCESSORS_ONLN) install || travis_terminate 1
+        # run Tulip unit tests
+        #- ninja runTests
+
+  #==============================================================================================================================================================
+    # Tulip complete homebrew build stage
+    - stage: Tulip complete build (Homebrew)
+      # nothing to build if a non-homebrew platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|macports|windows)-only\]$/
+    # legacy Tulip complete homebrew build
+      os: osx
+      # use the oldest osx 10.14 image acceptable for homebrew
+      osx_image: xcode10.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      addons:
+        homebrew:
+          # install Tulip complete build dependencies
+          packages:
+            - ccache
+            - cmake
+            - ninja
+            - llvm@9
+            - qhull
+            - cppunit
+            - pkg-config
+            - glew
+            - freetype
+            - qt5
+          update: true
+
+      env:
+        - ENV="MacOS oldest, LLVM Clang, Homebrew"
+
+      script:
+        # get Python 3.6 and install it
+        - curl -LO https://www.python.org/ftp/python/3.6.8/python-3.6.8-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.6.*.pkg -target /
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_C_COMPILER=/usr/local/opt/llvm@9/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm@9/bin/clang++ -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DCMAKE_PREFIX_PATH=/usr/local/opt/qt -DTULIP_BUILD_DOC=OFF -DTULIP_BUILD_TESTS=ON -DTULIP_USE_CCACHE=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j$(getconf _NPROCESSORS_ONLN) || travis_terminate 1
+        #- ninja -j$(getconf _NPROCESSORS_ONLN) install || travis_terminate 1
+        # run Tulip unit tests
+        #- ninja runTests
+
+    #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # modern Tulip complete homebrew build
+    -
+      # nothing to build if a non-homebrew platform is specified
+      # at the end of the commit message
+      if: commit_message !~ /\[(appimage|linux|macports|windows)-only\]$/
+      os: osx
+      # use the most recent Xcode version
+      osx_image: xcode12.2
+      compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      addons:
+        homebrew:
+          # install Tulip complete build dependencies
+          packages:
+            - ccache
+            - cmake
+            - ninja
+            - llvm
+            - qhull
+            - cppunit
+            - pkg-config
+            - glew
+            - freetype
+            - qt5
+          update: true
+
+      env:
+        - ENV="MacOS most recent, LLVM Clang, Homebrew"
+
+      script:
+        # get Python 3.9 and install it
+        - curl -LO https://www.python.org/ftp/python/3.9.4/python-3.9.4-macosx10.9.pkg
+        - sudo installer -store -pkg python-3.9.*.pkg -target /
+        - export PYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
+        # workaround for reference to unknown /Applications/Xcode-beta.app
+        # in bogus FindGLEW.cmake since cmake 3.15
+        - sudo ln -s /Applications/Xcode.app /Applications/Xcode-beta.app
+        # create build directory
+        - mkdir build && cd build
+        # configure Tulip build using cmake
+        - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++ -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} -DCMAKE_PREFIX_PATH=/usr/local/opt/qt -DTULIP_BUILD_DOC=OFF -DTULIP_BUILD_TESTS=ON -DTULIP_USE_CCACHE=ON || travis_terminate 1
+        # compile Tulip using ninja for faster builds
+        - ninja -j$(getconf _NPROCESSORS_ONLN) || travis_terminate 1
+        #- ninja -j$(getconf _NPROCESSORS_ONLN) install || travis_terminate 1
+        # run Tulip unit tests
+        #- ninja runTests

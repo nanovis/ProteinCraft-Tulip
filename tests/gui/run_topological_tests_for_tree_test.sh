@@ -1,0 +1,1 @@
+sh tulip_run_test.sh topological_tests_for_tree random_tree.tlp

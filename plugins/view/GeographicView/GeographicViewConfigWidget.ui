@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GeographicViewConfigWidgetData</class>
+ <widget class="QWidget" name="GeographicViewConfigWidgetData">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>292</width>
+    <height>576</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Options</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Use shared property for</string>
+     </property>
+     <property name="groupTitle" stdset="0">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="leftMargin">
+      <number>6</number>
+     </property>
+     <property name="bottomMargin">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QCheckBox" name="shapeCheckBox">
+       <property name="toolTip">
+        <string>enable/disable the use of the viewShape property</string>
+       </property>
+       <property name="text">
+        <string>Shape</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="layoutCheckBox">
+       <property name="toolTip">
+        <string>enable/disable the use of the viewLayout property</string>
+       </property>
+       <property name="text">
+        <string>Layout</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="sizeCheckBox">
+       <property name="toolTip">
+        <string>enable/disable the use of the viewSize property</string>
+       </property>
+       <property name="text">
+        <string>Size</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Polygon mode shape file</string>
+     </property>
+     <property name="groupTitle" stdset="0">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="useDefaultShape">
+     <property name="text">
+      <string>&amp;Use default shape</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QRadioButton" name="useCsvFile">
+       <property name="text">
+        <string>Use cs&amp;v file</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="csvHelpButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/tulip/view/geographic/help-contents.png</normaloff>:/tulip/view/geographic/help-contents.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>20</number>
+     </property>
+     <item>
+      <widget class="QLineEdit" name="csvFile">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="csvFilePushButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QRadioButton" name="usePolyFile">
+       <property name="text">
+        <string>Use pol&amp;y file</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="polyHelpButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/tulip/view/geographic/help-contents.png</normaloff>:/tulip/view/geographic/help-contents.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>20</number>
+     </property>
+     <item>
+      <widget class="QLineEdit" name="polyFile">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="polyFilePushButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="mapToPolygon">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Map to polygon</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Custom Tile Layer</string>
+     </property>
+     <property name="groupTitle" stdset="0">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="urlLayout">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Tile server url</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tileServerUrlHelpButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/tulip/view/geographic/help-contents.png</normaloff>:/tulip/view/geographic/help-contents.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="customTileLayerUrl">
+     <property name="toolTip">
+      <string>The url can be in the form: http://{s}.tilesprovider.org/.../{z}/{x}/{y}.png</string>
+     </property>
+     <property name="placeholderText">
+      <string>http://{s}.tilesprovider.org/.../{z}/{x}/{y}.png</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="attributionLayout">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Tiles attribution</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tilesAttributionHelpButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/tulip/view/geographic/help-contents.png</normaloff>:/tulip/view/geographic/help-contents.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="customTileLayerAttribution">
+     <property name="toolTip">
+      <string>Refer to the map tiles provider to set the tiles attribution.</string>
+     </property>
+     <property name="placeholderText">
+      <string>Tiles courtesy of tiles.provider.org ...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>104</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>useCsvFile</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>csvFile</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>147</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>204</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>usePolyFile</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>polyFile</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>147</x>
+     <y>234</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>useCsvFile</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>csvFilePushButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>265</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>usePolyFile</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>polyFilePushButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>244</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>265</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFilePushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>openCsvFileBrowser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>polyFilePushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>openPolyFileBrowser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>274</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvHelpButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>openCsvHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>polyHelpButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>openPolyHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tileServerUrlHelpButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>openTileServerUrlHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tilesAttributionHelpButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>openTilesAttributionHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mapToPolygon</sender>
+   <signal>clicked()</signal>
+   <receiver>GeographicViewConfigWidgetData</receiver>
+   <slot>mapToPolygonSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>openPolyFileBrowser()</slot>
+  <slot>openCsvFileBrowser()</slot>
+  <slot>openCsvHelp()</slot>
+  <slot>openPolyHelp()</slot>
+  <slot>openTileServerUrlHelp()</slot>
+  <slot>openTilesAttributionHelp()</slot>
+  <slot>mapToPolygonSlot()</slot>
+ </slots>
+</ui>

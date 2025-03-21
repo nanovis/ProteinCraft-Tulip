@@ -1,0 +1,105 @@
+/**
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+
+#include <tulip/GlRect.h>
+#include <tulip/BoundingBox.h>
+#include <tulip/TulipPluginHeaders.h>
+
+#include "PixelOrientedViewNavigator.h"
+
+#include <QEvent>
+#include <QMouseEvent>
+
+using namespace std;
+
+namespace tlp {
+
+PixelOrientedViewNavigator::PixelOrientedViewNavigator()
+    : pixelView(nullptr), selectedOverview(nullptr) {}
+
+PixelOrientedViewNavigator::~PixelOrientedViewNavigator() {}
+
+void PixelOrientedViewNavigator::viewChanged(View *view) {
+  pixelView = static_cast<PixelOrientedView *>(view);
+}
+
+bool PixelOrientedViewNavigator::eventFilter(QObject *widget, QEvent *e) {
+
+  if (e->type() != QEvent::MouseButtonDblClick && e->type() != QEvent::MouseMove)
+    return false;
+
+  GlMainWidget *glWidget = static_cast<GlMainWidget *>(widget);
+
+  if (!glWidget->hasMouseTracking()) {
+    glWidget->setMouseTracking(true);
+  }
+
+  if (!pixelView->smallMultiplesViewSet() && !pixelView->interactorsEnabled()) {
+    pixelView->toggleInteractors(true);
+  }
+
+  if (pixelView->getOverviews().empty()) {
+    return false;
+  }
+
+  if (e->type() == QEvent::MouseMove && pixelView->smallMultiplesViewSet()) {
+    QMouseEvent *me = static_cast<QMouseEvent *>(e);
+    int x = glWidget->width() - me->pos().x();
+    int y = me->pos().y();
+    Coord screenCoords(x, y, 0);
+    Coord &&sceneCoords = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
+        glWidget->screenToViewport(screenCoords));
+    PixelOrientedOverview *overviewUnderPointer = getOverviewUnderPointer(sceneCoords);
+
+    if (overviewUnderPointer != nullptr && overviewUnderPointer != selectedOverview) {
+      selectedOverview = overviewUnderPointer;
+    }
+
+    return true;
+  } else if (e->type() == QEvent::MouseButtonDblClick) {
+    if (selectedOverview != nullptr && !selectedOverview->overviewGenerated()) {
+      pixelView->generatePixelOverview(selectedOverview);
+      glWidget->draw();
+    } else if (selectedOverview != nullptr && pixelView->smallMultiplesViewSet()) {
+      pixelView->zoomAndPanAnimation(selectedOverview->getBoundingBox());
+      pixelView->switchFromSmallMultiplesToDetailView(selectedOverview);
+      selectedOverview = nullptr;
+    } else if (!pixelView->smallMultiplesViewSet() && pixelView->getOverviews().size() > 1) {
+      pixelView->switchFromDetailViewToSmallMultiples();
+      pixelView->zoomAndPanAnimation(pixelView->getSmallMultiplesViewBoundingBox());
+      pixelView->centerView();
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+PixelOrientedOverview *PixelOrientedViewNavigator::getOverviewUnderPointer(Coord &sceneCoords) {
+  for (auto ov : pixelView->getOverviews()) {
+    BoundingBox &&overviewBB = ov->getBoundingBox();
+    if (sceneCoords.getX() >= overviewBB[0][0] && sceneCoords.getX() <= overviewBB[1][0] &&
+        sceneCoords.getY() >= overviewBB[0][1] && sceneCoords.getY() <= overviewBB[1][1])
+      return ov;
+  }
+
+  return nullptr;
+}
+} // namespace tlp

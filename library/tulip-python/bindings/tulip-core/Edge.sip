@@ -1,0 +1,85 @@
+/*
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+
+// +-------------------------------------------------------------------------+
+// | Tulip Python Bindings                                                   |
+// | inspired from bindings by the Booggie project development team          |
+// | (https://sourceforge.net/projects/booggie/)                             |
+// +-------------------------------------------------------------------------+
+
+namespace tlp {
+  
+class edge {
+
+%TypeHeaderCode
+#include <tulip/Edge.h>
+%End
+
+%Docstring
+An instance of this class represents an edge of a Tulip graph. It encapsulates an integer identifier.
+Use specific methods in the :class:`tlp.Graph` class to get references on such objects (for instance
+:meth:`tlp.Graph.addEdge`, :meth:`tlp.Graph.getEdges`, :meth:`tlp.Graph.getInEdges`).
+Edge objects can be used as keys in a Python dictionary.
+
+The edge identifier can be accessed through the **id** class member. If necessary, it is automatically
+converted to an integer value with the __int__ special method.
+
+%End
+
+public:
+  
+  unsigned int id;
+  
+  edge();
+  edge(unsigned int);
+  
+  bool __eq__(const tlp::edge) const;
+  bool __ne__(const tlp::edge) const;
+  int __int__();
+
+  bool isValid() const;
+%Docstring
+tlp.edge.isValid()
+
+Returns :const:`True` if the edge is valid, i.e., it is an element of a graph.
+
+:rtype: Boolean
+%End
+
+  std::string __repr__() const;
+%MethodCode
+  sipRes = new std::string("<edge " + std::to_string(sipCpp->id) + ">");
+%End
+
+  Py_hash_t __hash__() const;
+%MethodCode
+  return static_cast<Py_hash_t>(sipCpp->id);
+%End
+
+  SIP_PYOBJECT __copy__() const;
+%MethodCode
+  sipRes = sipConvertFromNewType(new tlp::edge(sipCpp->id), sipFindType("tlp::edge"), NULL);
+%End
+
+  SIP_PYOBJECT __deepcopy__(SIP_PYOBJECT) const;
+%MethodCode
+  sipRes = sipConvertFromNewType(new tlp::edge(sipCpp->id), sipFindType("tlp::edge"), NULL);
+%End
+};
+};

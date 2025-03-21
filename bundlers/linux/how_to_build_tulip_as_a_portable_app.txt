@@ -1,0 +1,69 @@
+# This script intends to build Tulip to get
+# a portable app (using AppImageKit)
+# runnable on most linux distributions
+# It has been successfully tested on CentOS 6.10
+
+# install base build system
+yum -y install epel-release
+yum -y install xz cmake3 unzip make wget ccache
+
+# install GCC 7 as OGDF v.2020.02 requires a quite advanced C++11 compiler
+yum -y install centos-release-scl
+yum -y install devtoolset-7
+
+# install Python 3.6
+yum -y install rh-python36-python rh-python36-python-devel rh-python36-python-sphinx
+
+# install devel packages needed by Tulip
+yum -y install freetype-devel glew-devel qt5-qtbase-devel zlib-devel
+
+# get Tulip latest source
+wget -O tulip_latest_src.zip https://sourceforge.net/projects/auber/files/latest/download
+
+# create a directory to decompress Tulip source
+mkdir tulip
+pushd tulip
+unzip ../tulip_latest_src.zip
+
+# create build dir
+mkdir build
+cd build
+
+# enable devtoolset-7 env
+scl enable devtoolset-7 bash
+
+# enable python-36 env
+scl enable rh-python36 bash
+
+# cmake configuration using the decompressed source
+cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=$PWD/../install $(ls -d ../tulip-*)
+
+# build and install
+make install
+
+# build a bundle dir suitable for AppImageKit
+sh bundlers/linux/make_appimage_bundle.sh --appdir /tmp
+popd
+
+# install fuse needed by AppImageKit
+yum -y install fuse fuse-libs
+
+# allow execution mode for fusermount
+chmod +x /bin/fusermount
+
+# add current user in fuse group
+usermod -a -G fuse $USER
+
+# get appimagetool
+wget "https://github.com/probonopd/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod a+x appimagetool-x86_64.AppImage
+
+# finally build the portable app
+./appimagetool-x86_64.AppImage /tmp/Tulip.AppDir Tulip-$(install/bin/tulip-config --version)
+
+
+
+
+
+
+

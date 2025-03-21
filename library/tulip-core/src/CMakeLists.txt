@@ -1,0 +1,101 @@
+SET(tulip_LIB_SRCS ${tulip_LIB_SRCS}
+Plugin.cpp
+AcyclicTest.cpp
+Bfs.cpp
+BiconnectedTest.cpp
+BooleanProperty.cpp
+BoundingBox.cpp
+Color.cpp
+ColorProperty.cpp
+ColorScale.cpp
+ConnectedTest.cpp
+ConnectedTestListener.cpp
+ConvexHull.cpp
+DataSet.cpp
+Delaunay.cpp
+Dijkstra.cpp
+DoubleProperty.cpp
+DrawingTools.cpp
+FaceIterator.cpp
+GraphAbstract.cpp
+Graph.cpp
+GraphDecorator.cpp
+GraphImpl.cpp
+GraphIterators.cpp
+GraphMeasure.cpp
+GraphProperty.cpp
+GraphStorage.cpp
+GraphTools.cpp
+GraphUpdatesRecorder.cpp
+GraphView.cpp
+ImportModule.cpp
+IdManager.cpp
+IntegerProperty.cpp
+LayoutProperty.cpp
+MapIterator.cpp
+NumericProperty.cpp
+Observable.cpp
+Ordering.cpp
+OuterPlanarTest.cpp
+ParametricCurves.cpp
+ParallelTools.cpp
+PlanarConMap.cpp
+PlanarityTest.cpp
+PlanarityTestEmbed.cpp
+PlanarityTestImpl.cpp
+PlanarityTestObstr.cpp
+PlanarityTestTools.cpp
+Plane.cpp
+PluginLibraryLoader.cpp
+PluginLoaderTxt.cpp
+PropertyAlgorithm.cpp
+PropertiesCollection.cpp
+PropertyInterface.cpp
+PropertyManager.cpp
+PropertyTypes.cpp
+SimplePluginProgress.cpp
+SimpleTest.cpp
+SizeProperty.cpp
+StlFunctions.cpp
+StringCollection.cpp
+StringProperty.cpp
+TLPExport.cpp
+TLPImport.cpp
+TlpTools.cpp
+TreeTest.cpp
+TriconnectedTest.cpp
+vectorgraph.cpp
+WithParameter.cpp
+YajlFacade.cpp
+PluginLister.cpp
+tulipconf.cpp
+TulipException.cpp
+PluginProgress.cpp
+TulipViewSettings.cpp
+TlpJsonExport.cpp
+TlpJsonImport.cpp
+TLPBExport.cpp
+TLPBImport.cpp
+)
+
+INCLUDE_DIRECTORIES(${TulipCoreBuildInclude} ${TulipCoreInclude} ${PROJECT_SOURCE_DIR} ${ZLIB_INCLUDE_DIR} ${Yajl_INCLUDE_DIRS} ${Qhull_INCLUDE_DIRS} ${GZStreamInclude} ${UTF8CppInclude})
+
+ADD_LIBRARY(${LibTulipCoreName} SHARED ${tulip_LIB_SRCS})
+TARGET_LINK_LIBRARIES(${LibTulipCoreName} ${GZStreamLibrary} PkgConfig::Yajl ${Qhull_LINK_LIBRARIES} ${CMAKE_DL_LIBS})
+IF(WIN32)
+  IF(MSVC)
+    TARGET_LINK_LIBRARIES(${LibTulipCoreName} Dbghelp)
+    IF(${CMAKE_GENERATOR} MATCHES "Visual Studio 9" OR ${CMAKE_GENERATOR} MATCHES "NMake Makefiles")
+      SET_TARGET_PROPERTIES(${LibTulipCoreName} PROPERTIES LINK_FLAGS " /NODEFAULTLIB:LIBCMT.lib ")
+    ENDIF()
+  ENDIF()
+ENDIF(WIN32)
+
+INSTALL(TARGETS ${LibTulipCoreName}
+  RUNTIME DESTINATION ${TulipBinInstallDir} COMPONENT tulip_core
+  LIBRARY DESTINATION ${TulipLibInstallDir} COMPONENT tulip_core
+  ARCHIVE DESTINATION ${TulipLibInstallDir} COMPONENT tulip_core)
+
+IF(TULIP_ACTIVATE_PYTHON_WHEEL_TARGET)
+  TULIP_COPY_TARGET_LIBRARY_POST_BUILD(${LibTulipCoreName} ${TULIP_PYTHON_NATIVE_FOLDER} wheel)
+ENDIF(TULIP_ACTIVATE_PYTHON_WHEEL_TARGET)

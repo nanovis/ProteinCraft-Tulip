@@ -1,0 +1,232 @@
+/**
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+
+#if defined(__GNUC__) && __GNUC__ >= 4 &&                                                          \
+    ((__GNUC_MINOR__ == 2 && __GNUC_PATCHLEVEL__ >= 1) || (__GNUC_MINOR__ >= 3))
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+
+#include <tulip/GraphProperty.h>
+
+using namespace std;
+using namespace tlp;
+
+const string GraphProperty::propertyTypename = "graph";
+
+//==============================
+GraphProperty::GraphProperty(Graph *sg, const std::string &n)
+    : AbstractProperty<GraphType, EdgeSetType>(sg, n) {
+  setAllNodeValue(nullptr);
+}
+//==============================
+void GraphProperty::setAllNodeValue(tlp::StoredType<GraphType::RealType>::ReturnedConstValue g) {
+  // remove all observed graphs if any
+  for (auto n : getNonDefaultValuatedNodes()) {
+    getNodeValue(n)->removeListener(this);
+  }
+
+  set<node> emptySet;
+  referencedGraph.setAll(emptySet);
+
+  if (getNodeDefaultValue() != nullptr) {
+    getNodeDefaultValue()->removeListener(this);
+  }
+
+  AbstractGraphProperty::setAllNodeValue(g);
+
+  if (g != nullptr)
+    g->addListener(this);
+}
+//==============================
+void GraphProperty::setValueToGraphNodes(tlp::StoredType<GraphType::RealType>::ReturnedConstValue g,
+                                         const Graph *graph) {
+  // remove all observed graphs if any
+  for (auto n : getNonDefaultValuatedNodes(graph)) {
+    getNodeValue(n)->removeListener(this);
+  }
+
+  set<node> emptySet;
+  referencedGraph.setAll(emptySet);
+
+  if ((!graph || getGraph() == graph) && getNodeDefaultValue() != nullptr) {
+    getNodeDefaultValue()->removeListener(this);
+  }
+
+  AbstractGraphProperty::setValueToGraphNodes(g, graph);
+
+  if (g != nullptr)
+    g->addListener(this);
+}
+//==============================
+void GraphProperty::setNodeValue(const node n,
+                                 tlp::StoredType<GraphType::RealType>::ReturnedConstValue sg) {
+  // gestion désabonnement
+  Graph *oldGraph = getNodeValue(n);
+
+  if (oldGraph != nullptr && oldGraph != sg) {
+    // gestion du désabonnement
+    bool notDefault;
+    set<node> &refs = referencedGraph.get(oldGraph->getId(), notDefault);
+
+    if (notDefault) {
+      refs.erase(n);
+
+      if (refs.empty()) {
+        if (oldGraph != getNodeDefaultValue())
+          oldGraph->removeListener(this);
+
+        referencedGraph.set(oldGraph->getId(), set<node>());
+      }
+    } else if (oldGraph != getNodeDefaultValue())
+      oldGraph->removeListener(this);
+  }
+
+  AbstractGraphProperty::setNodeValue(n, sg);
+
+  if (sg == nullptr || oldGraph == sg)
+    return;
+
+  // Gestion de l'abonnement
+  sg->addListener(this);
+
+  if (sg != getNodeDefaultValue()) {
+    bool notDefault;
+    set<node> &refs = referencedGraph.get(sg->getId(), notDefault);
+
+    if (notDefault)
+      refs.insert(n);
+    else {
+      set<node> newSet;
+      newSet.insert(n);
+      referencedGraph.set(sg->getId(), newSet);
+    }
+  }
+}
+//============================================================
+PropertyInterface *GraphProperty::clonePrototype(Graph *g, const std::string &n) const {
+  if (!g)
+    return nullptr;
+
+  // allow to get an unregistered property (empty name)
+  GraphProperty *p = n.empty() ? new GraphProperty(g) : g->getLocalProperty<GraphProperty>(n);
+
+  p->setAllNodeValue(getNodeDefaultValue());
+  p->setAllEdgeValue(getEdgeDefaultValue());
+  return p;
+}
+//=============================================================
+// disabled, use setNodeValue instead
+bool GraphProperty::setNodeStringValue(const node, const std::string &) {
+  return false;
+}
+//=============================================================
+// disabled use setAllNodeValue instead
+bool GraphProperty::setAllNodeStringValue(const std::string &) {
+  return false;
+}
+bool GraphProperty::setStringValueToGraphNodes(const std::string &, const tlp::Graph *) {
+  return false;
+}
+//=============================================================
+// disabled, use setEdgeValue instead
+bool GraphProperty::setEdgeStringValue(const edge, const std::string &) {
+  return false;
+}
+//=============================================================
+// disabled use setAllEdgeValue instead
+bool GraphProperty::setAllEdgeStringValue(const std::string &) {
+  return false;
+}
+bool GraphProperty::setStringValueToGraphEdges(const std::string &, const tlp::Graph *) {
+  return false;
+}
+//=============================================================
+const set<edge> &GraphProperty::getReferencedEdges(const edge e) const {
+  return const_cast<GraphProperty *>(this)->edgeProperties.get(e.id);
+}
+//=============================================================
+void GraphProperty::treatEvent(const Event &evt) {
+  if (evt.type() == Event::TLP_DELETE) {
+
+    Graph *sg = static_cast<Graph *>(evt.sender());
+
+#ifndef NDEBUG
+    tlp::warning() << "Tulip Warning : A graph pointed by metanode(s) has been deleted, the "
+                      "metanode(s) pointer has been set to zero in order to prevent segmentation "
+                      "fault"
+                   << std::endl;
+#endif
+
+    if (getNodeDefaultValue() == sg) {
+      // we must backup old value
+      MutableContainer<Graph *> backup;
+      backup.setAll(nullptr);
+
+      for (auto n : graph->nodes()) {
+        if (getNodeValue(n) != sg)
+          backup.set(n.id, getNodeValue(n));
+      }
+
+      setAllNodeValue(nullptr);
+
+      // restore values
+      for (auto n : graph->nodes()) {
+        setNodeValue(n, backup.get(n.id));
+      }
+    }
+
+    const set<node> &refs = referencedGraph.get(sg->getId());
+
+    set<node>::const_iterator it = refs.begin();
+
+    if (it != refs.end()) {
+      // don't change values if this non longer exists (when undoing)
+      if (graph->existProperty(name)) {
+        for (; it != refs.end(); ++it) {
+          AbstractGraphProperty::setNodeValue((*it), nullptr);
+        }
+      }
+
+      referencedGraph.set(sg->getId(), set<node>());
+    }
+  }
+}
+
+bool GraphProperty::readNodeDefaultValue(std::istream &iss) {
+  // must read 0 (see GraphType::writeb)
+  unsigned int id = 0;
+
+  if (!bool(iss.read(reinterpret_cast<char *>(&id), sizeof(id))))
+    return false;
+
+  assert(id == 0);
+  return id == 0;
+}
+
+bool GraphProperty::readNodeValue(std::istream &iss, node n) {
+  // must read the id of a subgraph
+  unsigned int id = 0;
+
+  if (!bool(iss.read(reinterpret_cast<char *>(&id), sizeof(id))))
+    return false;
+
+  Graph *sg = graph->getRoot()->getDescendantGraph(id);
+  setNodeValue(n, sg);
+  return true;
+}

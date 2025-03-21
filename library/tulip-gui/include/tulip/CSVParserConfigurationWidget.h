@@ -1,0 +1,87 @@
+/*
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+///@cond DOXYGEN_HIDDEN
+
+#ifndef CSVPARSERCONFIGURATIONWIDGET_H
+#define CSVPARSERCONFIGURATIONWIDGET_H
+
+#include <climits>
+
+#include <QWidget>
+
+#include <tulip/tulipconf.h>
+
+namespace Ui {
+class CSVParserConfigurationWidget;
+}
+
+namespace tlp {
+
+class CSVParser;
+
+class TLP_QT_SCOPE CSVParserConfigurationWidget : public QWidget {
+  Q_OBJECT
+public:
+  CSVParserConfigurationWidget(QWidget *parent = nullptr);
+  ~CSVParserConfigurationWidget() override;
+  /**
+   * @brief Generate a csv parser in function of the parameters in the widget. User define the
+   *range of line to import.
+   * The user takes the ownership of the widget.
+   **/
+  CSVParser *buildParser(unsigned int firstLine = 0, unsigned int lastLine = UINT_MAX) const;
+
+  std::string getFile() const;
+  void clearFile();
+  bool isValid() const;
+  QString getSeparator() const;
+  char getTextSeparator() const;
+  char getDecimalMark() const;
+  std::string getEncoding() const;
+  bool invertMatrix() const;
+  bool getMergeSeparator() const;
+  bool getConsiderAsString() const;
+  void initWithLastOpenedFile();
+  int getFirstLineIndex() const;
+  void setNbIgnoredLines(int);
+
+public slots:
+  void setFileToOpen(const QString &fileToOpen);
+
+protected:
+  void fillEncodingComboBox();
+
+protected slots:
+  void changeFileNameButtonPressed();
+  void encodingChanged();
+  void changeSeparator(int index);
+  void ignoreFirstLines(int checkState);
+
+private:
+  QString getSeparator(int index) const;
+
+  Ui::CSVParserConfigurationWidget *ui;
+  static QString lastOpenedFile;
+
+signals:
+  void parserChanged();
+};
+} // namespace tlp
+#endif // CSVPARSERCONFIGURATIONWIDGET_H
+///@endcond

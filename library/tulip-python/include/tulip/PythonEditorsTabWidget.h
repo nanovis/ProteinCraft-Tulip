@@ -1,0 +1,88 @@
+/**
+ *
+ * This file is part of Tulip (https://tulip.labri.fr)
+ *
+ * Authors: David Auber and the Tulip development Team
+ * from LaBRI, University of Bordeaux
+ *
+ * Tulip is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tulip is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
+
+#ifndef PYTHONEDITORSTABWIDGET_H
+#define PYTHONEDITORSTABWIDGET_H
+
+#include <QMap>
+#include <QTabWidget>
+#include <QTabBar>
+
+#include <tulip/tulipconf.h>
+
+namespace tlp {
+
+class PythonCodeEditor;
+
+class TLP_PYTHON_SCOPE PythonEditorsTabWidget : public QTabWidget {
+
+  Q_OBJECT
+
+  int _fontZoom;
+  bool _dontTreatFocusIn;
+  bool reloadCodeInEditorIfNeeded(int index);
+
+public:
+  explicit PythonEditorsTabWidget(QWidget *parent = nullptr);
+
+  int addEditor(const QString &fileName = "");
+
+  PythonCodeEditor *getCurrentEditor() const;
+
+  PythonCodeEditor *getEditor(int) const;
+
+  void indicateErrors(const QMap<QString, QVector<int>> &errorLines);
+
+  void clearErrorIndicators();
+
+  bool eventFilter(QObject *, QEvent *) override;
+
+  void saveCurrentEditorContentToFile();
+
+  void saveEditorContentToFile(int);
+
+  void increaseFontSize();
+
+  void decreaseFontSize();
+
+  QTabBar *tabBar() const;
+
+  void closeTab(int tab);
+
+signals:
+
+  void tabAboutToBeDeleted(int);
+
+  void fileEdited();
+
+  void fileSaved(int);
+
+  void filesReloaded();
+
+public slots:
+
+  void scriptTextChanged();
+
+  void reloadCodeInEditorsIfNeeded();
+
+  void closeTabRequested(int tab);
+};
+} // namespace tlp
+
+#endif // PYTHONEDITORSTABWIDGET_H
