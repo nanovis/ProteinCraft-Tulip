@@ -207,7 +207,7 @@ void ParallelCoordinatesDrawing::createAxis(GlMainWidget *glWidget, QProgressDia
       } else if (typeName == "int" || typeName == "double") {
         axis =
             new QuantitativeParallelAxis(coord, height, maxCaptionWidth, graphProxy, selectedProp,
-                                         true, axisColor, rotationAngle, captionPosition);
+                                         false, axisColor, rotationAngle, captionPosition);
       }
     }
 

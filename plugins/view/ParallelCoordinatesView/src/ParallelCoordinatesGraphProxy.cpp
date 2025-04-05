@@ -75,6 +75,14 @@ void ParallelCoordinatesGraphProxy::setSelectedProperties(const vector<string> &
   selectedProperties = properties;
 }
 
+const vector<bool> &ParallelCoordinatesGraphProxy::getSelectedPropertiesOrder() {
+  return selectedPropertiesOrder;
+}
+
+void ParallelCoordinatesGraphProxy::setSelectedPropertiesOrder(const vector<bool> &order) {
+  selectedPropertiesOrder = order;
+}
+
 void ParallelCoordinatesGraphProxy::removePropertyFromSelection(const std::string &propertyName) {
   vector<string> selectedPropertiesCopy(selectedProperties);
   vector<string>::iterator it;
