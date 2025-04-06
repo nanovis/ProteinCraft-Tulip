@@ -260,21 +260,6 @@ void GraphHierarchiesEditor::updateSelectionInfos() {
           text += "one node";
         else
           text += QString::number(numNodes) + " nodes";
-
-
-        auto propertyNames = graph->getProperties();
-        DoubleProperty* prop = graph->getProperty<DoubleProperty>("viewMetric");
-        for (auto p : propertyNames)
-        {
-          tlp::debug() << "[Roden Test] " << "Property: " << p << std::endl;
-        }
-
-        auto selectedNodes = _currentSelection->getNonDefaultValuatedNodes(graph);
-        for (auto n : selectedNodes)
-        {
-          tlp::debug() << "[Roden Test] " << "Selected node id: " << n.id << std::endl;
-          tlp::debug() << "[Roden Test] " << "Selected node's prop: " << prop->getNodeDoubleValue(n) << std::endl;
-        }
       }
       if (numEdges) {
         if (numNodes)
