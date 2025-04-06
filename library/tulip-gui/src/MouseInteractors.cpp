@@ -457,8 +457,9 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
     }
   }
 
-  if (mouseNavigationEnabled && e->type() == QEvent::MouseButtonPress) {
-    if (qMouseEv->buttons() == Qt::LeftButton || qMouseEv->buttons() == Qt::MiddleButton) {
+  if (e->type() == QEvent::MouseButtonPress) {
+    if (qMouseEv->buttons() == Qt::MiddleButton ||
+        (mouseNavigationEnabled && qMouseEv->buttons() == Qt::LeftButton)) {
       oldCursor = glmainwidget->cursor();
       InteractorComponent *currentMouse;
       // give focus so we can catch key events
