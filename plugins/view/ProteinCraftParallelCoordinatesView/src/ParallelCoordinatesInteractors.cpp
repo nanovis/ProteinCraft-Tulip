@@ -47,7 +47,7 @@ ParallelCoordinatesInteractor::ParallelCoordinatesInteractor(const QString &icon
     : NodeLinkDiagramComponentInteractor(iconPath, text, priority) {}
 
 bool ParallelCoordinatesInteractor::isCompatible(const string &viewName) const {
-  return (viewName == ViewName::ParallelCoordinatesViewName);
+  return (viewName == ViewName::ProteinCraftParallelCoordinatesViewName);
 }
 
 PLUGIN(InteractorHighLighter)
@@ -256,7 +256,7 @@ InteractorShowElementInfo::InteractorShowElementInfo(const tlp::PluginContext *)
 }
 
 bool InteractorShowElementInfo::isCompatible(const string &viewName) const {
-  return (viewName == ViewName::ParallelCoordinatesViewName);
+  return (viewName == ViewName::ProteinCraftParallelCoordinatesViewName);
 }
 
 InteractorAxisSpacer::InteractorAxisSpacer(const tlp::PluginContext *)
