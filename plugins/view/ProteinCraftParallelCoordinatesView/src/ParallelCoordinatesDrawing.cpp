@@ -80,6 +80,7 @@ void ParallelCoordinatesDrawing::createAxis(GlMainWidget *glWidget, QProgressDia
 
   unsigned int pos = 0;
   vector<string> selectedProperties(graphProxy->getSelectedProperties());
+  vector<bool> selectedPropertiesOrder(graphProxy->getSelectedPropertiesOrder());
   GlAxis::CaptionLabelPosition captionPosition;
 
   static LayoutType lastLayouType = PARALLEL;
@@ -156,7 +157,7 @@ void ParallelCoordinatesDrawing::createAxis(GlMainWidget *glWidget, QProgressDia
   unsigned int cpt = 0;
 
   for (const string &selectedProp : selectedProperties) {
-
+    bool ascending = selectedPropertiesOrder[cpt];
     ParallelAxis *axis = nullptr;
     float rotationAngle = (cpt++ * rotationAngleBase) * (180.0f / M_PI);
     Coord coord;
@@ -207,7 +208,7 @@ void ParallelCoordinatesDrawing::createAxis(GlMainWidget *glWidget, QProgressDia
       } else if (typeName == "int" || typeName == "double") {
         axis =
             new QuantitativeParallelAxis(coord, height, maxCaptionWidth, graphProxy, selectedProp,
-                                         true, axisColor, rotationAngle, captionPosition);
+                                         ascending, axisColor, rotationAngle, captionPosition);
       }
     }
 

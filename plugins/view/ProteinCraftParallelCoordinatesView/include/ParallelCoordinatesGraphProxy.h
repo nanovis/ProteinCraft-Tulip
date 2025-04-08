@@ -40,6 +40,8 @@ public:
   unsigned int getNumberOfSelectedProperties() const;
   bool selectedPropertiesisEmpty() const;
   const std::vector<std::string> &getSelectedProperties();
+  const std::vector<bool> &getSelectedPropertiesOrder();
+  void setSelectedPropertiesOrder(const std::vector<bool> &order);
   void setSelectedProperties(const std::vector<std::string> &properties);
   void removePropertyFromSelection(const std::string &propertyName);
 
@@ -162,6 +164,7 @@ private:
   ColorProperty *originalDataColors;
   std::set<unsigned int> highlightedElts;
   std::vector<std::string> selectedProperties;
+  std::vector<bool> selectedPropertiesOrder;
   ElementType dataLocation;
   unsigned int unhighlightedEltsColorAlphaValue;
 };

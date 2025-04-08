@@ -222,6 +222,26 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
       graphProxy->setSelectedProperties(selectedProperties);
     }
 
+    // Handle selectedPropertiesOrder if it exists
+    if (dataSet.exists("selectedPropertiesOrder")) {
+      vector<bool> selectedPropertiesOrder;
+      DataSet orderItems;
+      dataSet.get("selectedPropertiesOrder", orderItems);
+      int i = 0;
+      stringstream ss;
+      ss << i;
+
+      while (orderItems.exists(ss.str())) {
+        bool ascending;
+        orderItems.get(ss.str(), ascending);
+        selectedPropertiesOrder.push_back(ascending);
+        ss.str("");
+        ++i;
+        ss << i;
+      }
+      graphProxy->setSelectedPropertiesOrder(selectedPropertiesOrder);
+    }
+
     dataConfigWidget->setWidgetParameters(graph(), propertiesTypesFilter);
     dataConfigWidget->setSelectedProperties(graphProxy->getSelectedProperties());
 
@@ -360,6 +380,20 @@ DataSet ParallelCoordinatesView::state() const {
     i++;
   }
 
+
+  // Save the current order of axes
+  const vector<bool> &selectedPropertiesOrder = graphProxy->getSelectedPropertiesOrder();
+  DataSet selectedPropertiesOrderData;
+  int order_tmp_i = 0;
+
+  for (const auto &order : selectedPropertiesOrder) {
+    std::stringstream s;
+    s << order_tmp_i;
+    selectedPropertiesOrderData.set(s.str(), order);
+    order_tmp_i++;
+  }
+
+  dataSet.set("selectedPropertiesOrder", selectedPropertiesOrderData);
   dataSet.set("selectedProperties", selectedPropertiesData);
   dataSet.set("dataLocation", int(graphProxy->getDataLocation()));
   dataSet.set("backgroundColor", drawConfigWidget->getBackgroundColor());
