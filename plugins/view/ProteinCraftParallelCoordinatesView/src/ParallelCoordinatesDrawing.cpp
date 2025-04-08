@@ -157,7 +157,12 @@ void ParallelCoordinatesDrawing::createAxis(GlMainWidget *glWidget, QProgressDia
   unsigned int cpt = 0;
 
   for (const string &selectedProp : selectedProperties) {
-    bool ascending = selectedPropertiesOrder[cpt];
+    bool ascending;
+    if (cpt < selectedPropertiesOrder.size()) {
+      ascending = selectedPropertiesOrder[cpt];
+    } else {
+      ascending = true;
+    }
     ParallelAxis *axis = nullptr;
     float rotationAngle = (cpt++ * rotationAngleBase) * (180.0f / M_PI);
     Coord coord;

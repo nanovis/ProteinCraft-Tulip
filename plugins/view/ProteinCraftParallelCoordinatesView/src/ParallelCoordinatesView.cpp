@@ -171,6 +171,7 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
   dontCenterViewAfterConfLoaded = false;
 
   vector<string> selectedPropertiesBak;
+  vector<bool> selectedPropertiesOrderBak;
 
   bool sameGraphRoot = false;
 
@@ -178,6 +179,7 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
     if (graphProxy != nullptr && (graph()->getRoot() == graphProxy->getRoot())) {
       sameGraphRoot = true;
       selectedPropertiesBak = graphProxy->getSelectedProperties();
+      selectedPropertiesOrderBak = graphProxy->getSelectedPropertiesOrder();
     }
   }
 
@@ -200,6 +202,7 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
 
     if (sameGraphRoot) {
       graphProxy->setSelectedProperties(selectedPropertiesBak);
+      graphProxy->setSelectedPropertiesOrder(selectedPropertiesOrderBak);
     }
 
     if (dataSet.exists("selectedProperties")) {
@@ -695,6 +698,7 @@ void ParallelCoordinatesView::setupAndDrawView() {
   if (graph()) {
     GlScene *scene = getGlMainWidget()->getScene();
     graphProxy->setSelectedProperties(dataConfigWidget->getSelectedGraphProperties());
+    // TODO: Handel the selectedPropertiesOrder initialization here
     graphProxy->setDataLocation(dataConfigWidget->getDataLocation());
     scene->setBackgroundColor(drawConfigWidget->getBackgroundColor());
     parallelCoordsDrawing->setAxisHeight(drawConfigWidget->getAxisHeight());
