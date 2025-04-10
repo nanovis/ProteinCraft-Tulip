@@ -230,39 +230,43 @@ public:
             }
         }
 
-//        // Create and configure parallel coordinates view
-//        View* pcv = View::createView("ProteinCraft Parallel Coordinates view", graph);
-//        if (pcv) {
-//            DataSet viewState;
-//
-//            // Set selected properties
-//            DataSet selectedProps;
-//            selectedProps.set("0", "binder_aligned_rmsd");
-//            selectedProps.set("1", "pae_interaction");
-//            selectedProps.set("2", "plddt_total");
-//            selectedProps.set("3", "inter_chain_total");
-//            selectedProps.set("4", "inter_chain_without_vdw");
-//            selectedProps.set("5", "binder_target_bonds");
-//            selectedProps.set("6", "binder_target_bonds_largest_component");
-//            selectedProps.set("7", "binder_target_bonds_no_vdw");
-//            selectedProps.set("8", "binder_target_bonds_no_vdw_largest_component");
-//            selectedProps.set("9", "inter_chain_hbond");
-//            selectedProps.set("10", "inter_chain_vdw");
-//            selectedProps.set("11", "inter_chain_other");
-//            selectedProps.set("12", "binder_components_bonds");
-//            selectedProps.set("13", "binder_components_bonds_without_vdw");
-//
-//            // Set property order
-//            DataSet selectedPropsOrder;
-//            for (int i = 0; i < 14; ++i) {
-//                selectedPropsOrder.set(to_string(i), i != 0 && i != 1);
-//            }
-//
-//            viewState.set("selectedProperties", selectedProps);
-//            viewState.set("selectedPropertiesOrder", selectedPropsOrder);
-//
-//            pcv->setState(viewState);
-//        }
+        // Create and configure parallel coordinates view
+        View* pcv = PluginLister::getPluginObject<View>("ProteinCraft Parallel Coordinates view");
+        if (pcv) {
+            pcv->setupUi();
+            pcv->setGraph(graph);
+            
+            DataSet viewState;
+            DataSet selectedProps;
+            
+            // Set selected properties
+            selectedProps.set("0", string("binder_aligned_rmsd"));
+            selectedProps.set("1", string("pae_interaction"));
+            selectedProps.set("2", string("plddt_total"));
+            selectedProps.set("3", string("inter_chain_total"));
+            selectedProps.set("4", string("inter_chain_without_vdw"));
+            selectedProps.set("5", string("binder_target_bonds"));
+            selectedProps.set("6", string("binder_target_bonds_largest_component"));
+            selectedProps.set("7", string("binder_target_bonds_no_vdw"));
+            selectedProps.set("8", string("binder_target_bonds_no_vdw_largest_component"));
+            selectedProps.set("9", string("inter_chain_hbond"));
+            selectedProps.set("10", string("inter_chain_vdw"));
+            selectedProps.set("11", string("inter_chain_other"));
+            selectedProps.set("12", string("binder_components_bonds"));
+            selectedProps.set("13", string("binder_components_bonds_without_vdw"));
+
+            // Set property order
+            DataSet selectedPropsOrder;
+            for (int i = 0; i < 14; ++i) {
+                selectedPropsOrder.set(to_string(i), i != 0 && i != 1);
+            }
+
+            viewState.set("selectedProperties", selectedProps);
+            viewState.set("selectedPropertiesOrder", selectedPropsOrder);
+
+            pcv->setState(viewState);
+
+        }
 
         return true;
     }
