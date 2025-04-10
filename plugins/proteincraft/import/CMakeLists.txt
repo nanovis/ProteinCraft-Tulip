@@ -6,4 +6,7 @@ TARGET_LINK_LIBRARIES(AF2igUmapImport-${Tulip_VERSION} ${LibTulipCoreName} ${Lib
 
 TARGET_LINK_LIBRARIES(AF2igUmapImport-${Tulip_VERSION} GraphPerspective-${Tulip_VERSION})
 
-TULIP_INSTALL_PLUGIN(AF2igUmapImport-${Tulip_VERSION} ${TulipPerspectivePluginsInstallDir})
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+SET_TARGET_PROPERTIES(AF2igUmapImport-${Tulip_VERSION} PROPERTIES INSTALL_RPATH "$ORIGIN/perspective")
+
+TULIP_INSTALL_PLUGIN(AF2igUmapImport-${Tulip_VERSION} ${TulipPluginsInstallDir})
