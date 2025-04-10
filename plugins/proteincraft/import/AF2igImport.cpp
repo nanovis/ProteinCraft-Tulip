@@ -14,6 +14,10 @@
 #include <tulip/DataSet.h>
 #include <tulip/PluginProgress.h>
 #include <tulip/GraphView.h>
+#include <tulip/LayoutProperty.h>
+#include <tulip/ColorProperty.h>
+#include <tulip/StringProperty.h>
+#include <tulip/DoubleProperty.h>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -46,6 +50,9 @@ public:
     AF2igImport(tlp::PluginContext* context) : ImportModule(context) {
         addInParameter<string>("CSV file", "Path to the CSV file to import", "/home/luod/ProteinCraft/run/4_PD-L1/outs_AF2ig_score.csv");
         addInParameter<string>("graph name", "The name to give to the imported graph", "4_PD-L1");
+        addInParameter<string>("UMAP file", "Path to the UMAP coordinates CSV file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RF_umap.csv");
+        addInParameter<double>("scale factor", "Scaling factor for the UMAP coordinates", "1.0");
+        addInParameter<Color>("node color", "Color for the nodes in the visualization", "(255, 95, 95, 255)");
     }
 
     // Define the destructor only if needed
@@ -58,8 +65,15 @@ public:
         // Get parameters
         string csvFile;
         string graphName;
+        string umapFile;
+        double scaleFactor;
+        Color nodeColor;
+        
         dataSet->get("CSV file", csvFile);
         dataSet->get("graph name", graphName);
+        dataSet->get("UMAP file", umapFile);
+        dataSet->get("scale factor", scaleFactor);
+        dataSet->get("node color", nodeColor);
 
         if (csvFile.empty()) {
             pluginProgress->setError("No CSV file path was provided.");
@@ -68,6 +82,15 @@ public:
 
         // Set graph name
         graph->setName("AF2ig_" + graphName);
+
+        // Get standard Tulip properties
+        LayoutProperty* viewLayout = graph->getLocalProperty<LayoutProperty>("viewLayout");
+        ColorProperty* viewColor = graph->getLocalProperty<ColorProperty>("viewColor");
+        StringProperty* viewLabel = graph->getLocalProperty<StringProperty>("viewLabel");
+        
+        // Create properties for UMAP coordinates
+        DoubleProperty* xCoord = graph->getLocalProperty<DoubleProperty>("umapX");
+        DoubleProperty* yCoord = graph->getLocalProperty<DoubleProperty>("umapY");
 
         // Open CSV file
         ifstream file(csvFile);
@@ -132,6 +155,71 @@ public:
                         numericProps[col]->setNodeValue(n, stod(values[i]));
                     } catch (...) {
                         numericProps[col]->setNodeValue(n, 0.0);
+                    }
+                }
+            }
+        }
+
+        // Import UMAP coordinates if file is provided
+        if (!umapFile.empty()) {
+            ifstream umapFileStream(umapFile);
+            if (umapFileStream.is_open()) {
+                // Read UMAP header
+                getline(umapFileStream, header);
+                vector<string> umapColumns;
+                stringstream umapSS(header);
+                while (getline(umapSS, item, ',')) {
+                    umapColumns.push_back(item);
+                }
+
+                // Verify required columns
+                bool hasX = false, hasY = false, hasFilename = false;
+                for (const auto& col : umapColumns) {
+                    if (col == "X") hasX = true;
+                    if (col == "Y") hasY = true;
+                    if (col == "filename") hasFilename = true;
+                }
+
+                if (!hasX || !hasY || !hasFilename) {
+                    pluginProgress->setError("UMAP file missing required columns (X, Y, filename)");
+                } else {
+                    // Process UMAP data
+                    while (getline(umapFileStream, line)) {
+                        stringstream ss(line);
+                        vector<string> values;
+                        string value;
+                        while (getline(ss, value, ',')) {
+                            values.push_back(value);
+                        }
+
+                        if (values.size() != umapColumns.size()) continue;
+
+                        // Find the node with matching filename
+                        string filename = values[find(umapColumns.begin(), umapColumns.end(), "filename") - umapColumns.begin()];
+                        // Remove .pdb extension for matching
+                        string baseFilename = filename.substr(0, filename.find(".pdb"));
+                        
+                        node n;
+                        for (auto n : graph->getNodes()) {
+                            string description = stringProps["description"]->getNodeValue(n);
+                            // Check if description starts with the base filename
+                            if (description.find(baseFilename) == 0) {
+                                // Set UMAP coordinates
+                                double x = stod(values[find(umapColumns.begin(), umapColumns.end(), "X") - umapColumns.begin()]);
+                                double y = stod(values[find(umapColumns.begin(), umapColumns.end(), "Y") - umapColumns.begin()]);
+                                
+                                xCoord->setNodeValue(n, x);
+                                yCoord->setNodeValue(n, y);
+                                
+                                // Position node using scaled coordinates
+                                Coord coord(x * scaleFactor, y * scaleFactor, 0.0);
+                                viewLayout->setNodeValue(n, coord);
+                                
+                                // Set node color
+                                viewColor->setNodeValue(n, nodeColor);
+                                break;
+                            }
+                        }
                     }
                 }
             }
