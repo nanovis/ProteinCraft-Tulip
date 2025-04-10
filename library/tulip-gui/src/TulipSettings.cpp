@@ -323,7 +323,7 @@ void TulipSettings::setFirstTulipMMRun(bool f) {
 }
 
 bool TulipSettings::displayDefaultViews() {
-  return instance().value(TS_AutomaticDisplayDefaultViews, true).toBool();
+  return instance().value(TS_AutomaticDisplayDefaultViews, false).toBool();
 }
 
 void TulipSettings::setDisplayDefaultViews(bool f) {
