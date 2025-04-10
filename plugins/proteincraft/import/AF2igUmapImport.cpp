@@ -274,6 +274,20 @@ public:
             }
         }
 
+        // Create and configure Node Link Diagram view
+        View* nldv = PluginLister::getPluginObject<View>("Node Link Diagram view");
+        if (nldv) {
+            nldv->setupUi();
+            nldv->setGraph(graph);
+            nldv->setState(DataSet());
+            
+            // Add the panel to the workspace
+            GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
+            if (graphPerspective) {
+                graphPerspective->addPanel(nldv);
+            }
+        }
+
         return true;
     }
 };
