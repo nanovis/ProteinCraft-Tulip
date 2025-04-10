@@ -2240,4 +2240,8 @@ void GraphPerspective::addPanel(tlp::View* view) {
   _ui->workspace->setActivePanel(view);
 }
 
+void GraphPerspective::switchToSplitMode() {
+  _ui->workspace->switchToSplitMode();
+}
+
 PLUGIN(GraphPerspective)

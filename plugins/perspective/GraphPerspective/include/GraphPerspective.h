@@ -91,6 +91,8 @@ public:
 
   void addPanel(tlp::View* view);
 
+  void switchToSplitMode();
+
 public slots:
   void importGraph(const std::string &module = "", const std::string &file = "");
   void exportGraph(tlp::Graph *g = nullptr);

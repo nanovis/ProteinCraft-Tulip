@@ -266,12 +266,6 @@ public:
             viewState.set("selectedPropertiesOrder", selectedPropsOrder);
 
             pcv->setState(viewState);
-
-            // Add the panel to the workspace
-            GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
-            if (graphPerspective) {
-                graphPerspective->addPanel(pcv);
-            }
         }
 
         // Create and configure Node Link Diagram view
@@ -280,11 +274,20 @@ public:
             nldv->setupUi();
             nldv->setGraph(graph);
             nldv->setState(DataSet());
-            
-            // Add the panel to the workspace
-            GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
-            if (graphPerspective) {
+        }
+
+        // Add the panels to the workspace
+        GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
+        if (graphPerspective) {
+            if (pcv) {
+                graphPerspective->addPanel(pcv);
+            }
+            if (nldv) {
                 graphPerspective->addPanel(nldv);
+            }
+            
+            if (pcv && nldv) {
+                graphPerspective->switchToSplitMode();
             }
         }
 
