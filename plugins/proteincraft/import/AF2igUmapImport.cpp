@@ -18,6 +18,7 @@
 #include <tulip/ColorProperty.h>
 #include <tulip/StringProperty.h>
 #include <tulip/DoubleProperty.h>
+#include "../../perspective/GraphPerspective/include/GraphPerspective.h"
 #include <fstream>
 #include <string>
 #include <vector>
@@ -266,6 +267,11 @@ public:
 
             pcv->setState(viewState);
 
+            // Add the panel to the workspace
+            GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
+            if (graphPerspective) {
+                graphPerspective->addPanel(pcv);
+            }
         }
 
         return true;

@@ -89,6 +89,8 @@ public:
 
   bool terminated() override;
 
+  void addPanel(tlp::View* view);
+
 public slots:
   void importGraph(const std::string &module = "", const std::string &file = "");
   void exportGraph(tlp::Graph *g = nullptr);

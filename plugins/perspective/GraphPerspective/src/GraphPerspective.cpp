@@ -2230,4 +2230,14 @@ void GraphPerspective::clearStatusMessage() {
   _ui->statusLabel->setText("");
 }
 
+void GraphPerspective::addPanel(tlp::View* view) {
+  if (!view) return;
+  
+  // expose mode is not safe to add a new panel
+  // so hide it if needed
+  _ui->workspace->hideExposeMode();
+  _ui->workspace->addPanel(view);
+  _ui->workspace->setActivePanel(view);
+}
+
 PLUGIN(GraphPerspective)
