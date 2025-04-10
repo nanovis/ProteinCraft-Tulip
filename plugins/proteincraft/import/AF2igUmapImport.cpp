@@ -82,10 +82,10 @@ public:
 
         // Set graph name
         if (!graphName.empty()) {
-            graph->setName("AF2ig_" + graphName);
+            graph->setName("AF2igUmap_" + graphName);
         }
         else {
-            graph->setName("AF2ig");
+            graph->setName("AF2igUmap");
         }
 
         // Get standard Tulip properties
