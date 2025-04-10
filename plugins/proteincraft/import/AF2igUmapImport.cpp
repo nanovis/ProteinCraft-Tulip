@@ -30,14 +30,14 @@ using namespace tlp;
 /** Import module documentation */
 // MyImportModule is just an example
 
-class AF2igImport : public ImportModule {
+class AF2igUmapImport : public ImportModule {
 public:
 
     // This line is used to pass information about the current plug-in.
-    PLUGININFORMATION("AF2igImport",
+    PLUGININFORMATION("AF2igUmapImport",
                       "Roden Luo",
                       "2025/04/10",
-                      "Import AF2ig files",
+                      "Import AF2ig and UMAP files",
                       "1.0",
                       "ProteinCraft")
 
@@ -47,7 +47,7 @@ public:
     //   addInParameter<ParameterType>("Name","Help string","Default value");
     // and declare the algorithm dependencies too.
     //   addDependency("name", "version");
-    AF2igImport(tlp::PluginContext* context) : ImportModule(context) {
+    AF2igUmapImport(tlp::PluginContext* context) : ImportModule(context) {
         addInParameter<string>("CSV file", "Path to the CSV file to import", "/home/luod/ProteinCraft/run/4_PD-L1/outs_AF2ig_score.csv");
         addInParameter<string>("graph name", "The name to give to the imported graph", "4_PD-L1");
         addInParameter<string>("UMAP file", "Path to the UMAP coordinates CSV file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RF_umap.csv");
@@ -81,7 +81,12 @@ public:
         }
 
         // Set graph name
-        graph->setName("AF2ig_" + graphName);
+        if (!graphName.empty()) {
+            graph->setName("AF2ig_" + graphName);
+        }
+        else {
+            graph->setName("AF2ig");
+        }
 
         // Get standard Tulip properties
         LayoutProperty* viewLayout = graph->getLocalProperty<LayoutProperty>("viewLayout");
@@ -263,4 +268,4 @@ public:
     }
 };
 // This second line will be used to register your algorithm in tulip using the information given above.
-PLUGIN(AF2igImport)
+PLUGIN(AF2igUmapImport)
