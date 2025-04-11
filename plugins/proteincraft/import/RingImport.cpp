@@ -315,6 +315,15 @@ public:
             return false;
         }
 
+        // Create BipartiteSubgraph subgraph
+        parameters.set("include VDW", true);
+        string bipartite_prop = "chain";
+        parameters.set("bipartite property", bipartite_prop);
+        if (!graph->applyAlgorithm("BipartiteSubgraph", errorMessage, &parameters, pluginProgress)) {
+            pluginProgress->setError("Failed to create BipartiteSubgraph: " + errorMessage);
+            return false;
+        }
+
         return true;
     }
 };
