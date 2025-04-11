@@ -47,6 +47,7 @@ public:
     }
 
     // Add nodes and edges - only inter-chain interactions
+    int edge_count = 0;
     for (auto e : graph->getEdges()) {
       node s = graph->source(e);
       node t = graph->target(e);
@@ -66,8 +67,16 @@ public:
             inter_chain_sub->addNode(t);
           }
           inter_chain_sub->addEdge(e);
+          edge_count++;
         }
       }
+    }
+
+    if (edge_count == 0) {
+      if (pluginProgress) {
+        pluginProgress->setError("No edges were added to the subgraph. Check if there are any valid inter-chain interactions.");
+      }
+      return false;
     }
 
     if (pluginProgress) {
