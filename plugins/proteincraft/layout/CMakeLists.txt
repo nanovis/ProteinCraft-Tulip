@@ -2,8 +2,10 @@ INCLUDE_DIRECTORIES(${TulipCoreBuildInclude} ${TulipCoreInclude} ${TulipGUIInclu
 
 ADD_LIBRARY(ProteinCraftLayout-${Tulip_VERSION} 
             SHARED 
-            BipartiteLayout.cpp
+            BipartiteSubgraph.cpp
             BinderTargetSubgraph.cpp
+
+            BipartiteLayout.cpp
             ConnectedLayout.cpp
             InteractionFilter.cpp)
 
