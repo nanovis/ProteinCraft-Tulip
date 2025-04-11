@@ -306,6 +306,15 @@ public:
             }
         }
 
+        // Create BinderTargetSubgraph subgraph
+        DataSet parameters;
+        parameters.set("include_vdw", true);
+        string errorMessage;
+        if (!graph->applyAlgorithm("BinderTargetSubgraph", errorMessage, &parameters, pluginProgress)) {
+            pluginProgress->setError("Failed to create BinderTargetSubgraph: " + errorMessage);
+            return false;
+        }
+
         return true;
     }
 };
