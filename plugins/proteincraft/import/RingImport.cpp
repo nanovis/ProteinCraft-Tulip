@@ -192,6 +192,20 @@ public:
             nodeMap[tokens[colIndex["NodeId"]]] = n;
         }
 
+        // Process edges
+
+        // Create edge properties
+        StringProperty* interactionProp = graph->getLocalProperty<StringProperty>("interaction");
+        DoubleProperty* distanceProp = graph->getLocalProperty<DoubleProperty>("distance");
+        DoubleProperty* angleProp = graph->getLocalProperty<DoubleProperty>("angle");
+        StringProperty* atom1Prop = graph->getLocalProperty<StringProperty>("atom1");
+        StringProperty* atom2Prop = graph->getLocalProperty<StringProperty>("atom2");
+        StringProperty* donorProp = graph->getLocalProperty<StringProperty>("donor");
+        StringProperty* positiveProp = graph->getLocalProperty<StringProperty>("positive");
+        StringProperty* cationProp = graph->getLocalProperty<StringProperty>("cation");
+        StringProperty* orientationProp = graph->getLocalProperty<StringProperty>("orientation");
+        IntegerProperty* edgeModelProp = graph->getLocalProperty<IntegerProperty>("edgeModel");
+
         // Create edges between consecutive residues
         map<string, map<int, node>> chainNodes;
         for (const auto& [nodeId, n] : nodeMap) {
@@ -214,6 +228,7 @@ public:
                     node n1 = positions.at(pos1);
                     node n2 = positions.at(pos2);
                     edge e = graph->addEdge(n1, n2);
+                    interactionProp->setEdgeValue(e, "COV:PEP");
                     viewColor->setEdgeValue(e, Color(20, 20, 20, 255));
                 }
             }
@@ -239,18 +254,6 @@ public:
         for (size_t i = 0; i < columns.size(); ++i) {
             colIndex[columns[i]] = i;
         }
-
-        // Create edge properties
-        StringProperty* interactionProp = graph->getLocalProperty<StringProperty>("interaction");
-        DoubleProperty* distanceProp = graph->getLocalProperty<DoubleProperty>("distance");
-        DoubleProperty* angleProp = graph->getLocalProperty<DoubleProperty>("angle");
-        StringProperty* atom1Prop = graph->getLocalProperty<StringProperty>("atom1");
-        StringProperty* atom2Prop = graph->getLocalProperty<StringProperty>("atom2");
-        StringProperty* donorProp = graph->getLocalProperty<StringProperty>("donor");
-        StringProperty* positiveProp = graph->getLocalProperty<StringProperty>("positive");
-        StringProperty* cationProp = graph->getLocalProperty<StringProperty>("cation");
-        StringProperty* orientationProp = graph->getLocalProperty<StringProperty>("orientation");
-        IntegerProperty* edgeModelProp = graph->getLocalProperty<IntegerProperty>("edgeModel");
 
         // Process edges
         while (getline(edgeStream, line)) {
