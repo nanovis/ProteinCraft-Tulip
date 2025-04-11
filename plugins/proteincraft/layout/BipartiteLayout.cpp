@@ -6,13 +6,13 @@
 using namespace std;
 using namespace tlp;
 
-class BinderTargetInteraction : public tlp::Algorithm {
+class BipartiteLayout : public tlp::Algorithm {
 public:
-  PLUGININFORMATION("Binder Target Interaction", "Roden Luo", "2025-03-21",
+  PLUGININFORMATION("BipartiteLayout", "Roden Luo", "2025-03-21",
                     "Creates a subgraph for chain A-B interactions and sets bipartite layout",
                     "1.0", "ProteinCraft")
 
-  BinderTargetInteraction(tlp::PluginContext *context) : tlp::Algorithm(context) {
+  BipartiteLayout(tlp::PluginContext *context) : tlp::Algorithm(context) {
     addInParameter<bool>("include_vdw", "Include VDW interactions in the subgraph?", "True");
   }
 
@@ -206,4 +206,4 @@ private:
   }
 };
 
-PLUGIN(BinderTargetInteraction)
+PLUGIN(BipartiteLayout)
