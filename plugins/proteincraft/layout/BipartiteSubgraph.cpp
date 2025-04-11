@@ -87,7 +87,13 @@ public:
     if (nldv) {
       nldv->setupUi();
       nldv->setGraph(inter_chain_sub);
-      nldv->setState(DataSet());
+      
+      // Create DataSet with labelScaled set to true under Display section
+      DataSet viewState;
+      DataSet displayParams;
+      displayParams.set("labelScaled", true);
+      viewState.set("Display", displayParams);
+      nldv->setState(viewState);
 
       GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
       if (graphPerspective) {
