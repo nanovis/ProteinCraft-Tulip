@@ -11,7 +11,8 @@ public:
                     "1.0", "ProteinCraft")
 
   BipartiteSubgraph(tlp::PluginContext *context) : tlp::Algorithm(context) {
-    addInParameter<bool>("include_vdw", "Include VDW interactions in the subgraph?", "True");
+    addInParameter<bool>("include VDW", "Include VDW interactions in the subgraph?", "True");
+    addInParameter<string>("bipartite property", "Name of the property containing bipartite information", "chain");
   }
 
   bool check() {
@@ -19,12 +20,14 @@ public:
   }
 
   bool run() override {
-    // Retrieve user parameter
+    // Retrieve user parameters
     bool include_vdw = false;
-    dataSet->get("include_vdw", include_vdw);
+    string bipartite_property_name = "chain";
+    dataSet->get("include VDW", include_vdw);
+    dataSet->get("bipartite property", bipartite_property_name);
 
     // Get properties from graph
-    StringProperty *prop_chain = graph->getProperty<StringProperty>("chain");
+    StringProperty *prop_bipartite = graph->getProperty<StringProperty>(bipartite_property_name);
     StringProperty *prop_interaction = graph->getProperty<StringProperty>("interaction");
 
     // Create or reset subgraph
@@ -46,10 +49,10 @@ public:
       node s = graph->source(e);
       node t = graph->target(e);
       
-      string c1 = prop_chain->getNodeValue(s);
-      string c2 = prop_chain->getNodeValue(t);
+      string c1 = prop_bipartite->getNodeValue(s);
+      string c2 = prop_bipartite->getNodeValue(t);
       
-      // Only add edges between different chains
+      // Only add edges between different parts
       if (c1 != c2) {
         string inter_type = prop_interaction->getEdgeValue(e);
         if (is_interesting_interaction(inter_type, include_vdw)) {
