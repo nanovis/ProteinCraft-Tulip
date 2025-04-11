@@ -94,7 +94,7 @@ public:
     }
 
     // Layout the graph
-    LayoutProperty *view_layout = graph->getProperty<LayoutProperty>("viewLayout");
+    LayoutProperty *view_layout = graph->getLocalProperty<LayoutProperty>("viewLayout");
     layout_bipartite_graph(graph, group1, group2, view_layout);
 
     if (pluginProgress) {
