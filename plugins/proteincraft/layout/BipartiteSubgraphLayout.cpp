@@ -15,6 +15,8 @@ public:
 
   BipartiteSubgraphLayout(tlp::PluginContext *context) : tlp::Algorithm(context) {
     addInParameter<string>("bipartite property", "Name of the property containing bipartite information", "chain");
+    addInParameter<StringCollection>("grouping style", "Style for grouping nodes", "elegant;keep order", true,
+                                    "elegant<br/>keep order");
   }
 
   bool check() {
@@ -65,12 +67,28 @@ public:
     string value1 = *bipartite_values.begin();
     string value2 = *next(bipartite_values.begin());
     
+    // Get the grouping style
+    StringCollection grouping_style("elegant;keep order");
+    grouping_style.setCurrent(0);
+    dataSet->get("grouping style", grouping_style);
+
+    // elegant style first
     for (auto n : graph->getNodes()) {
       if (prop->getNodeStringValue(n) == value1) {
         group1.push_back(n);
       } else {
         group2.push_back(n);
       }
+    }
+    if (grouping_style.getCurrent() != 0) {
+      // keep order style
+      // sort group1 and group2 by id
+      sort(group1.begin(), group1.end(), [](const node& a, const node& b) {
+        return a.id < b.id;
+      });
+      sort(group2.begin(), group2.end(), [](const node& a, const node& b) {
+        return a.id < b.id;
+      });
     }
 
     // Layout the graph
