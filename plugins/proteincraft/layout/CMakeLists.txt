@@ -4,8 +4,9 @@ ADD_LIBRARY(ProteinCraftLayout-${Tulip_VERSION}
             SHARED 
             BipartiteSubgraph.cpp
             BinderTargetSubgraph.cpp
+            
+            BipartiteSubgraphLayout.cpp
 
-            BipartiteLayout.cpp
             ConnectedLayout.cpp
             InteractionFilter.cpp)
 
