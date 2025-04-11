@@ -59,10 +59,11 @@ public:
     }
 
     // Apply Stress Minimization layout
+    string errMsg;
+    LayoutProperty *layout = binder_target_connected_subgraph->getProperty<LayoutProperty>("viewLayout");
     DataSet params;
     params.set("number of iterations", 5);
     params.set("edge costs", 2);
-    LayoutProperty *layout = binder_target_connected_subgraph->getLocalProperty<LayoutProperty>("viewLayout");
     binder_target_connected_subgraph->applyPropertyAlgorithm("Stress Minimization (OGDF)", layout, errMsg, &params, pluginProgress);
 
     if (pluginProgress) {
