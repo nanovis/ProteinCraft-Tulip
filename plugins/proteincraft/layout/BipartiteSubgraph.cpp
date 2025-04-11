@@ -74,18 +74,25 @@ public:
       pluginProgress->setComment("Created subgraph 'BipartiteSubgraph' containing only inter-chain interactions.");
     }
 
+    // Apply BipartiteSubgraphLayout to the subgraph
+    DataSet parameters;
+    string errorMessage;
+    if (!inter_chain_sub->applyAlgorithm("BipartiteSubgraphLayout", errorMessage, &parameters, pluginProgress)) {
+        pluginProgress->setError("Failed to apply BipartiteSubgraphLayout: " + errorMessage);
+        return false;
+    }
 
     // Create Node Link Diagram view
     View* nldv = PluginLister::getPluginObject<View>("Node Link Diagram view");
     if (nldv) {
-        nldv->setupUi();
-        nldv->setGraph(inter_chain_sub);
-        nldv->setState(DataSet());
+      nldv->setupUi();
+      nldv->setGraph(inter_chain_sub);
+      nldv->setState(DataSet());
 
-        GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
-        if (graphPerspective) {
-            graphPerspective->addPanel(nldv);
-        }
+      GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
+      if (graphPerspective) {
+        graphPerspective->addPanel(nldv);
+      }
     }
 
     return true;
