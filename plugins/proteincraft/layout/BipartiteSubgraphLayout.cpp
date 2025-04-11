@@ -156,6 +156,36 @@ private:
           view_layout->setNodeValue(interacting_target_list[i], Coord(i * space, 0.0f, 0.0f));
         }
       }
+    } else { // Vertical layout
+      // Place target nodes (chain B) vertically at x=0
+      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
+        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, -i * space, 0.0f));
+      }
+
+      // Place binder nodes (chain A) vertically at x=3.0
+      for (size_t i = 0; i < interacting_binder_list.size(); ++i) {
+        view_layout->setNodeValue(interacting_binder_list[i], Coord(3.0f, -i * space, 0.0f));
+      }
+
+      // Calculate edge lengths for original orientation
+      float orig_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+
+      // Try reversed target nodes by placing them in reverse order
+      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
+        size_t reversed_i = interacting_target_list.size() - 1 - i;
+        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, -reversed_i * space, 0.0f));
+      }
+
+      // Calculate edge lengths for reversed orientation
+      float reversed_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+
+      // Choose orientation with shorter total edge length
+      if (reversed_length >= orig_length) {
+        // Revert back to original orientation
+        for (size_t i = 0; i < interacting_target_list.size(); ++i) {
+          view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, -i * space, 0.0f));
+        }
+      }
     }
   }
 
