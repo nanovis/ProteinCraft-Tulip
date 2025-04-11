@@ -1,5 +1,7 @@
 #include <tulip/TulipPluginHeaders.h>
 #include <tulip/GraphTools.h>
+#include <tulip/View.h>
+#include "../../perspective/GraphPerspective/include/GraphPerspective.h"
 
 using namespace std;
 using namespace tlp;
@@ -70,6 +72,20 @@ public:
 
     if (pluginProgress) {
       pluginProgress->setComment("Created subgraph 'BipartiteSubgraph' containing only inter-chain interactions.");
+    }
+
+
+    // Create Node Link Diagram view
+    View* nldv = PluginLister::getPluginObject<View>("Node Link Diagram view");
+    if (nldv) {
+        nldv->setupUi();
+        nldv->setGraph(inter_chain_sub);
+        nldv->setState(DataSet());
+
+        GraphPerspective* graphPerspective = Perspective::typedInstance<GraphPerspective>();
+        if (graphPerspective) {
+            graphPerspective->addPanel(nldv);
+        }
     }
 
     return true;
