@@ -71,9 +71,7 @@ public:
         StringProperty* pdbFileProp = graph->getLocalProperty<StringProperty>("pdbFileName");
         IntegerProperty* modelProp = graph->getLocalProperty<IntegerProperty>("model");
         StringProperty* nodeIdProp = graph->getLocalProperty<StringProperty>("nodeId");
-        DoubleProperty* xProp = graph->getLocalProperty<DoubleProperty>("x");
-        DoubleProperty* yProp = graph->getLocalProperty<DoubleProperty>("y");
-        DoubleProperty* zProp = graph->getLocalProperty<DoubleProperty>("z");
+        LayoutProperty* originalCoord = graph->getLocalProperty<LayoutProperty>("originalCoord");
         LayoutProperty* viewLayout = graph->getLocalProperty<LayoutProperty>("viewLayout");
         StringProperty* viewLabel = graph->getLocalProperty<StringProperty>("viewLabel");
         IntegerProperty* viewShape = graph->getLocalProperty<IntegerProperty>("viewShape");
@@ -149,19 +147,17 @@ public:
                 modelProp->setNodeValue(n, stoi(tokens[colIndex["Model"]]));
 
                 // Set coordinates
-                viewLayout->setNodeValue(n, Coord(x, y, z));
-                xProp->setNodeValue(n, x);
-                yProp->setNodeValue(n, y);
-                zProp->setNodeValue(n, z);
+                Coord coord(x, y, z);
+                viewLayout->setNodeValue(n, coord);
+                originalCoord->setNodeValue(n, coord);
             } catch (...) {
                 // Set default values if conversion fails
                 positionProp->setNodeValue(n, 0);
                 degreeProp->setNodeValue(n, 0);
                 bfactorProp->setNodeValue(n, 0.0);
-                viewLayout->setNodeValue(n, Coord(0, 0, 0));
-                xProp->setNodeValue(n, 0.0);
-                yProp->setNodeValue(n, 0.0);
-                zProp->setNodeValue(n, 0.0);
+                Coord defaultCoord(0, 0, 0);
+                viewLayout->setNodeValue(n, defaultCoord);
+                originalCoord->setNodeValue(n, defaultCoord);
                 modelProp->setNodeValue(n, 0);
             }
 
