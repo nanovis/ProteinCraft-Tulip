@@ -157,14 +157,20 @@ private:
         }
       }
     } else { // Vertical layout
-      // Place target nodes (chain B) vertically at x=0
+      // Calculate total height needed
+      float total_height = std::max(interacting_target_list.size(), interacting_binder_list.size()) * space;
+      
+      // Center the nodes vertically
+      float y_offset = total_height / 2.0f;
+      
+      // Place target nodes (chain B) vertically at x=0, centered around y=0
       for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, -i * space, 0.0f));
+        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, y_offset - i * space, 0.0f));
       }
 
-      // Place binder nodes (chain A) vertically at x=3.0
+      // Place binder nodes (chain A) vertically at x=3.0, centered around y=0
       for (size_t i = 0; i < interacting_binder_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_binder_list[i], Coord(3.0f, -i * space, 0.0f));
+        view_layout->setNodeValue(interacting_binder_list[i], Coord(3.0f, y_offset - i * space, 0.0f));
       }
 
       // Calculate edge lengths for original orientation
@@ -173,7 +179,7 @@ private:
       // Try reversed target nodes by placing them in reverse order
       for (size_t i = 0; i < interacting_target_list.size(); ++i) {
         size_t reversed_i = interacting_target_list.size() - 1 - i;
-        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, -reversed_i * space, 0.0f));
+        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, y_offset - reversed_i * space, 0.0f));
       }
 
       // Calculate edge lengths for reversed orientation
@@ -183,7 +189,7 @@ private:
       if (reversed_length >= orig_length) {
         // Revert back to original orientation
         for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-          view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, -i * space, 0.0f));
+          view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, y_offset - i * space, 0.0f));
         }
       }
     }
