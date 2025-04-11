@@ -3,8 +3,8 @@ INCLUDE_DIRECTORIES(${TulipCoreBuildInclude} ${TulipCoreInclude} ${TulipGUIInclu
 ADD_LIBRARY(ProteinCraftLayout-${Tulip_VERSION} 
             SHARED 
             BipartiteLayout.cpp
+            BinderTargetSubgraph.cpp
             ConnectedLayout.cpp
-            ChainInteractionSubgraph.cpp
             InteractionFilter.cpp)
 
 TARGET_LINK_LIBRARIES(ProteinCraftLayout-${Tulip_VERSION} ${LibTulipCoreName} ${LibTulipGUIName})

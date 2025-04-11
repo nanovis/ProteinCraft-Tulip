@@ -4,13 +4,13 @@
 using namespace std;
 using namespace tlp;
 
-class ChainInteractionSubgraph : public tlp::Algorithm {
+class BinderTargetSubgraph : public tlp::Algorithm {
 public:
-  PLUGININFORMATION("ChainInteractionSubgraph", "Roden Luo", "2025-03-21",
+  PLUGININFORMATION("BinderTargetSubgraph", "Roden Luo", "2025-03-21",
                     "Creates a subgraph for chain A-B interactions",
                     "1.0", "ProteinCraft")
 
-  ChainInteractionSubgraph(tlp::PluginContext *context) : tlp::Algorithm(context) {
+  BinderTargetSubgraph(tlp::PluginContext *context) : tlp::Algorithm(context) {
     addInParameter<bool>("include_vdw", "Include VDW interactions in the subgraph?", "True");
   }
 
@@ -88,9 +88,9 @@ public:
          });
 
     // Create or reset subgraph
-    Graph *binder_target_sub = graph->getSubGraph("ChainInteractionSubgraph");
+    Graph *binder_target_sub = graph->getSubGraph("BinderTargetSubgraph");
     if (binder_target_sub == nullptr) {
-      binder_target_sub = graph->addSubGraph("ChainInteractionSubgraph");
+      binder_target_sub = graph->addSubGraph("BinderTargetSubgraph");
     } else {
       // clear existing content
       for (auto n : binder_target_sub->getNodes()) {
@@ -129,7 +129,7 @@ public:
     binder_target_sub->setAttribute("interacting_target_list", interacting_target_list);
 
     if (pluginProgress) {
-      pluginProgress->setComment("Created subgraph 'ChainInteractionSubgraph' for chain A/B interactions.");
+      pluginProgress->setComment("Created subgraph 'BinderTargetSubgraph' for chain A/B interactions.");
     }
 
     return true;
@@ -147,4 +147,4 @@ private:
   }
 };
 
-PLUGIN(ChainInteractionSubgraph) 
+PLUGIN(BinderTargetSubgraph) 
