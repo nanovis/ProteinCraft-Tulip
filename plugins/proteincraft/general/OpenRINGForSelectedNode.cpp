@@ -90,7 +90,9 @@ public:
         
         if (!success) {
             if (pluginProgress) {
-                pluginProgress->setError(errMsg);
+                // Get the error message from pluginProgress
+                std::string errorMessage = pluginProgress->getError();
+                pluginProgress->setError(errorMessage);
             }
             delete ringGraph;
             return false;
