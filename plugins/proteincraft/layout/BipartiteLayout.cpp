@@ -110,15 +110,20 @@ public:
       binder_target_sub->addNode(n);
     }
 
-    // Add edges
+    // Add edges - only inter-chain interactions
     for (auto e : graph->getEdges()) {
       node s = graph->source(e);
       node t = graph->target(e);
       if (binder_target_nodes.find(s) != binder_target_nodes.end() &&
           binder_target_nodes.find(t) != binder_target_nodes.end()) {
-        string inter_type = prop_interaction->getEdgeValue(e);
-        if (is_interesting_interaction(inter_type, include_vdw)) {
-          binder_target_sub->addEdge(e);
+        string c1 = prop_chain->getNodeValue(s);
+        string c2 = prop_chain->getNodeValue(t);
+        // Only add edges between different chains
+        if ((c1 == "A" && c2 == "B") || (c1 == "B" && c2 == "A")) {
+          string inter_type = prop_interaction->getEdgeValue(e);
+          if (is_interesting_interaction(inter_type, include_vdw)) {
+            binder_target_sub->addEdge(e);
+          }
         }
       }
     }
