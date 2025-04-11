@@ -143,7 +143,7 @@ public:
     layoutParams.set("number of iterations", 5);
     layoutParams.set("edge costs", 2.0);
     std::string err;
-    LayoutProperty* layout = binder_target_sub->getProperty<LayoutProperty>("viewLayout");
+    LayoutProperty* layout = binder_target_sub->getLocalProperty<LayoutProperty>("viewLayout");
     binder_target_sub->applyPropertyAlgorithm("Stress Minimization (OGDF)", layout, err, &layoutParams, pluginProgress);
 
     if (pluginProgress) {
