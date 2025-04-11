@@ -105,8 +105,8 @@ public:
   }
 
 private:
-  void layout_bipartite_graph(Graph *graph, const vector<node> &interacting_binder_list,
-                            const vector<node> &interacting_target_list,
+  void layout_bipartite_graph(Graph *graph, const vector<node> &group1,
+                            const vector<node> &group2,
                             LayoutProperty *view_layout) {
     // Get layout orientation parameter
     StringCollection layout_orientation("horizontal;vertical");
@@ -116,101 +116,101 @@ private:
     float space = 1.5f;
 
     #ifndef NDEBUG
-    qDebug() << "Binder nodes:" << interacting_binder_list.size();
-    for (const auto& n : interacting_binder_list) {
+    qDebug() << "Group1 nodes:" << group1.size();
+    for (const auto& n : group1) {
       qDebug() << "  " << n.id;
     }
-    qDebug() << "Target nodes:" << interacting_target_list.size();
-    for (const auto& n : interacting_target_list) {
+    qDebug() << "Group2 nodes:" << group2.size();
+    for (const auto& n : group2) {
       qDebug() << "  " << n.id;
     }
     #endif
 
     if (layout_orientation.getCurrent() == 0) { // Horizontal layout
       // Calculate total width needed
-      float total_width = std::max(interacting_target_list.size(), interacting_binder_list.size()) * space;
+      float total_width = std::max(group1.size(), group2.size()) * space;
       
       // Center the nodes horizontally
       float x_offset = total_width / 2.0f;
       
-      // Place target nodes (chain B) horizontally at y=0, centered around x=0
-      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_target_list[i], Coord(i * space - x_offset, 0.0f, 0.0f));
+      // Place group2 nodes horizontally at y=0, centered around x=0
+      for (size_t i = 0; i < group2.size(); ++i) {
+        view_layout->setNodeValue(group2[i], Coord(i * space - x_offset, 0.0f, 0.0f));
       }
 
-      // Place binder nodes (chain A) horizontally at y=3.0, centered around x=0
-      for (size_t i = 0; i < interacting_binder_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_binder_list[i], Coord(i * space - x_offset, 3.0f, 0.0f));
+      // Place group1 nodes horizontally at y=3.0, centered around x=0
+      for (size_t i = 0; i < group1.size(); ++i) {
+        view_layout->setNodeValue(group1[i], Coord(i * space - x_offset, 3.0f, 0.0f));
       }
 
       // Calculate edge lengths for original orientation
-      float orig_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+      float orig_length = calculate_edge_lengths(graph, group1, group2, view_layout);
 
-      // Try reversed target nodes by placing them in reverse order
-      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-        size_t reversed_i = interacting_target_list.size() - 1 - i;
-        view_layout->setNodeValue(interacting_target_list[i], Coord(reversed_i * space - x_offset, 0.0f, 0.0f));
+      // Try reversed group2 nodes by placing them in reverse order
+      for (size_t i = 0; i < group2.size(); ++i) {
+        size_t reversed_i = group2.size() - 1 - i;
+        view_layout->setNodeValue(group2[i], Coord(reversed_i * space - x_offset, 0.0f, 0.0f));
       }
 
       // Calculate edge lengths for reversed orientation
-      float reversed_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+      float reversed_length = calculate_edge_lengths(graph, group1, group2, view_layout);
 
       // Choose orientation with shorter total edge length
       if (reversed_length >= orig_length) {
         // Revert back to original orientation
-        for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-          view_layout->setNodeValue(interacting_target_list[i], Coord(i * space - x_offset, 0.0f, 0.0f));
+        for (size_t i = 0; i < group2.size(); ++i) {
+          view_layout->setNodeValue(group2[i], Coord(i * space - x_offset, 0.0f, 0.0f));
         }
       }
     } else { // Vertical layout
       // Calculate total height needed
-      float total_height = std::max(interacting_target_list.size(), interacting_binder_list.size()) * space;
+      float total_height = std::max(group1.size(), group2.size()) * space;
       
       // Center the nodes vertically
       float y_offset = total_height / 2.0f;
       
-      // Place target nodes (chain B) vertically at x=0, centered around y=0
-      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, y_offset - i * space, 0.0f));
+      // Place group2 nodes vertically at x=0, centered around y=0
+      for (size_t i = 0; i < group2.size(); ++i) {
+        view_layout->setNodeValue(group2[i], Coord(0.0f, y_offset - i * space, 0.0f));
       }
 
-      // Place binder nodes (chain A) vertically at x=3.0, centered around y=0
-      for (size_t i = 0; i < interacting_binder_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_binder_list[i], Coord(3.0f, y_offset - i * space, 0.0f));
+      // Place group1 nodes vertically at x=3.0, centered around y=0
+      for (size_t i = 0; i < group1.size(); ++i) {
+        view_layout->setNodeValue(group1[i], Coord(3.0f, y_offset - i * space, 0.0f));
       }
 
       // Calculate edge lengths for original orientation
-      float orig_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+      float orig_length = calculate_edge_lengths(graph, group1, group2, view_layout);
 
-      // Try reversed target nodes by placing them in reverse order
-      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-        size_t reversed_i = interacting_target_list.size() - 1 - i;
-        view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, y_offset - reversed_i * space, 0.0f));
+      // Try reversed group2 nodes by placing them in reverse order
+      for (size_t i = 0; i < group2.size(); ++i) {
+        size_t reversed_i = group2.size() - 1 - i;
+        view_layout->setNodeValue(group2[i], Coord(0.0f, y_offset - reversed_i * space, 0.0f));
       }
 
       // Calculate edge lengths for reversed orientation
-      float reversed_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+      float reversed_length = calculate_edge_lengths(graph, group1, group2, view_layout);
 
       // Choose orientation with shorter total edge length
       if (reversed_length >= orig_length) {
         // Revert back to original orientation
-        for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-          view_layout->setNodeValue(interacting_target_list[i], Coord(0.0f, y_offset - i * space, 0.0f));
+        for (size_t i = 0; i < group2.size(); ++i) {
+          view_layout->setNodeValue(group2[i], Coord(0.0f, y_offset - i * space, 0.0f));
         }
       }
     }
   }
 
-  float calculate_edge_lengths(Graph *graph, const vector<node> &binder_nodes,
-                             const vector<node> &target_nodes, LayoutProperty *layout) {
+  float calculate_edge_lengths(Graph *graph, const vector<node> &group1,
+                             const vector<node> &group2, LayoutProperty *layout) {
     float total_length = 0.0f;
     for (auto e : graph->getEdges()) {
       node s = graph->source(e);
       node t = graph->target(e);
-      if ((find(binder_nodes.begin(), binder_nodes.end(), s) != binder_nodes.end() &&
-           find(target_nodes.begin(), target_nodes.end(), t) != target_nodes.end()) ||
-          (find(binder_nodes.begin(), binder_nodes.end(), t) != binder_nodes.end() &&
-           find(target_nodes.begin(), target_nodes.end(), s) != target_nodes.end())) {
+      if ((find(group1.begin(), group1.end(), s) != group1.end() &&
+           find(group2.begin(), group2.end(), t) != group2.end()) ||
+          (find(group1.begin(), group1.end(), t) != group1.end() &&
+           find(group2.begin(), group2.end(), s) != group2.end())) {
         Coord s_coord = layout->getNodeValue(s);
         Coord t_coord = layout->getNodeValue(t);
         total_length += (s_coord - t_coord).norm();
