@@ -71,24 +71,30 @@ public:
         std::string node_file = base_path + "/" + filename + ".pdb_ringNodes";
         std::string edge_file = base_path + "/" + filename + ".pdb_ringEdges";
 
-        // Call RINGImport plugin
-        DataSet params;
-        params.set("file::node file", node_file);
-        params.set("file::edge file", edge_file);
-#ifdef NDEBUG
+#ifndef NDEBUG
         qDebug() << "node_file: " << node_file.c_str();
         qDebug() << "edge_file: " << edge_file.c_str();
 #endif
 
-//        std::string errMsg;
-//        bool success = graph->applyAlgorithm("RingImport", errMsg, &params);
-//
-//        if (!success) {
-//            if (pluginProgress) {
-//                pluginProgress->setError(errMsg);
-//            }
-//            return false;
-//        }
+        // Create a new graph for the RING data
+        Graph* ringGraph = newGraph();
+        
+        // Set up parameters for RingImport
+        DataSet params;
+        params.set("file::node file", node_file);
+        params.set("file::edge file", edge_file);
+
+        // Import the RING data
+        std::string errMsg;
+        bool success = tlp::importGraph("RingImport", params, pluginProgress, ringGraph);
+        
+        if (!success) {
+            if (pluginProgress) {
+                pluginProgress->setError(errMsg);
+            }
+            delete ringGraph;
+            return false;
+        }
         
         return true;
     }
