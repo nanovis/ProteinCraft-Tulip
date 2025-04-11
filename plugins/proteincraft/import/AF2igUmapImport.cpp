@@ -49,9 +49,9 @@ public:
     // and declare the algorithm dependencies too.
     //   addDependency("name", "version");
     AF2igUmapImport(tlp::PluginContext* context) : ImportModule(context) {
-        addInParameter<string>("CSV file", "Path to the CSV file to import", "/home/luod/ProteinCraft/run/4_PD-L1/outs_AF2ig_score.csv");
+        addInParameter<string>("file::CSV file", "Path to the CSV file to import", "/home/luod/ProteinCraft/run/4_PD-L1/outs_AF2ig_score.csv");
         addInParameter<string>("graph name", "The name to give to the imported graph", "4_PD-L1");
-        addInParameter<string>("UMAP file", "Path to the UMAP coordinates CSV file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RF_umap.csv");
+        addInParameter<string>("file::UMAP file", "Path to the UMAP coordinates CSV file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RF_umap.csv");
         addInParameter<double>("scale factor", "Scaling factor for the UMAP coordinates", "1.0");
         addInParameter<Color>("node color", "Color for the nodes in the visualization", "(255, 95, 95, 255)");
     }
@@ -70,9 +70,9 @@ public:
         double scaleFactor;
         Color nodeColor;
         
-        dataSet->get("CSV file", csvFile);
+        dataSet->get("file::CSV file", csvFile);
         dataSet->get("graph name", graphName);
-        dataSet->get("UMAP file", umapFile);
+        dataSet->get("file::UMAP file", umapFile);
         dataSet->get("scale factor", scaleFactor);
         dataSet->get("node color", nodeColor);
 
