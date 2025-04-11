@@ -139,12 +139,12 @@ public:
     binder_target_sub->setAttribute("interacting_target_list", interacting_target_list);
 
     // Apply Stress Minimization layout
-    // tlp::DataSet layoutParams;
-    // layoutParams.set("number of iterations", 5);
-    // layoutParams.set("edge costs", 2);
+    tlp::DataSet layoutParams;
+    layoutParams.set("number of iterations", 5);
+    layoutParams.set("edge costs", 2.0);
     std::string err;
     LayoutProperty* layout = binder_target_sub->getProperty<LayoutProperty>("viewLayout");
-    // binder_target_sub->applyPropertyAlgorithm("Stress Minimization (OGDF)", layout, err, &layoutParams, pluginProgress);
+    binder_target_sub->applyPropertyAlgorithm("Stress Minimization (OGDF)", layout, err, &layoutParams, pluginProgress);
 
     if (pluginProgress) {
       pluginProgress->setComment("Created subgraph 'BinderTargetSubgraph' for chain A/B interactions.");
