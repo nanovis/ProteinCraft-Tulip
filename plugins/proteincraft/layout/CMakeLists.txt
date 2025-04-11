@@ -2,7 +2,8 @@ INCLUDE_DIRECTORIES(${TulipCoreBuildInclude} ${TulipCoreInclude} ${TulipGUIInclu
 
 ADD_LIBRARY(ProteinCraftLayout-${Tulip_VERSION} 
             SHARED 
-            BipartiteLayout.cpp)
+            BipartiteLayout.cpp
+            ConnectedLayout.cpp)
 
 TARGET_LINK_LIBRARIES(ProteinCraftLayout-${Tulip_VERSION} ${LibTulipCoreName} ${LibTulipGUIName})
 
