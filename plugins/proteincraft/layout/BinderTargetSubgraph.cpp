@@ -132,6 +132,16 @@ public:
       pluginProgress->setComment("Created subgraph 'BinderTargetSubgraph' for chain A/B interactions.");
     }
 
+    // Create BipartiteSubgraph subgraph
+    DataSet parameters;
+    parameters.set("include VDW", true);
+    parameters.set("bipartite property", "chain");
+    string errorMessage;
+    if (!graph->applyAlgorithm("BipartiteSubgraph", errorMessage, &parameters, pluginProgress)) {
+      pluginProgress->setError("Failed to create BipartiteSubgraph: " + errorMessage);
+      return false;
+    }
+
     return true;
   }
 
