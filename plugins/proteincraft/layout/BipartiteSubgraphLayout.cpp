@@ -17,6 +17,8 @@ public:
     addInParameter<string>("bipartite property", "Name of the property containing bipartite information", "chain");
     addInParameter<StringCollection>("grouping style", "Style for grouping nodes", "elegant;keep order", true,
                                     "elegant<br/>keep order");
+    addInParameter<StringCollection>("layout orientation", "Orientation of the bipartite layout", "horizontal;vertical", true,
+                                    "horizontal<br/>vertical");
   }
 
   bool check() {
@@ -106,7 +108,12 @@ private:
   void layout_bipartite_graph(Graph *graph, const vector<node> &interacting_binder_list,
                             const vector<node> &interacting_target_list,
                             LayoutProperty *view_layout) {
-    float space_x = 1.5f;
+    // Get layout orientation parameter
+    StringCollection layout_orientation("horizontal;vertical");
+    layout_orientation.setCurrent(0); // Default to horizontal
+    dataSet->get("layout orientation", layout_orientation);
+
+    float space = 1.5f;
 
     #ifndef NDEBUG
     qDebug() << "Binder nodes:" << interacting_binder_list.size();
@@ -119,34 +126,35 @@ private:
     }
     #endif
 
-    // First try with target nodes in original order
-    for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-      view_layout->setNodeValue(interacting_target_list[i], Coord(i * space_x, 0.0f, 0.0f));
-    }
-
-    // Place binder nodes (chain A) horizontally at y=3
-    for (size_t i = 0; i < interacting_binder_list.size(); ++i) {
-      view_layout->setNodeValue(interacting_binder_list[i], Coord(i * space_x, 3.0f, 0.0f));
-    }
-
-    // Calculate edge lengths for original orientation
-    float orig_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
-
-    // Try reversed target nodes
-    for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-      view_layout->setNodeValue(interacting_target_list[i], Coord(i * space_x, 0.0f, 0.0f));
-    }
-
-    // Calculate edge lengths for reversed orientation
-    float reversed_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
-
-    // Choose orientation with shorter total edge length
-    if (reversed_length < orig_length) {
-      // Keep the reversed orientation
-    } else {
-      // Revert back to original orientation
+    if (layout_orientation.getCurrent() == 0) { // Horizontal layout
+      // Place target nodes (chain B) horizontally at y=0
       for (size_t i = 0; i < interacting_target_list.size(); ++i) {
-        view_layout->setNodeValue(interacting_target_list[i], Coord(i * space_x, 0.0f, 0.0f));
+        view_layout->setNodeValue(interacting_target_list[i], Coord(i * space, 0.0f, 0.0f));
+      }
+
+      // Place binder nodes (chain A) horizontally at y=3.0
+      for (size_t i = 0; i < interacting_binder_list.size(); ++i) {
+        view_layout->setNodeValue(interacting_binder_list[i], Coord(i * space, 3.0f, 0.0f));
+      }
+
+      // Calculate edge lengths for original orientation
+      float orig_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+
+      // Try reversed target nodes by placing them in reverse order
+      for (size_t i = 0; i < interacting_target_list.size(); ++i) {
+        size_t reversed_i = interacting_target_list.size() - 1 - i;
+        view_layout->setNodeValue(interacting_target_list[i], Coord(reversed_i * space, 0.0f, 0.0f));
+      }
+
+      // Calculate edge lengths for reversed orientation
+      float reversed_length = calculate_edge_lengths(graph, interacting_binder_list, interacting_target_list, view_layout);
+
+      // Choose orientation with shorter total edge length
+      if (reversed_length >= orig_length) {
+        // Revert back to original orientation
+        for (size_t i = 0; i < interacting_target_list.size(); ++i) {
+          view_layout->setNodeValue(interacting_target_list[i], Coord(i * space, 0.0f, 0.0f));
+        }
       }
     }
   }
