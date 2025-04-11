@@ -76,6 +76,7 @@ public:
       if (pluginProgress) {
         pluginProgress->setError("No edges were added to the subgraph. Check if there are any valid inter-chain interactions.");
       }
+      delete inter_chain_sub;
       return false;
     }
 

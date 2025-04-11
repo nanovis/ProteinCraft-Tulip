@@ -109,6 +109,7 @@ public:
     }
 
     // Add edges - only inter-chain interactions
+    int edge_count = 0;
     for (auto e : graph->getEdges()) {
       node s = graph->source(e);
       node t = graph->target(e);
@@ -120,13 +121,30 @@ public:
         string inter_type = prop_interaction->getEdgeValue(e);
         if (is_interesting_interaction(inter_type, include_vdw)) {
           binder_target_sub->addEdge(e);
+          edge_count++;
         }
       }
+    }
+
+    if (edge_count == 0) {
+      if (pluginProgress) {
+        pluginProgress->setError("No edges were added to the subgraph. Check if there are any valid inter-chain interactions.");
+      }
+      delete binder_target_sub;
+      return false;
     }
 
     // Store the interacting node lists as graph properties for the layout plugin
     binder_target_sub->setAttribute("interacting_binder_list", interacting_binder_list);
     binder_target_sub->setAttribute("interacting_target_list", interacting_target_list);
+
+    // Apply Stress Minimization layout
+    // tlp::DataSet layoutParams;
+    // layoutParams.set("number of iterations", 5);
+    // layoutParams.set("edge costs", 2);
+    std::string err;
+    LayoutProperty* layout = binder_target_sub->getProperty<LayoutProperty>("viewLayout");
+    // binder_target_sub->applyPropertyAlgorithm("Stress Minimization (OGDF)", layout, err, &layoutParams, pluginProgress);
 
     if (pluginProgress) {
       pluginProgress->setComment("Created subgraph 'BinderTargetSubgraph' for chain A/B interactions.");
