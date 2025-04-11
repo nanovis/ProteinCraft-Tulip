@@ -2,6 +2,7 @@
 #include <tulip/BooleanProperty.h>
 #include <tulip/StringProperty.h>
 #include <tulip/PluginProgress.h>
+#include <QDebug>
 
 using namespace tlp;
 
@@ -74,16 +75,20 @@ public:
         DataSet params;
         params.set("file::node file", node_file);
         params.set("file::edge file", edge_file);
+#ifdef NDEBUG
+        qDebug() << "node_file: " << node_file.c_str();
+        qDebug() << "edge_file: " << edge_file.c_str();
+#endif
 
-        std::string errMsg;
-        bool success = graph->applyAlgorithm("RingImport", errMsg, &params);
-        
-        if (!success) {
-            if (pluginProgress) {
-                pluginProgress->setError(errMsg);
-            }
-            return false;
-        }
+//        std::string errMsg;
+//        bool success = graph->applyAlgorithm("RingImport", errMsg, &params);
+//
+//        if (!success) {
+//            if (pluginProgress) {
+//                pluginProgress->setError(errMsg);
+//            }
+//            return false;
+//        }
         
         return true;
     }
