@@ -38,8 +38,8 @@ public:
                       "ProteinCraft")
 
     RingImport(tlp::PluginContext* context) : ImportModule(context) {
-        addInParameter<string>("node file", "Path to the RING node file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RING/try1_7_dldesign_0_cycle1_af2pred.pdb_ringNodes");
-        addInParameter<string>("edge file", "Path to the RING edge file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RING/try1_7_dldesign_0_cycle1_af2pred.pdb_ringEdges");
+        addInParameter<std::string>("file::node file", "Path to the RING node file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RING/try1_7_dldesign_0_cycle1_af2pred.pdb_ringNodes");
+        addInParameter<std::string>("file::edge file", "Path to the RING edge file", "/home/luod/ProteinCraft/run/4_PD-L1/outs_RING/try1_7_dldesign_0_cycle1_af2pred.pdb_ringEdges");
     }
 
     bool importGraph() override {
@@ -47,8 +47,8 @@ public:
         string nodeFile;
         string edgeFile;
         
-        dataSet->get("node file", nodeFile);
-        dataSet->get("edge file", edgeFile);
+        dataSet->get("file::node file", nodeFile);
+        dataSet->get("file::edge file", edgeFile);
 
         if (nodeFile.empty() || edgeFile.empty()) {
             pluginProgress->setError("Both node and edge files must be provided.");
